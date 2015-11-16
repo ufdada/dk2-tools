@@ -1,0 +1,31 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        residx_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Resource Index File
+//--------------------------------------
+local int i;
+enum <int16> textType { MBToUni, UniToMB, UNKNOWN, Text, Font };
+
+struct Header {
+    char magic[4];
+    int numFiles;
+} header;
+
+string getFilename(struct Entry &e)
+{
+    local string filename;
+    filename = ReadString(e.offset + 8);
+    return filename;
+}
+
+for (i = 0; i < header.numFiles; i++){
+    struct Entry {
+        int index;
+        textType type;
+        int16 offset;
+        int unknown;
+    } entry<read=getFilename>;
+}
