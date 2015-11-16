@@ -1,0 +1,31 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        texturecache_dir_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Texture Cache Directory File
+// Original code by Hoenir
+//--------------------------------------
+
+/*
+The file name contains also the lod:
+
+MM3 { very low, 16x16 }
+MM2 { low, 32x32 }
+MM1 { medium, 64x64 }
+MM0 { high,  128x128 }
+*/
+struct Entry {
+	string name;
+	int offset;
+};
+
+struct Header {
+	char signature[4];
+	int size;
+	int version;
+	int numEntries;
+} header;
+
+Entry Dictionary[header.numEntries] <optimize=false>;
