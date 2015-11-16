@@ -1,0 +1,26 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        kcs_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Camera Sweep File
+//--------------------------------------
+typedef struct {
+    float x;
+    float y;
+    float z;
+} Vec3f;
+
+struct Entry {
+    Vec3f position;
+    Vec3f forward;
+    Vec3f left;
+    Vec3f up;
+    float fovy;
+    float near;
+};
+
+int frames;
+int unused[3];
+Entry Dictionary[frames];
