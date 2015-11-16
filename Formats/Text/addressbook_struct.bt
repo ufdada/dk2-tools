@@ -1,0 +1,16 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        addressbook_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Adressbook File for Multiplayer
+//--------------------------------------
+while (FTell() < FileSize()) {
+    struct Entry {
+        char empty[1];
+        wchar_t name[35];
+        wchar_t ipaddress[35];
+        wchar_t port[10];
+    } entry;
+}
