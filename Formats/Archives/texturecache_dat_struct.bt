@@ -1,0 +1,18 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        texturecache_dir_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Texture Cache Data File
+// Original code by Hoenir
+//--------------------------------------
+
+struct Header {
+    int resX;
+    int resY;
+    int size; // size of the whole file - 12
+    short sResX;
+    short sResY;
+    long dataStartLocation;
+} header;
