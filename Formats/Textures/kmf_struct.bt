@@ -1,0 +1,151 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:		kmf_struct.bt
+// Authors:		ufdada
+// Revision:	1.0
+// Purpose:		Dungeon Keeper 2 Meshes
+// Original Code by Hoenir
+//--------------------------------------
+
+// v0.30
+// - now correctly reads the faces
+// v0.35
+// - divided up the template into static meshes and animations
+// v0.40
+// - identified several unkown values
+// - refactored lodEntries, so they should be now easier to read
+
+local int i;
+enum FormatType { MESH = 1, ANIM = 2 };
+enum MaterialFlags { UNKNOWN_0, UNKNOWN_2 = 2, UNKNOWN_3 = 3, UNKNOWN_4 = 4, UNKNOWN_5 = 5, EnvironmentMapped = 6 };
+
+typedef struct {	// a vertex definition
+	float x;
+	float y;
+	float z;
+} Vec3f;
+
+struct {
+	char magic[4];
+	int size; // size of file incl. header
+	int version; // = 17
+} KMSH;
+
+struct {
+	char signature[4];
+	int size;
+	FormatType format;
+	int uk; // = 1
+} HEAD;
+
+struct UV {
+    short uv1;
+    short uv2;
+};
+
+struct Texture {
+	string name;
+};
+
+struct MAT2 {
+	char signature[4];
+	int size;
+	string name;
+	int numTextures;
+	Texture texturenames[numTextures]<optimize=false>;
+    MaterialFlags flags;
+    float brightness;
+    float gamma;
+    string envmap;
+};
+
+struct MATL {
+	char signature[4];
+	int size;
+	int numMaterials;
+	MAT2 materials[numMaterials]<optimize=false>;
+} mertials;
+
+struct MESH {
+	char signature[4];
+	int size; // incl. signature
+	struct HEAD {
+		char head[4];
+		int size;
+		string meshname;
+		int numGroups;	// number of groups in SPRS
+		int numVerts;	// total number of vertices defined in GEOM
+		Vec3f pos;
+		float scale;
+		int numLOD;	// number of total LOD entries
+	} header;
+	
+    struct CTRL {	// numCTRL only non-zero in ANIM files
+		char signature[4];
+		int size;
+		int numCTRL;
+        if (numCTRL > 0){
+            int uk[numCTRL*2];
+        }
+	} ctrl;
+
+	typedef struct {	// only used in ANIM files
+		char signature[4];
+		int size;
+		float x,y,z;
+	} POLY;
+
+	typedef struct {
+		short index;	// index of the vertex in GEOM
+		UV uv;
+		Vec3f normal;
+	} VertEx;	// Extra vertex data with normals
+
+	struct MODEL {
+		char signature[4];
+		int size;
+
+        for (i = 0; i < header.numGroups; i++)
+		{
+            struct SPHD {
+				char signature[4];
+				int size;
+				int lodEntries[header.numLOD]; // one entry for each LOD
+				int numVertsEx; // number of entries in the extended vertex list
+				float mmFactor;
+			} sprite_header;
+        }
+
+		for (i = 0; i < header.numGroups; i++)
+		{
+			struct SPRS {
+				char signature[4];
+				int size;
+				int index;
+				local int j;
+				for (j = 0; j < header.numLOD; j++)
+				{
+                    if (sprite_header[i].lodEntries[j] > 0){
+					    struct {
+                            local int k;
+                            for (k = 0; k < sprite_header[i].lodEntries[j]; k++){
+                                struct {
+							        ubyte x,y,z; // indices for the extended vertex list
+						        } lodVertIndices;
+                            }
+					    } lodEntries;
+                    }
+				}
+
+				VertEx VertsEx[sprite_header[i].numVertsEx]; // extended vertex list
+			} groups;
+		}
+	} model;
+
+	struct GEOM {
+		char signature[4];
+		int size;
+		Vec3f vertices[header.numVerts];
+	} geometry;
+} mesh;
