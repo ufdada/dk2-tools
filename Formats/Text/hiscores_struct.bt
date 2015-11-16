@@ -1,0 +1,16 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        hiscores_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Hiscore File
+//--------------------------------------
+
+while (FTell() < FileSize()) {
+    struct Entry {
+        uint score;
+        wchar_t name[32];
+        wchar_t level[32];
+    } entry;
+}
