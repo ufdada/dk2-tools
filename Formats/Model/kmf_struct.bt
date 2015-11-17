@@ -81,7 +81,7 @@ struct MESH {
 		float scale;
 		int numLOD;	// number of total LOD entries
 	} header;
-	
+
 	struct CTRL {	// numCTRL only non-zero in ANIM files
 		char signature[4];
 		int size;
@@ -107,8 +107,7 @@ struct MESH {
 		char signature[4];
 		int size;
 
-		for (i = 0; i < header.numGroups; i++)
-		{
+		for (i = 0; i < header.numGroups; i++) {
 			struct SPHD {
 				char signature[4];
 				int size;
@@ -118,15 +117,13 @@ struct MESH {
 			} sprite_header;
 		}
 
-		for (i = 0; i < header.numGroups; i++)
-		{
+		for (i = 0; i < header.numGroups; i++) {
 			struct SPRS {
 				char signature[4];
 				int size;
 				int index;
 				local int j;
-				for (j = 0; j < header.numLOD; j++)
-				{
+				for (j = 0; j < header.numLOD; j++) {
 					if (sprite_header[i].lodEntries[j] > 0){
 						struct {
 							local int k;

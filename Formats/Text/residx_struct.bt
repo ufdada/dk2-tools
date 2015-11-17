@@ -7,6 +7,7 @@
 // Revision:    1.0
 // Purpose:     Resource Index File
 //--------------------------------------
+
 local int i;
 enum <int16> textType { MBToUni, UniToMB, UNKNOWN, Text, Font };
 
@@ -15,14 +16,13 @@ struct Header {
     int numFiles;
 } header;
 
-string getFilename(struct Entry &e)
-{
+string getFilename(struct Entry &e) {
     local string filename;
     filename = ReadString(e.offset + 8);
     return filename;
 }
 
-for (i = 0; i < header.numFiles; i++){
+for (i = 0; i < header.numFiles; i++) {
     struct Entry {
         int index;
         textType type;
