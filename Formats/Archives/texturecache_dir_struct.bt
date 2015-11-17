@@ -9,14 +9,6 @@
 // Original code by Hoenir
 //--------------------------------------
 
-/*
-The file name contains also the lod:
-
-MM3 { very low, 16x16 }
-MM2 { low, 32x32 }
-MM1 { medium, 64x64 }
-MM0 { high,  128x128 }
-*/
 struct Entry {
 	string name;
 	int offset;
@@ -29,4 +21,29 @@ struct Header {
 	int numEntries;
 } header;
 
-Entry Dictionary[header.numEntries] <optimize=false>;
+Entry Dictionary[header.numEntries] <optimize=false, read=getMipmapping>;
+
+string getMipmapping(struct Entry &entry) {
+    local string mipmap;
+    local string mmId = SubStr(entry.name, Strlen(entry.name) - 3);
+
+    switch(mmId) {
+        case "MM0": 
+            mipmap = "High (128x128)";
+            break;
+		case "MM1": 
+            mipmap = "Medium (64x64)";
+            break;
+		case "MM2": 
+            mipmap = "Low (32x32)";
+            break;
+		case "MM3": 
+            mipmap = "Very Low (16x16)";
+            break;
+		default:
+			mipmap = "None";
+			break;
+    }
+
+    return mipmap;
+}
