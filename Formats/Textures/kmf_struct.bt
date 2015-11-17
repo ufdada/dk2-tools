@@ -41,8 +41,8 @@ struct {
 } HEAD;
 
 struct UV {
-    short uv1;
-    short uv2;
+	short uv1;
+	short uv2;
 };
 
 struct Texture {
@@ -55,10 +55,10 @@ struct MAT2 {
 	string name;
 	int numTextures;
 	Texture texturenames[numTextures]<optimize=false>;
-    MaterialFlags flags;
-    float brightness;
-    float gamma;
-    string envmap;
+	MaterialFlags flags;
+	float brightness;
+	float gamma;
+	string envmap;
 };
 
 struct MATL {
@@ -82,13 +82,13 @@ struct MESH {
 		int numLOD;	// number of total LOD entries
 	} header;
 	
-    struct CTRL {	// numCTRL only non-zero in ANIM files
+	struct CTRL {	// numCTRL only non-zero in ANIM files
 		char signature[4];
 		int size;
 		int numCTRL;
-        if (numCTRL > 0){
-            int uk[numCTRL*2];
-        }
+		if (numCTRL > 0){
+			int uk[numCTRL*2];
+		}
 	} ctrl;
 
 	typedef struct {	// only used in ANIM files
@@ -107,16 +107,16 @@ struct MESH {
 		char signature[4];
 		int size;
 
-        for (i = 0; i < header.numGroups; i++)
+		for (i = 0; i < header.numGroups; i++)
 		{
-            struct SPHD {
+			struct SPHD {
 				char signature[4];
 				int size;
 				int lodEntries[header.numLOD]; // one entry for each LOD
 				int numVertsEx; // number of entries in the extended vertex list
 				float mmFactor;
 			} sprite_header;
-        }
+		}
 
 		for (i = 0; i < header.numGroups; i++)
 		{
@@ -127,16 +127,16 @@ struct MESH {
 				local int j;
 				for (j = 0; j < header.numLOD; j++)
 				{
-                    if (sprite_header[i].lodEntries[j] > 0){
-					    struct {
-                            local int k;
-                            for (k = 0; k < sprite_header[i].lodEntries[j]; k++){
-                                struct {
-							        ubyte x,y,z; // indices for the extended vertex list
-						        } lodVertIndices;
-                            }
-					    } lodEntries;
-                    }
+					if (sprite_header[i].lodEntries[j] > 0){
+						struct {
+							local int k;
+							for (k = 0; k < sprite_header[i].lodEntries[j]; k++){
+								struct {
+									ubyte x,y,z; // indices for the extended vertex list
+								} lodVertIndices;
+							}
+						} lodEntries;
+					}
 				}
 
 				VertEx VertsEx[sprite_header[i].numVertsEx]; // extended vertex list
