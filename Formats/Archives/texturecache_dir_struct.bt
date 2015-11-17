@@ -15,7 +15,7 @@ struct Entry {
 };
 
 struct Header {
-	char signature[4];
+	char signature[4]; //TCHC
 	int size;
 	int version;
 	int numEntries;

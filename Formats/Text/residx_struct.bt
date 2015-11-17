@@ -12,7 +12,7 @@ local int i;
 enum <int16> textType { MBToUni, UniToMB, UNKNOWN, Text, Font };
 
 struct Header {
-    char magic[4];
+    char magic[4]; // BFRI
     int numFiles;
 } header;
 
@@ -24,7 +24,7 @@ string getFilename(struct Entry &e) {
 
 for (i = 0; i < header.numFiles; i++) {
     struct Entry {
-        int index;
+        int fileId;
         textType type;
         int16 offset;
         int unknown;
