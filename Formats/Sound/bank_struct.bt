@@ -1,0 +1,23 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        bank_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Bank file
+//--------------------------------------
+ubyte unknown1[20];
+uint unknown2;
+int entries;
+
+struct Entry {
+    long unknown1;
+    long unknown2;
+    char unknown3[3];
+} entry[entries]<optimize=false>;
+
+struct Archives {
+    int length;
+    char name[length];
+} archive[entries]<optimize=false>;
