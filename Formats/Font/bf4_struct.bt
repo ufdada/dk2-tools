@@ -1,0 +1,36 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        bf4_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Font file
+//--------------------------------------
+LittleEndian();
+
+struct Header {
+    char magic[4];
+    ubyte maxWidth;
+    ubyte maxHeight;
+    ushort offsetCount;
+    uint offsets[offsetCount];
+} header;
+
+struct FontEntry {
+    char chr[2];
+    ushort unk_1;
+    uint dataSize;
+    ubyte flags;
+    ubyte unk2;
+    ubyte unk3;
+    ubyte unk4;
+    ushort width;
+    ushort height;
+    byte offsetX;
+    byte offsetY;
+    short outerWidth;
+    if (width > 0 && height > 0) {
+        byte image[dataSize]<optimize=false>;
+    }
+} entries[header.offsetCount]<optimize=false>;
