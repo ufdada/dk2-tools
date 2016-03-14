@@ -1,0 +1,38 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        things_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Thing structure
+//--------------------------------------
+typedef struct ThingsData {
+    typedef enum actionPointFlag {
+        byte HERO_LAIR : 1,
+        byte UNK_1 : 1,
+        byte UNK_2 : 1,
+        byte UNK_3 : 1,
+        byte REVEAL_THROUGH_FOG_OF_WAR : 1,
+        byte TOOL_BOX : 1,
+        byte IGNORE_SOLID : 1
+    };
+
+    typedef enum creatureFlag {
+        byte WILL_FIGHT : 1,
+        byte LEADER : 1,
+        byte FOLLOWER : 1,
+        byte WILL_BE_ATTACKED : 1,
+        byte RETURN_TO_HERO_LAIR : 1,
+        byte FREE_FRIENDS_ON_JAIL_BREAK : 1,
+        byte ACT_AS_DROPPED : 1,
+        byte START_AS_DYING : 1
+    };
+
+    typedef enum creatureFlag2 {
+        byte DESTROY_ROOMS : 1,
+        byte I_AM_A_TOOL : 1,
+        byte DIES_INSTANTLY : 1,
+        byte I_AM_A_MERCENARY : 1
+    };
+} things;

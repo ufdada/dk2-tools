@@ -1,0 +1,79 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        resource.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Resource structure
+//--------------------------------------
+typedef struct {
+    byte UNKNOWN : 1;
+    byte PLAYER_COLOURED : 1;
+    byte ANIMATING_TEXTURE : 1;
+    byte HAS_START_ANIMATION : 1;
+    byte HAS_END_ANIMATION : 1;
+    byte RANDOM_START_FRAME : 1;
+    byte ORIGIN_AT_BOTTOM : 1;
+    byte DOESNT_LOOP : 1;
+    byte FLAT : 1;
+    byte DOESNT_USE_PROGRESSIVE_MESH : 1;
+    byte USE_ANIMATING_TEXTURE_FOR_SELECTION : 1;
+    byte PRELOAD : 1;
+    byte BLOOD : 1;
+} ArtResourceFlag;
+
+enum <short> Type {
+    NONE,
+    SPRITE,
+    ALPHA,
+    ADDITIVE_ALPHA,
+    TERRAIN_MESH,
+    MESH,
+    ANIMATING_MESH,
+    PROCEDURAL_MESH,
+    MESH_COLLECTION
+};
+
+struct ArtResourceSettings {
+  ArtResourceFlag flags; /* 0 */
+  union {
+    struct {
+      uint width; /* fixed */
+      uint height; /* fixed */
+      int16 frames;
+    } image;
+    struct {
+      int scale; /* fixed */
+      uint16 frames;
+    } mesh;
+    struct {
+      uint frames; /* 4 */
+      uint fps; /* 8 */
+      uint16 start_dist; /* c */
+      uint16 end_dist; /* e */
+    } anim;
+    struct {
+      uint32 id;
+    } proc;
+    struct {
+      uint32 x00;
+      uint32 x04;
+      short frames;
+    } terrain;
+  } data;
+  //Type type; /* 10 */
+  short start_af; /* 11 */
+  short end_af; /* 12 */
+  short sometimes_one; /* 13 */
+};
+
+struct ArtResource {
+  char name[64];
+  ArtResourceSettings settings;
+};
+
+struct StringIds {
+  uint32 ids[5];
+  short x14[4];
+};

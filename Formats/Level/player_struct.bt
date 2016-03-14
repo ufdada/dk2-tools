@@ -1,0 +1,204 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        player_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Player structure
+//--------------------------------------
+enum <uint> Ai {
+    NO,
+    YES
+};
+
+enum <ubyte> AiType {
+    MASTER_KEEPER,
+    CONQUEROR,
+    PSYCHOTIC,
+    STALWART,
+    GREYMAN,
+    IDIOT,
+    GUARDIAN,
+    THICK_SKINNED,
+    PARANOID
+};
+
+enum <ubyte> Distance {
+    CLOSE,
+    RANDOM
+};
+
+enum <ubyte> CorridorStyle {
+    ANY_ANGLE,
+    _45_AND_90_DEGREES,
+    _90_DEGREES
+};
+
+enum <ubyte> RoomExpandPolicy {
+    EXPAND_EXISTING,
+    CREATE_NEW,
+    IGNORE
+};
+
+enum <ubyte> DoorUsagePolicy {
+    BEST_DOOR,
+    WORST_DOOR,
+    RANDOM_DOOR
+};
+
+enum <ubyte> BreachRoomPolicy {
+    ENEMY_DUNGEON_HEART,
+    RANDOM_ROOM,
+    WEAK_ROOM,
+    STRONG_ROOM
+};
+
+enum <ubyte> DigToPolicy {
+    FURTHEST_FROM_HEART,
+    RANDOM_DIRECTION,
+    HEART,
+    CLOSEST_TO_ENEMY_HEART
+};
+
+enum <ubyte> SpellStyle {
+    VERY_AGGRESSIVE,
+    AGGRESSIVE,
+    BALANCED,
+    DEFENSIVE
+};
+
+enum <ubyte> CreatureDisposalPolicy {
+    SACK,
+    SACRIFICE
+};
+
+enum <ubyte> SightOfEvilUsagePolicy {
+    NONE,
+    RANDOM_TERRAIN,
+    ENEMY_LAND
+};
+
+enum <ubyte> SpellUsagePolicy {
+    VERY_OFTEN,
+    OFTEN,
+    NORMAL,
+    RARELY
+};
+
+enum <ubyte> SpellPower {
+    VERY_HIGH_POWER,
+    HIGH_POWER,
+    NORMAL_POWER,
+    LOW_POWER
+};
+
+enum <ubyte> CallToArmsUsagePolicy {
+    TOWARDS_HEART,
+    AT_HEART_WITH_CREATURES,
+    AT_HEART
+};
+
+enum <ubyte> MoveToResearchPolicy {
+    VERY_LIKELY,
+    PROBABLE,
+    UNLIKELY
+};
+
+enum <ubyte> ImprisonedCreatureFatePolicy {
+    TORTURE_CREATURE,
+    LEAVE_TO_DIE,
+    PLACE_IN_PIT,
+    SACRIFICE_CREATURE
+};
+
+typedef struct PlayerHeader {
+    uint playerCount;
+    ubyte unk[32];
+};
+
+typedef struct PlayerData {
+    int startingGold;
+    Ai isAi;
+    AiType aiType; // x08, byte
+    ubyte speed; // Misc, byte
+    ubyte openness; // Misc, byte, percentage
+    ubyte removeCallToArmsIfTotalCreaturesLessThan; // Battles, byte
+    ubyte buildLostRoomAfterSeconds; // Rooms, byte
+    ubyte unknown1[3]; // 3 bytes
+    uint createEmptyAreasWhenIdle; // Rooms, hmm int
+    uint buildBiggerLairAfterClaimingPortal; // Rooms, hmm int
+    uint sellCapturedRoomsIfLowOnGold; // Rooms, hmm int
+    ubyte minTimeBeforePlacingResearchedRoom; // Rooms
+    ubyte defaultSize; // Rooms, byte, in square tiles
+    ubyte tilesLeftBetweenRooms; // Rooms, byte
+    Distance distanceBetweenRoomsThatShouldBeCloseMan; // Rooms, byte
+    CorridorStyle corridorStyle; // Rooms, byte
+    RoomExpandPolicy whenMoreSpaceInRoomRequired; // Rooms, byte
+    ubyte digToNeutralRoomsWithinTilesOfHeart;
+    ubyte buildOrder[15];
+    ubyte flexibility;
+    ubyte digToNeutralRoomsWithinTilesOfClaimedArea;
+    ushort removeCallToArmsAfterSeconds;
+    uint boulderTrapsOnLongCorridors;
+    uint boulderTrapsOnRouteToBreachPoints;
+    ubyte trapUseStyle;
+    ubyte doorTrapPreference;
+    DoorUsagePolicy doorUsage;
+    ubyte chanceOfLookingToUseTrapsAndDoors;
+    uint requireMinLevelForCreatures; // why is it always 115?
+    uint requireTotalThreatGreaterThanTheEnemy;
+    uint requireAllRoomTypesPlaced;
+    uint requireAllKeeperSpellsResearched;
+    uint onlyAttackAttackers;
+    uint neverAttack;
+    ubyte minLevelForCreatures;
+    ubyte totalThreatGreaterThanTheEnemy;
+    BreachRoomPolicy firstAttemptToBreachRoom;
+    DigToPolicy firstDigToEnemyPoint;
+    byte breachAtPointsSimultaneously;
+    byte usePercentageOfTotalCreaturesInFirstFightAfterBreach;
+    ushort manaValue;
+    ushort placeCallToArmsWhereThreatValueIsGreaterThan;
+    ushort removeCallToArmsIfLessThanEnemyCreatures;
+    ushort removeCallToArmsIfLessThanEnemyCreaturesWithinTiles;
+    ushort pullCreaturesFromFightIfOutnumberedAndUnableToDropReinforcements;
+    ubyte threatValueOfDroppedCreaturesIsPercentageOfEnemyThreatValue;
+    SpellStyle spellStyle; // Battles, byte, 0-4, 0 being aggressive, 4 being defensive
+    ubyte attemptToImprisonPercentageOfEnemyCreatures;
+    ubyte ifCreatureHealthIsPercentageAndNotInOwnRoomMoveToLairOrTemple;
+    ushort goldValue;
+    uint tryToMakeUnhappyOnesHappy;
+    uint tryToMakeAngryOnesHappy;
+    uint disposeOfAngryCreatures;
+    uint disposeOfRubbishCreaturesIfBetterOnesComeAlong;
+    CreatureDisposalPolicy disposalMethod;
+    ubyte maximumNumberOfImps;
+    ubyte willNotSlapCreatures; // Creatures, byte, 0 = true, 32 = false
+    ubyte attackWhenNumberOfCreaturesIsAtLeast;
+    uint useLightningIfEnemyIsInWater;
+    SightOfEvilUsagePolicy useSightOfEvil;
+    SpellUsagePolicy useSpellsInBattle; // Spells, byte, 0-4, 0 being often, 4 being rarely
+    SpellPower spellsPowerPreference; // Spells, byte, 0-4, 0 being high power, 4 being low power
+    CallToArmsUsagePolicy useCallToArms;
+    ubyte unk2;
+    ubyte unk2;
+    ushort mineGoldUntil;
+    ushort waitSecondsAfterPreviousAttackBeforeAttackingAgain;
+    uint startMana;
+    ushort exploreUpToTilesToFindSpecials;
+    ushort impTilesRatio;
+    ushort buildStartX;
+    ushort buildStartY;
+    ushort buildEndX;
+    ushort buildEndY;
+    MoveToResearchPolicy likelyhoodToMovingCreaturesToLibraryForResearching;
+    ubyte chanceOfExploringToFindSpecials; // Misc, byte, percentage
+    ubyte chanceOfFindingSpecialsWhenExploring; // Misc, byte, percentage
+    ImprisonedCreatureFatePolicy fateOfImprisonedCreatures;
+    ushort triggerId;
+    byte playerId;
+    ushort camerax;
+    ushort cameray;
+    char name[32];
+};

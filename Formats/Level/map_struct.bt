@@ -1,0 +1,30 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        map_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Map structure
+//--------------------------------------
+typedef struct MapData {
+    int width;
+    int height;
+    int unk_3;
+    int contentSize; // filesize without header
+    
+    local int y;
+    local int x;
+    for (y = 0; y < height; y++) {
+        struct RowData {
+            for (x = 0; x < width; x++) {
+                struct ColData {
+                    ubyte terrainId;
+                    ubyte playerId;
+                    ubyte flag; // bridgeterrain
+                    ubyte unk_4;
+                } col;
+            }
+        } row;
+    }
+} data;
