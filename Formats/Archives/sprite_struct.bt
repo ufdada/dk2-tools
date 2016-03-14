@@ -1,0 +1,53 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        sprite_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Sprite Container
+//--------------------------------------
+
+struct Header {
+    char signature[4]; // PSFB
+    uint framesCount;
+} header;
+
+struct Entry {
+    ushort width;
+    ushort height;
+    long offset;
+} entry[header.framesCount];
+
+local int i;
+local int y;
+local int x;
+local int w;
+
+for (i = 0; i < header.framesCount; i++) {
+    int pointer = FTell();
+    FSeek(entry[i].offset);
+    struct Frame {
+        while (y < entry[i].height) {
+            ubyte color;
+            if (w == 0) {
+                if (color < 0x80) {
+                    w = color;
+                    if (w == 0) {
+                        x = 0;
+                        y++;
+                    }
+                } else {
+                    x += (color ^ 0xFF) + 1;
+                }
+            } else {
+                if (x < entry[i].width && y < entry[i].height) {
+                    Printf("%i %i %i", x, y, color);
+                }
+                x++;
+                w--;
+            }
+        }
+    } frame;
+    FSeek(pointer);
+}
