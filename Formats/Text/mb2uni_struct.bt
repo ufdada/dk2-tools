@@ -1,0 +1,18 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        mb2uni_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Multibyte to Unicode table
+//--------------------------------------
+
+local int i = 0;
+local int header_size = 12;
+
+struct Header {
+    char magic[4]; // BFMU
+    char unknown[4];
+    wstring chars;
+} header;

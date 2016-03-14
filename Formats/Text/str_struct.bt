@@ -1,0 +1,28 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        str_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     GUI Text File
+//--------------------------------------
+LittleEndian();
+
+local int i = 0;
+local int header_size = 12;
+
+struct Header {
+    char magic[4]; // BFST
+    uint fileId;
+    uint numOffsets;
+    uint offsets[numOffsets];
+} header;
+
+for (i = 0; i < header.numOffsets; i++){
+    FSeek( header.offsets[i] + header_size);
+    
+    struct {
+        wstring text;
+    } Entry;
+}
