@@ -1,0 +1,51 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        sfx_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Sound fx
+//--------------------------------------
+uint checkSums[4]<format=hex>;
+
+struct SfxMapHeader {
+    uint unknown1;
+    uint unknown2;
+    uint quantity;
+} header;
+
+struct SfxMapHeaderEntries {
+    uint quantity;
+    ubyte unknown[20];
+    struct SfxMapHeaderEntryHeader {
+        int unknown;
+        int quantity;
+        byte unknowns[12];
+    } headerEntryHeader[quantity]<optimize=false>;
+} headerEntries[header.quantity]<optimize=false>;
+
+local int i;
+local int j;
+local int k;
+for (i = 0; i < header.quantity; i++) {
+    for (j = 0; j < headerEntries[i].quantity; j++) {
+        for (k = 0; k < headerEntries[i].headerEntryHeader[j].quantity; k++) {
+            struct SfxMapHeaderEntry {
+                int quantity;
+                int shift;  // if shift need some magic
+                int end_pointer_position; // I think not needed
+                byte unknowns[26];
+                uint data_pointer_next;
+                struct SfxMapEntry {
+                    int quantity;
+                    byte unknown[8];
+                    int edi_2;
+                } entry[quantity]<optimize=false>;
+                if (shift != 0) {
+                    ubyte additionalData[8 * shift];
+                }
+            } headerEntry<optimize=false>;
+        }
+    }
+}

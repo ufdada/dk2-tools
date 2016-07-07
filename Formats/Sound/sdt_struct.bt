@@ -1,0 +1,36 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        sdt_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Sound archive file
+//--------------------------------------
+uint files;
+uint offset;
+ubyte unknown[160];
+FSeek( offset );
+
+struct Entry {
+    int indexSize;
+    int size;
+    byte filename[16];
+    ushort sampling_rate; // 22050
+    ubyte bit_depth; // 16
+    ubyte unknown3; // 36 if used, 0 on blanks
+    uint unknown4; // 0
+    uint nSamples;
+    uint unknown5; // 0
+    if (size != 0) {
+        uchar data[size]<optimize=false>;
+    }
+} entry[files]<optimize=false,read=ReadSoundData>;
+
+string ReadSoundData( Entry &entry )
+{
+    if( exists( entry.filename ) )
+        return entry.filename;
+    else
+        return "";
+}
