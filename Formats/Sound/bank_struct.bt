@@ -9,12 +9,16 @@
 //--------------------------------------
 ubyte unknown1[20];
 uint unknown2;
-int entries;
+uint entries;
 
 struct Entry {
-    long unknown1;
-    long unknown2;
-    char unknown3[3];
+    ulong unknown1;
+    union {
+        uint unknown2;
+        ushort unkown3[2];
+        ubyte unkown5[];
+    } unknown;
+    byte unknown4[3];
 } entry[entries]<optimize=false>;
 
 struct Archives {
