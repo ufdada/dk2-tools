@@ -12,6 +12,7 @@ uint offset;
 ubyte unknown[160];
 FSeek( offset );
 
+enum <char> SoundType { NONE = 0, WAV = 2, MP2_MONO = 36, MP2_STEREO = 37 };
 
 struct Entry {
     int indexSize;
