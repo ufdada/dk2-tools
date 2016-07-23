@@ -9,11 +9,24 @@
 //--------------------------------------
 
 const int FLOAT32 = 4096.0;
+const int DOUBLE32 = 65536.0;
 
 string getVector(struct Vector3f &vec) {
     string vector;
 	SPrintf( vector, "(x=%lg, y=%lg, z=%lg)", (float)vec.x / FLOAT32, (float)vec.y / FLOAT32, (float)vec.z / FLOAT32 );
 	return vector;
+}
+
+string getColorRGB(struct ColorRGB &rgb) {
+    string color;
+	SPrintf( color, "(r=%lg, g=%lg, b=%lg)", rgb.red, rgb.green, rgb.blue );
+	return color;
+}
+
+string getColorRGBA(struct ColorRGBA &rgb) {
+    string color;
+	SPrintf( color, "(r=%lg, g=%lg, b=%lg, a=%lg)", rgb.red, rgb.green, rgb.blue, rgb.alpha );
+	return color;
 }
 
 string getFloatValue(uint &i) {
@@ -28,16 +41,32 @@ string getFloatPointValue(struct float32 &f) {
 	return date;
 }
 
+string getDoubleValue(struct double32 &d) {
+    string date;
+	SPrintf( date, "%lg", (float)d.value / DOUBLE32 );
+	return date;
+}
+
 typedef struct {
     uint value;
 } float32<read=getFloatPointValue>; 
+
+typedef struct {
+    uint value;
+} double32<read=getDoubleValue>; 
 
 typedef struct {
     ubyte red;
     ubyte green;
     ubyte blue;
 	ubyte alpha;
-} Color;
+} ColorRGBA<read=getColorRGBA>;
+
+typedef struct {
+    ubyte red;
+    ubyte green;
+    ubyte blue;
+} ColorRGB<read=getColorRGB>;
 
 typedef struct {
     uint x;
@@ -69,5 +98,5 @@ struct Light {
   Vector3f mKPos;
   float32 radius; // float
   LightFlag flags;
-  Color color;
+  ColorRGBA color;
 };

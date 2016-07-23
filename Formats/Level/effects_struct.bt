@@ -54,8 +54,8 @@ struct EffectBlock {
 	ArtResource artResource;
 	Light light;
 	float32 mass;
-	float32 airFriction;
-	float32 elasticity;
+	double32 airFriction;
+	double32 elasticity;
 	float32 radius;
 	float32 minSpeedXy;
 	float32 maxSpeedXy;
