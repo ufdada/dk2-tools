@@ -13,6 +13,7 @@ LittleEndian();
 #include "resource.bt";
 
 #include "creatures_struct.bt";
+#include "creature_spells_struct.bt";
 #include "doors_struct.bt";
 #include "map_struct.bt";
 #include "player_struct.bt";
@@ -85,12 +86,17 @@ if (header.checkOne != header.signature + 1) {
     return -1;
 }
 
+local int count = header.general.itemCount;
+
 switch (header.signature) {
     case CREATURES:
-        CreatureBlock creature[header.general.itemCount]<optimize=false>;
+        CreatureBlock creature[count]<optimize=false>;
+        break;
+    case CREATURE_SPELLS:
+        CreatureSpellsBlock spells[count]<optimize=false>;
         break;
     case DOORS:
-        DoorBlock doors[header.general.itemCount]<optimize=false>;
+        DoorBlock doors[count]<optimize=false>;
         break;
     case MAP:
         MapData map;

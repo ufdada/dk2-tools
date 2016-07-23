@@ -1,0 +1,54 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        creature_spells_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Creature spells structure
+//--------------------------------------
+typedef struct {
+    ubyte IS_ATTACKING : 1;
+    ubyte IS_DEFENSIVE : 1;
+    ubyte CREATURE : 1;
+    ubyte CAST_ONLY_ON_CREATURES : 1;
+    ubyte UNKOWN_1 : 1;
+    ubyte IMP_TELEPORT : 1;
+    ubyte IMP_HASTE : 1;
+    ubyte CAST_ON_SELF : 1;
+    ubyte CAST_ON_OTHERS : 1;
+    ubyte unk[2];
+} CreatureSpellFlag;
+
+enum <ubyte> AlternativeShot {
+    NO_SPELL,
+    HASTE,
+    HEAL,
+    ARMOUR,
+    INVULNERABLE_SPELL,
+    INVISIBLE,
+};
+
+struct CreatureSpellsBlock {
+    char name[32];
+    ArtResource editorIcon;
+    ArtResource guiIcon;
+    uint shotData1;
+    uint shotData2;
+    float32 range;
+    CreatureSpellFlag flags;
+    ubyte data2[2];
+    ushort soundEvent;
+    ushort nameStringId;
+    ushort toolTipStringId;
+    ushort generalDescriptionStringId;
+    ushort strengthStringId;
+    ushort weaknessStringId;
+    ubyte creatureSpellId;
+    ubyte shotTypeId;
+    ubyte alternativeShotId;
+    ubyte alternativeRoomId;
+    float32 rechargeTime;
+    AlternativeShot alternativeShot;
+    ubyte data3[27];
+};
