@@ -15,8 +15,8 @@ struct Entry {
     Vector3f forward;
     Vector3f left;
     Vector3f up;
-    float fov; // Field of view in radians
-    float near;
+    float32 fov; // Field of view in radians
+    float32 near;
 };
 
 // Reading the file
