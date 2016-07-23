@@ -1,0 +1,53 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        doors_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     door structure
+//--------------------------------------
+
+struct DoorFlag {
+	ubyte UNK_1 : 1;
+	ubyte UNK_2 : 1;
+	ubyte UNK_3 : 1;
+	ubyte UNK_4 : 1;
+	ubyte UNK_5 : 1;
+	ubyte IS_SECRET : 1; // Secret
+    ubyte IS_BARRICADE : 1; // Barricade
+    ubyte IS_GOOD : 1; // Good (as in alignment)
+    ubyte unk[3];
+};
+
+struct DoorBlock {
+	char name[32];
+	ArtResource mesh;
+	ArtResource guiIcon;
+	ArtResource editorIcon;
+	ArtResource flowerIcon;
+	ArtResource openResource;
+	ArtResource closeResource;
+	float32 height;
+	ushort healthGain;
+	ubyte unk1[8];
+	Material material;
+	ubyte trapId;
+	DoorFlag flags;
+	ushort health;
+	ushort goldCost;
+	ubyte unk2[2];
+	ushort deathEffectId;
+	uint manufToBuild;
+	ushort manaCost;
+	ushort toolTipStringId;
+	ushort nameStringId;
+	ushort generalDescriptionStringId;
+	ushort strengthStringId;
+	ushort weaknessStringId;
+	ubyte doorId;
+	ubyte orderInEditor;
+	ubyte manufCrateObjectId;
+	ubyte keyObjectId;
+	char soundCategory[32];
+};

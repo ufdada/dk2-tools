@@ -8,10 +8,14 @@
 // Purpose:     KWD File
 //--------------------------------------
 LittleEndian();
-#include "timestamp.bt"
-#include "creatures_struct.bt"
-#include "map_struct.bt"
-#include "player_struct.bt"
+#include "timestamp.bt";
+#include "../util_struc.bt";
+#include "resource.bt";
+
+#include "creatures_struct.bt";
+#include "doors_struct.bt";
+#include "map_struct.bt";
+#include "player_struct.bt";
 
 enum MapType {
     GLOBALS = 0, // As in overrides the regular ones
@@ -84,6 +88,9 @@ if (header.checkOne != header.signature + 1) {
 switch (header.signature) {
     case CREATURES:
         CreatureBlock creature[header.general.itemCount]<optimize=false>;
+        break;
+    case DOORS:
+        DoorBlock doors[header.general.itemCount]<optimize=false>;
         break;
     case MAP:
         MapData map;

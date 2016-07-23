@@ -7,9 +7,6 @@
 // Revision:    1.0
 // Purpose:     Creature structure
 //--------------------------------------
-#include "resource.bt";
-#include "../util_struc.bt"
-
 enum <uint> JobType {
 	NO_JOB = 0,
 	SLEEP = 1,
