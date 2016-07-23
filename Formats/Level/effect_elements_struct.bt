@@ -8,21 +8,15 @@
 // Purpose:     Effect Elements structure
 //--------------------------------------
 typedef struct {
-    ubyte DIE_WHEN_HIT_SOLID : 1;
-    ubyte SHRINK : 1;
-    ubyte EXPAND : 1;
-    ubyte UNK_1 : 1;
+    ubyte DIES_WHEN_HIT_SOLID : 1;
+    ubyte SHRINKS : 1;
+    ubyte EXPANDS : 1;
+    ubyte FADES : 1;
     ubyte DIRECTIONAL_FRICTION : 1;
-    ubyte EXPAND_THEN_SHRINK : 1;
-    ubyte GENERATE_EFFECTS : 1;
-    ubyte GENERATE_EFFECT_ELEMENTS : 1;
-    ubyte PASS_ON_VELOCITY : 1;
-	ubyte UNIFORM_DISTRIBUTION : 1;
-	ubyte RANDOM_DISTRIBUTION : 1;
-	ubyte FADE_IN : 1;
-	ubyte FADE_OUT : 1;
-	ubyte FADE_IN_OUT : 1;
-	ubyte USE_GENERATION_SCALE : 1;
+    ubyte CAN_BE_DISTURBED : 1;
+    ubyte ROTATE_TO_MOVEMENT_DIRECTION : 1;
+    ubyte UNK_1 : 1;
+    ubyte UNK_2 : 1;
 	ubyte ALWAYS_TRIGGER : 1;
     ubyte unk[2];
 } EffectElementFlag;
