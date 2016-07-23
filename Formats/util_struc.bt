@@ -1,0 +1,73 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        util_struc.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Utility structures
+//--------------------------------------
+
+const int FLOAT32 = 4096.0;
+
+string getVector(struct Vector3f &vec) {
+    string vector;
+	SPrintf( vector, "(x=%lg, y=%lg, z=%lg)", (float)vec.x / FLOAT32, (float)vec.y / FLOAT32, (float)vec.z / FLOAT32 );
+	return vector;
+}
+
+string getFloatValue(uint &i) {
+    string date;
+	SPrintf( date, "%f", (float)i / FLOAT32 );
+	return date;
+}
+
+string getFloatPointValue(struct float32 &f) {
+    string date;
+	SPrintf( date, "%lg", (float)f.value / FLOAT32 );
+	return date;
+}
+
+typedef struct {
+    uint value;
+} float32<read=getFloatPointValue>; 
+
+typedef struct {
+    ubyte red;
+    ubyte green;
+    ubyte blue;
+	ubyte alpha;
+} Color;
+
+typedef struct {
+    uint x;
+    uint y;
+    uint z;
+} Vector3f<read=getVector>;
+
+typedef struct {
+	byte UNKNOWN_LIGHT1 : 1;  // FIXME unknown flag
+	byte FLICKER : 1;
+	byte PULSE : 1;
+    byte UNKNOWN_LIGHT2 : 1;
+    byte UNKNOWN_LIGHT3 : 1;
+    byte UNKNOWN_LIGHT4 : 1;
+    byte UNKNOWN_LIGHT5 : 1;
+	byte PLAYER_COLOURED : 1;
+    byte UNKNOWN_LIGHT6 : 1;
+    byte UNKNOWN_LIGHT7 : 1;
+    byte UNKNOWN_LIGHT8 : 1;
+	byte COLOR_RED : 1; // If this is set, add 256 to the red value of the light
+	byte COLOR_GREEN : 1; // If this is set, add 256 to the green value of the light
+	byte COLOR_BLUE : 1; // If this is set, add 256 to the blue value of the light
+    byte UNKNOWN_LIGHT9 : 1;
+    byte UNKNOWN_LIGHT10 : 1;
+    byte unkFlag[2];
+} LightFlag;
+
+struct Light {
+  Vector3f mKPos;
+  float32 radius; // float
+  LightFlag flags;
+  Color color;
+};

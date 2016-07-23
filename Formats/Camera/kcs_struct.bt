@@ -8,17 +8,13 @@
 // Purpose:     Camera Sweep File
 //--------------------------------------
 
-typedef struct {
-    float x;
-    float y;
-    float z;
-} Vec3f;
+#include "../util_struc.bt"
 
 struct Entry {
-    Vec3f position;
-    Vec3f forward;
-    Vec3f left;
-    Vec3f up;
+    Vector3f position;
+    Vector3f forward;
+    Vector3f left;
+    Vector3f up;
     float fov; // Field of view in radians
     float near;
 };

@@ -1,0 +1,447 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        creatures_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Creature structure
+//--------------------------------------
+#include "resource.bt";
+#include "../util_struc.bt"
+
+enum <uint> JobType {
+	NO_JOB = 0,
+	SLEEP = 1,
+	EAT = 2,
+	RESEARCH = 3,
+	TRAIN = 4,
+	MANUFACTURE = 5,
+	GUARD = 6,
+	TORTURE = 7,
+	PRAYING = 8,
+	DRINK = 9,
+	LEAVE = 10,
+	DESTROY_ENEMY_ROOMS = 11,
+	DESTROY_WALLS = 12,
+	STEAL_GOLD = 13,
+	STEAL_SPELLS = 14,
+	SULK = 15,
+	REBEL = 16,
+	STEAL_MANUFACTURE_CRATES = 17,
+	KILL_CREATURES = 18,
+	KILL_PLAYER = 19,
+	TUNNELLING = 20, // FIXME or 21 or both
+	WAIT = 22,
+	SEND_TO_ACTION_POINT = 23,
+	EXPLORE = 24,
+	STEAL_ENEMY_GOLD = 25,
+	COMBAT_PIT_SPECTATE = 26,
+	JAIL_BREAK = 27,
+	TOLLING = 28
+};
+
+enum <ubyte> DeathFallDirection {
+	NORTH = 0,
+	NORTH_EAST = 1,
+	EAST = 2,
+	SOUTH_EAST = 3,
+	SOUTH = 4,
+	SOUTH_WEST = 5,
+	WEST = 6,
+	NORTH_WEST = 7
+};
+
+enum <ubyte> Swipe {
+	NO_SWIPE = 0,
+	BITE = 1,
+	CLAW_SLASH = 2,
+	CLUB_SMASH = 3,
+	DARK_FGBS_SLASH = 4,
+	KING_FGBS_SLASH = 5,
+	LEFT_PUNCH = 6,
+	RIGHT_PUNCH = 7,
+	LEFT_SCYTHE_SLASH = 8,
+	RIGHT_SCYTHE_SLASH = 9,
+	MISTRESS_SLASH = 10,
+	SMALL_SLASH = 11,
+	STAFF_STRIKE = 12,
+	SWORD_SLASH = 13,
+	LIGHT_ARROW = 14,
+	DARK_ARROW = 15,
+	LEFT_BILE_SMASH = 16,
+	RIGHT_BILE_SMASH = 17,
+	HYPNOTISE_SWIPE = 18,
+	LEFT_SMALL_PUNCH = 19,
+	RIGHT_SMALL_PUNCH = 20,
+	LEFT_KING_FGBS_SLASH = 21,
+	RIGHT_KING_FGBS_SLASH = 22
+};
+
+enum <ubyte> SpecialAbility {
+	NO_ABILITY = 0,
+	PICK_UP_WORKERS = 1,
+	SNIPER_MODE = 2,
+	TURN_TO_BAT = 3,
+	FLY = 4,
+	HYPNOTISE = 5,
+	DISGUISE_N_STEAL = 6,
+	PRAY = 7,
+	PICK_LOCKS = 8,
+	FEAR_ATTACK = 9,
+	GHOST_POSESSION = 10,
+    UNK_1 = 11,
+    UNK_2 = 12,
+    UNK_3 = 13,
+    UNK_4 = 14,
+    UNK_5 = 15
+};
+
+struct Attraction {
+	uint present;
+	ushort roomId;
+	ushort roomSize;
+};
+
+struct Spell {
+	Vector3f shotOffset;
+    ubyte x0c;
+    byte playAnimation;
+    ubyte x0e; // This is rather weird, this seems to change with the perception range value
+    ubyte x0f;
+    float32 shotDelay;
+    ubyte x14;
+    ubyte x15;
+    ubyte creatureSpellId;
+    ubyte levelAvailable;
+};
+
+enum <ubyte> AttackType {
+	NO_ATTACK = 0,
+	MELEE_BLADE = 1,
+	MELEE_BLUNT = 2,
+	MELEE_BODY = 3,
+	MISTRESS_LIGHTNING = 4,
+	GAS_CLOUD = 5,
+	GAS_MISSILE = 6,
+	DARK_ELF_GUIDED_BOLT = 7,
+	SLOW = 8,
+	GRENADE = 9,
+	DRAIN = 10,
+	MISTRESS_HAIL_STORM = 11,
+	DARK_ELF_ARROW = 12,
+	HASTE_CREATURE = 13,
+	WARLOCK_HEAL_CREATURE = 14,
+	MELEE_SCYTHE = 15,
+	INVULNERABLE = 16,
+	THIEF_INVISIBLE = 17,
+	KNIVES = 18,
+	DISRUPTION = 19,
+	RAISE_DEAD = 20,
+	WIND = 21,
+	SKELETON_ARMY = 22,
+	CHICKEN_ARROW = 23,
+	ELF_ARCHER_ARROW = 24,
+	WIZARD_FIREBALL = 25,
+	SALAMANDER_FIREBALL = 26,
+	WIZARD_FIREBOMB_1 = 27,
+	WIZARD_FIREBOMB_2 = 28,
+	FAIRY_FREEZE = 29,
+	ELVEN_ARCHER_GUIDED_BOLT = 30,
+	DARK_ANGLE_HAIL_STORM = 31,
+	MONK_HEAL_CREATURE = 32,
+	ROGUE_INVISIBLE = 33,
+	FAIRY_LIGHTNING = 34,
+	DARK_ANGLE_FIREBOMB = 35,
+	IMP_TELEPORT = 36,
+	IMP_HASTE = 37,
+	REAPER_FIREBALL = 38,
+	SALAMANDER_SPIT = 39,
+	MAIDEN_WEB = 40,
+	MAIDEN_POISON_SPIT = 41
+};
+
+struct Resistance {
+	AttackType attackType;
+	ubyte value;
+};
+
+struct JobPreference {
+	JobType jobType;
+    ushort moodChange;
+    ushort manaChange;
+    ubyte chance; // of happening, percentage
+    ubyte x09;
+    ubyte x0a;
+    ubyte x0b;
+};
+
+struct JobAlternative {
+	JobType jobType;
+    ushort moodChange;
+    ushort manaChange;
+};
+
+enum <ubyte> JobClass {
+    ARTISAN = 0,
+    THINKER = 1,
+    FIGHTER = 2,
+    SCOUT = 3
+};
+
+enum <ubyte> FightStyle {
+    NON_FIGHTER = 0,
+    BLITZER = 1,
+    BLOCKER = 2,
+    FLANKER = 3,
+    SUPPORT = 4
+};
+
+
+
+typedef struct CreatureFlag {
+	byte IS_WORKER : 1;
+	byte CAN_BE_PICKED_UP : 1;
+	byte CAN_BE_SLAPPED : 1;
+	byte ALWAYS_FLEE : 1;
+	byte CAN_WALK_ON_WATER : 1;
+	byte CAN_WALK_ON_LAVA : 1;
+	byte UNKNOWN_1 : 1;
+	byte IS_EVIL : 1;
+	byte UNKNOWN_2 : 1;
+	byte IS_IMMUNE_TO_TURNCOAT : 1;
+	byte AVAILABLE_VIA_PORTAL : 1;
+	byte UNKNOWN_3 : 1;
+	byte UNKNOWN_4 : 1;
+	byte CAN_FLY : 1;
+	byte IS_HORNY : 1;
+	byte GENERATE_DEAD_BODY : 1;
+	byte CAN_BE_HYPNOTIZED : 1;
+	byte IS_IMMUNE_TO_CHICKEN : 1;
+	byte IS_FEARLESS : 1;
+	byte CAN_BE_ELECTROCUTED : 1;
+	byte NEED_BODY_FOR_FIGHT_IDLE : 1;
+	byte TRAIN_WHEN_IDLE : 1;
+	byte ONLY_ATTACKABLE_BY_HORNY : 1;
+	byte CAN_BE_RESURECTED : 1;
+	byte DOESNT_GET_ANGRY_WITH_ENEMIES : 1;
+	byte FREES_FRIENDS_ON_JAILBREAK : 1;
+	byte REVEALS_ADJACENT_TRAPS : 1;
+	byte IS_UNIQUE : 1;
+	byte CAMERA_ROLLS_WHEN_TURNING : 1;
+	byte UNKNOWN_5 : 1;
+	byte MPD_RANDOM_INVADER : 1;
+	byte IS_MALE : 1;
+};
+
+typedef struct CreatureFlag2 {
+	byte IS_IMMUNE_TO_LIGHTNING : 1;
+	byte IS_STONE_KNIGHT : 1;
+	byte IS_EMOTIONLESS : 1;
+	byte AVAILABLE_VIA_HERO_PORTAL : 1;
+    byte unk[3];
+};
+
+typedef struct {
+	char name[32];
+    ubyte unknownRes[84];
+	ArtResource animWalkResource;
+	ArtResource animRunResource;
+	ArtResource animDraggedPoseResource;
+	ArtResource animRecoilHffResource;
+    ArtResource animMelee1Resource;
+    ArtResource animMagicResource;
+    ArtResource animDieResource;
+    ArtResource animHappyResource;
+    ArtResource animAngryResource;
+    ArtResource animStunnedPoseResource;
+    ArtResource animSwingResource;
+    ArtResource animSleepResource;
+    ArtResource animEatResource;
+    ArtResource animResearchResource;
+    ArtResource unknown2Resource;
+    ArtResource animDejectedPoseResource;
+    ArtResource animTortureResource;
+    ArtResource unknown3Resource;
+    ArtResource animDrinkResource;
+    ArtResource animIdle1Resource;
+    ArtResource animRecoilHfbResource;
+    ArtResource unknown4Resource;
+    ArtResource animPrayResource;
+    ArtResource animFallbackResource;
+    ArtResource animElecResource;
+    ArtResource animElectrocuteResource;
+    ArtResource animGetUpResource;
+    ArtResource animDanceResource;
+    ArtResource animDrunkResource;
+    ArtResource animEntranceResource;
+    ArtResource animIdle2Resource;
+    ArtResource unknown5Resource; // imp-jump (iw)
+    ArtResource unknown6Resource;
+    ArtResource animDrunk2Resource;
+    ArtResource unknown7Resource; // imp-jump (iw)
+    ArtResource unknown8Resource;
+    ArtResource icon1Resource;
+    ArtResource icon2Resource;
+	ushort unkcec; // cec
+    uint unkcee; // cee
+    uint unkcf2; // cf2
+    byte orderInEditor; // cf6
+    ushort angerStringIdGeneral; // cf7
+    uint shotDelay; // float32 // cf9
+    ushort olhiEffectId; // cfd, OLHI, wut?
+    ushort introductionStringId; // cff
+    float32 perceptionRange; // float32 // d01, Fog of war
+    ushort angerStringIdLair;
+    ushort angerStringIdFood;
+    ushort angerStringIdPay;
+    ushort angerStringIdWork;
+    ushort angerStringIdSlap;
+    ushort angerStringIdHeld;
+    ushort angerStringIdLonely;
+    ushort angerStringIdHatred;
+    ushort angerStringIdTorture;
+    char translationSoundGategory[32]; // d17
+    float32 shuffleSpeed; // float32 // d37
+    ubyte cloneCreatureId;
+    GammaEffect firstPersonGammaEffect; // d3b
+    ubyte firstPersonWalkCycleScale; // Movement
+    ubyte introCameraPathIndex;
+    ubyte unk2e2;
+    ArtResource portraitResource; // d40
+    Light light; // d94
+    Attraction attractions[2];
+    float32 firstPersonWaddleScale; // dbc Movement
+    float32 firstPersonOscillateScale; // dc0 Movement
+    Spell spells[3];
+    Resistance resistances[4];
+    JobPreference happyJobs[3];
+    JobPreference unhappyJobs[2];
+    JobPreference angryJobs[3];
+    JobType hateJobs[2];
+    JobAlternative alternativeJobs[3];
+    struct Xe94 {
+        uint x00;
+        uint x04;
+        uint x08;
+    } xe94;
+    int unkea0; // ea0
+    float32 height; // ea4
+    int unkea8; // ea8 float32?
+    int unk3ab; // eac
+    float32 eyeHeight; // eb0
+    float32 speed; // eb4
+    float32 runSpeed; // eb8
+    float32 hungerRate; // ebc
+    int timeAwake; // ec0
+    int timeSleep; // ec4
+    float32 distanceCanSee; // ec8, tiles
+    float32 distanceCanHear; // ecc, tiles
+    float32 stunDuration; // ed0, seconds
+    float32 guardDuration; // ed4, seconds
+    float32 idleDuration; // ed8, seconds
+    float32 slapFearlessDuration; // edc
+    int unkee0; // ee0
+    int unkee4; // ee4
+    short possessionManaCost; // ee8
+    short ownLandHealthIncrease; // eea
+    float32 meleeRange; // eec
+    int unkef0; // ef0
+    float32 tortureTimeToConvert; // ef4, seconds
+    float32 meleeRecharge; // ef8
+    CreatureFlag flags; // efc
+    ushort expForNextLevel; // f00
+    JobClass jobClass; // f02
+    FightStyle fightStyle;
+    ushort expPerSecond; // f04
+    ushort expPerSecondTraining; // f06
+    ushort researchPerSecond; // f08
+    ushort manufacturePerSecond; // f0a
+    ushort hp; // f0c
+    ushort hpFromChicken; // f0e
+    ushort fear; // f10
+    ushort threat; // f12
+    ushort meleeDamage; // f14
+    ushort slapDamage; // f16
+    ushort manaGenPrayer; // f18
+    ushort unk3cb; // f1a
+    ushort pay; // f1c
+    ushort maxGoldHeld; // f1e
+    ushort unk3cc; // f20 float32?
+    ushort decomposeValue; // f22
+    ushort nameStringId;
+    ushort tooltipStringId;
+    ushort angerNoLair; // f28
+    ushort angerNoFood; // f2a
+    ushort angerNoPay; // f2c
+    ushort angerNoWork; // f2e
+    ushort angerSlap; // f30
+    ushort angerInHand; // f32
+    ushort initialGoldHeld; // f34
+    ushort entranceEffectId; // f36
+    ushort generalDescriptionStringId; // f3c
+    ushort strengthStringId;
+    ushort weaknessStringId;
+    ushort slapEffectId; // f3e
+    ushort deathEffectId; // f40
+    Swipe melee1Swipe; // f42, Swipes, 1st person attacks
+    Swipe melee2Swipe;
+    ubyte unk3d3;
+    Swipe spellSwipe; // f45
+    SpecialAbility firstPersonSpecialAbility1; // f46, Special abilities, 1st person
+    SpecialAbility firstPersonSpecialAbility2;
+    ubyte unkf48[3]; // f48
+    ubyte creatureId; // f4b
+    ubyte unk3ea[2]; // f4c
+    ubyte hungerFill;
+    ubyte unhappyThreshold; // f4f
+    AttackType meleeAttackType; // f50
+    ubyte unk3eb2;
+    ubyte lairObjectId; // f52
+    ubyte unk3f1; // f53
+    DeathFallDirection deathFallDirection;
+    ubyte unk3f2;
+    char soundGategory[32]; // f56
+    Material material; // f76, armour type
+    ArtResource firstPersonFilterResource; // f77
+    short unkfcb; // fcb
+    uint unk4; // fcd float32?
+    ArtResource drunkIdle; // fd1
+    Swipe special1Swipe; // 1025
+    Swipe special2Swipe;
+    ArtResource firstPersonMeleeResource; // 1027
+    uint unk6; // 107b
+    short tortureHpChange; // 107f
+    short tortureMoodChange; // 1081
+    ArtResource animMelee2Resource; // 1083
+    ArtResource unknown9Resource;
+    ArtResource unknown10Resource;
+    ArtResource unknown11Resource;
+    ArtResource unknown12Resource;
+    ArtResource unknown13Resource;
+    struct Unk7 {
+        uint x00;
+        uint x04;
+        uint x08;
+    } unk7[7]; // 127b
+    ArtResource animWalkbackResource; // 12cf
+    struct X1323 {
+        ushort x00;
+        ushort x02;
+    } x1323[48];
+    ArtResource animPoseFrameResource; // 13e3
+    ArtResource animWalk2Resource;
+    ArtResource animDiePoseResource;
+    ushort uniqueNameTextId;
+    ubyte x14e1[8]; // 14e1
+    int firstPersonSpecialAbility1Count; // 14e9, available uses or something, not really sure
+    int firstPersonSpecialAbility2Count;
+    ArtResource uniqueResource; // 14f1
+    int unk1545;
+    if (header.contentSize / header.general.itemCount >= 5537l ) {
+        // When the file is embedded in the globals, there is some extra stuff
+        ubyte unknownExtraBytes[80]; // 80
+        CreatureFlag2 flags2; // ???
+        uint unknown;
+    }
+} CreatureBlock;

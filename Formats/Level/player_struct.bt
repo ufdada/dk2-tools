@@ -74,7 +74,7 @@ enum <ubyte> CreatureDisposalPolicy {
 };
 
 enum <ubyte> SightOfEvilUsagePolicy {
-    NONE,
+    NO_USAGE,
     RANDOM_TERRAIN,
     ENEMY_LAND
 };
@@ -82,7 +82,7 @@ enum <ubyte> SightOfEvilUsagePolicy {
 enum <ubyte> SpellUsagePolicy {
     VERY_OFTEN,
     OFTEN,
-    NORMAL,
+    NORMAL_USAGE,
     RARELY
 };
 

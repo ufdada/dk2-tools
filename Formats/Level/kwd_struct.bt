@@ -8,7 +8,8 @@
 // Purpose:     KWD File
 //--------------------------------------
 LittleEndian();
-
+#include "timestamp.bt"
+#include "creatures_struct.bt"
 #include "map_struct.bt"
 #include "player_struct.bt"
 
@@ -37,16 +38,57 @@ struct Header {
     MapType signature;
     uint byteSize; // bytes in real size => 4
     int fileSize;
-    int unk_1;
-    int unk_2;
+    int checkOne;
+    int headerEndOffSet;
+    switch (header.signature) {
+        case MAP:
+            struct {
+                uint width;
+                uint height;
+            } mapInfo;
+            break;
+        case LEVEL:
+            struct {
+                ushort itemCount;
+                ushort height;
+                ubyte unk1[4];
+                timeStamp created;
+                timeStamp modified;
+            } levelInfo;
+            break;
+        default:
+            struct {
+                uint itemCount;
+                uint unk2;
+                timeStamp created;
+                timeStamp modified;
+            } general;
+    }
+    int checkTwo;
+    int contentSize; // filesize without header
 } header;
 
+local string corruptFileMessage = "Corrupt file. %s check failed. Template stopped.";
+
+// Check file
+if (header.checkOne != header.signature + 1) {
+    Warning( corruptFileMessage, "First" );
+    Printf( corruptFileMessage, "First" );
+    return -1;
+} else if (header.checkTwo != header.signature + 2 && header.checkTwo != header.signature + 3 ) {
+    Warning( corruptFileMessage, "Second" );
+    Printf( corruptFileMessage, "Second" );
+    return -1;
+}
+
 switch (header.signature) {
+    case CREATURES:
+        CreatureBlock creature[header.general.itemCount]<optimize=false>;
+        break;
     case MAP:
         MapData map;
         break;
     case PLAYERS:
-        PlayerHeader head;
-        PlayerData player[head.playerCount]<optimize=false>;
+        PlayerData player[header.general.itemCount]<optimize=false>;
         break;
 }

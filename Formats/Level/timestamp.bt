@@ -1,0 +1,25 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        timestamp.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     timestamp structure
+//--------------------------------------
+typedef struct TimeStamp {
+	ushort year;
+	ubyte day;
+	ubyte month;
+	FSkip(2);
+	ubyte hour;
+	ubyte minute;
+	ubyte second;
+	FSkip(1);
+} timeStamp<read=getDate>;
+
+string getDate(struct timeStamp &t) {
+	string date;   
+	SPrintf( date, "%02d.%02d.%04d %02d:%02d:%02d", t.day, t.month, t.year, t.hour, t.minute, t.second );
+	return date;
+}
