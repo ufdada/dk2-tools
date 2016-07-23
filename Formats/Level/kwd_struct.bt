@@ -106,6 +106,7 @@ switch (header.signature) {
         break;
     case EFFECT_ELEMENTS:
         EffectElementsBlock effectElement[count]<optimize=false>;
+        break;
     case KEEPER_SPELLS:
         KeeperSpellsBlock keeperSpells[count]<optimize=false>;
         break;
