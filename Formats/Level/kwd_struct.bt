@@ -17,6 +17,7 @@ LittleEndian();
 #include "doors_struct.bt";
 #include "effects_struct.bt";
 #include "effect_elements_struct.bt";
+#include "keeper_spells_struct.bt";
 #include "map_struct.bt";
 #include "player_struct.bt";
 
@@ -105,6 +106,9 @@ switch (header.signature) {
         break;
     case EFFECT_ELEMENTS:
         EffectElementsBlock effectElement[count]<optimize=false>;
+    case KEEPER_SPELLS:
+        KeeperSpellsBlock keeperSpells[count]<optimize=false>;
+        break;
     case MAP:
         MapData map;
         break;

@@ -1,0 +1,75 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        keeper_spells_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Keeper Spells structure
+//--------------------------------------
+typedef struct {
+	ubyte UNK_1;
+    ubyte CREATE_WORKER : 1;
+    ubyte ATTACKING : 1;
+    ubyte DEFENSIVE : 1;
+    ubyte DONT_CAST_ON_CREATURES : 1;
+    ubyte unk[2];
+} KeeperSpellFlag;
+
+enum <ubyte> HandAnimId {
+    NULL,
+    POINT
+};
+
+enum <ubyte> CastRule {
+    NO_CAST,
+    CAST_ON_OWN_LAND,
+    CAST_ON_OWN_AND_NEUTRAL_LAND,
+    CAST_ON_ENEMY_LAND,
+    CAST_ON_ANY_LAND,
+    CAST_ANYWHERE
+};
+
+enum <ubyte> TargetRule {
+    NO_TARGET,
+    OWN_CREATURES,
+    ENEMY_CREATURES,
+    ALL_CREATURES,
+    LAND,
+    ALL,
+	POSESSION
+};
+
+struct KeeperSpellsBlock {
+	char name[32];
+	ArtResource guiIcon;
+	ArtResource editorIcon;
+	ubyte xc8[4];
+	float32 rechargeTime;
+	uint shotData1;
+	uint shotData2;
+	ushort researchTime;
+	TargetRule targetRule;
+	ubyte orderInEditor;
+	KeeperSpellFlag flags;
+	ushort xe0Unreferenced;
+	ushort manaDrain;
+	ushort toolTipStringId;
+	ushort nameStringId;
+	ushort generalDescriptionStringId;
+	ushort strengthStringId;
+	ushort weaknessStringId;
+	ubyte keeperSpellId;
+	CastRule castRule;
+	ubyte shotTypeId;
+	char soundCategory[32];
+	ushort bonusRTime;
+	ubyte bonusShotTypeId;
+	int bonusShotData1;
+	int bonusShotData2;
+	int manaCost;
+	ArtResource bonusIcon;
+	char soundCategoryGui[32];
+	HandAnimId handAnim;
+	HandAnimId NoGoHandAnim;
+};
