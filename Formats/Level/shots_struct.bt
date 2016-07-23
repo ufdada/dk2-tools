@@ -1,0 +1,153 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        effects_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Effects structure
+//--------------------------------------
+typedef struct {
+    ubyte NO_PROCESSING : 1;
+    ubyte CONSTANT : 1;
+    ubyte HIT_COLLIDE_THING : 1;
+    ubyte HIT_SOLID : 1;
+    ubyte HIT_WATER : 1;
+    ubyte HIT_LAVA : 1;
+    ubyte AT_START : 1;
+    ubyte AT_END : 1;
+    ubyte HIT_THING : 1;
+    ubyte unk[2];
+} ShotProcessFlag;
+
+typedef struct {
+    ubyte DIE_WHEN_HIT_SOLID : 1;
+    ubyte DIE_WHEN_HIT_THING : 1;
+    ubyte DIE_OVER_TIME : 1;
+    ubyte BOUNCE : 1;
+    ubyte THROWN_PROJECTILE : 1;
+    ubyte MOVE_TOWARDS_TARGET : 1;
+    ubyte KILL_EFFECTS_WHEN_DEAD : 1;
+    ubyte PASS_ON_SHOT_VELOCITY_TO_CREATION_EFFECT : 1;
+    ubyte RECOIL : 1;
+    ubyte unk[2];
+} ShotFlag;
+
+enum <ubyte> DamageType {
+    NO_DAMAGE,
+    CONSTANT,
+    RANGE_FROM_ORIGIN,
+    TIME,
+    RING_CONSTANT,
+    AT_START,
+    AT_END,
+    HIT_THING,
+    CONSTANT_FOR_TREMOR
+};
+
+enum <ubyte> CollideType {
+    NO_COLLITION,
+    COLLIDE_OWN_CREATURES,
+    COLLIDE_ENEMY_CREATURES,
+    COLLIDE_ALL_CREATURES,
+    COLLIDE_DEAD_BODIES
+};
+
+enum <ubyte> ProcessType {
+    NO_PROCESS,
+    CREATE_CREATURE,
+    CREATE_OBJECT,
+    MODIFY_HEALTH,
+    MODIFY_SPEED,
+    MODIFY_ARMOUR,
+    MODIFY_MANA,
+    MODIFY_EXPERIENCE_LEVEL,
+    MODIFY_HUNGER,
+    LIGHTNING,
+    INVUNERABLE,
+    FREEZE,
+    ALARM,
+    TURNCOAT,
+    CONCEAL,
+    CHICKEN,
+    SCAPEGOAT,
+    WIND_PROCESS,
+    RAISE_DEAD_PROCESS,
+    OBEY,
+    INVISIBLE_PROCESS,
+    FEAR,
+    BOULDER,
+    ALERT,
+    MESMERISE,
+    SIGHT_OF_EVIL,
+    POSSESS_CREATURE,
+    TREMOR,
+    GUIDED,
+    DECKEM,
+    INFERNO,
+    GAS,
+    TRIGGER,
+    SUMMON_REAPER,
+    INSTANTANEOUS_HIT,
+    DRAIN_PROCESS,
+    CREATE_SINGLE_CREATURE,
+    WEB_AREA_EFFECT,
+    POISON_SPIT,
+    JACK_IN_THE_BOX
+};
+
+enum <ubyte> AttackCategory {
+    UNK0,
+    UNK1,
+    UNK2,
+    UNK3,
+    FIRE_ATTACK,
+    MOVEMENT,
+    LIGHTNING_ATTACK,
+    GAS_ATTACK,
+    PROJECTILE,
+    ENCHANCE_OTHER,
+    ENCHANCE_SELF,
+    CLOSE_COMBAT,
+    GENERATION,
+    PHYSICAL_TRAP,
+    NON_LETHAL_TRAP,
+    MELEE_SCYTHE_ATTACK
+};
+
+struct ShotBlock {
+	char name[32];
+	ArtResource meshResource;
+	Light light;
+	double32 airFriction;
+    float32 mass;
+	float32 speed;
+    uint data1;
+    uint data2;
+    ShotProcessFlag processFlags;
+	float32 radius;
+    ShotFlag shots;
+    ushort generalEffectId;
+    ushort creationEffectId;
+    ushort deathEffectId;
+    ushort timedEffectId;
+	ushort hitSolidEffectId;
+    ushort hitLavaEffectId;
+	ushort hitWaterEffectId;
+	ushort hitThingEffectId;
+    ushort health;
+    ubyte shotId;
+    ubyte deathShotId;
+    ubyte timedDelay;
+    ubyte hitSolidShotId;
+    ubyte hitLavaShotId;
+    ubyte hitWaterShotId;
+    ubyte hitThingShotId;
+    DamageType damage;
+    CollideType collide;
+    ProcessType process;
+    AttackCategory attack;
+    char soundCategory[32];
+    ushort threat;
+    float32 burnDuration;
+};

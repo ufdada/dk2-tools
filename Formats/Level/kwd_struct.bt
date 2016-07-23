@@ -20,6 +20,7 @@ LittleEndian();
 #include "keeper_spells_struct.bt";
 #include "map_struct.bt";
 #include "player_struct.bt";
+#include "shots_struct.bt";
 
 enum MapType {
     GLOBALS = 0, // As in overrides the regular ones
@@ -114,6 +115,9 @@ switch (header.signature) {
         MapData map;
         break;
     case PLAYERS:
-        PlayerData player[header.general.itemCount]<optimize=false>;
+        PlayerData player[count]<optimize=false>;
+        break;
+    case SHOTS:
+        ShotBlock shot[count]<optimize=false>;
         break;
 }
