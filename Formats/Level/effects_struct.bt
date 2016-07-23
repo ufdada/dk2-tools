@@ -1,0 +1,92 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        effects_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Effects structure
+//--------------------------------------
+typedef struct {
+    ubyte DIE_WHEN_HIT_SOLID : 1;
+    ubyte SHRINK : 1;
+    ubyte EXPAND : 1;
+    ubyte UNK_1 : 1;
+    ubyte DIRECTIONAL_FRICTION : 1;
+    ubyte EXPAND_THEN_SHRINK : 1;
+    ubyte GENERATE_EFFECTS : 1;
+    ubyte GENERATE_EFFECT_ELEMENTS : 1;
+    ubyte PASS_ON_VELOCITY : 1;
+	ubyte UNIFORM_DISTRIBUTION : 1;
+	ubyte RANDOM_DISTRIBUTION : 1;
+	ubyte FADE_IN : 1;
+	ubyte FADE_OUT : 1;
+	ubyte FADE_IN_OUT : 1;
+	ubyte USE_GENERATION_SCALE : 1;
+	ubyte ALWAYS_TRIGGER : 1;
+    ubyte unk[2];
+} EffectFlag;
+
+enum <ubyte> GenerationType {
+    NO_GENERATION,
+    DEFAULT,
+    ADJACENT_EXPLOSION,
+    STORM,
+    CUBE_GEN,
+    EXPLOSION_2,
+    SPRAY,
+    EXPLOSION,
+    SPIRAL,
+    EVERYTHING,
+    CHICKEN_SLAP,
+    DIG,
+    SMOKE_PUFF,
+    FIRE,
+    GOLD_COST,
+    TEST_0,
+    TEST_1,
+    TEST_2,
+    TEST_3
+};
+
+struct EffectBlock {
+	char name[32];
+	ArtResource artResource;
+	Light light;
+	float32 mass;
+	float32 airFriction;
+	float32 elasticity;
+	float32 radius;
+	float32 minSpeedXy;
+	float32 maxSpeedXy;
+	float32 minSpeedYz;
+	float32 maxSpeedYz;
+	float32 MinScale;
+	float32 MaxScale;
+	EffectFlag flags;
+	ushort effectId;
+	ushort minHp;
+	ushort maxHp;
+	ushort fadeDuration;
+	ushort nextEffectId;
+	ushort deathEffectId;
+	ushort hitSolidEffectId;
+	ushort hitWaterEffectId;
+	ushort hitLavaEffectId;
+	ushort generateIds[8];
+	ushort outerOriginRange;
+	ushort lowerHeightLimit;
+	ushort upperHeightLimit;
+	ushort orientationRange;
+	ushort spriteSpintRateRange;
+	ushort whirlPoolRate;
+	ushort directionalSpeed;
+	ushort circularPathRate;
+    ushort innerOriginRange;
+	ushort generateRandomness;
+	ushort misc2;
+	ushort misc3;
+	GenerationType type;
+	ubyte elementsPerTurn;
+	ushort unk3;
+};

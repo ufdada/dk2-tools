@@ -15,6 +15,7 @@ LittleEndian();
 #include "creatures_struct.bt";
 #include "creature_spells_struct.bt";
 #include "doors_struct.bt";
+#include "effects_struct.bt";
 #include "map_struct.bt";
 #include "player_struct.bt";
 
@@ -97,6 +98,9 @@ switch (header.signature) {
         break;
     case DOORS:
         DoorBlock doors[count]<optimize=false>;
+        break;
+    case EFFECTS:
+        EffectBlock effect[count]<optimize=false>;
         break;
     case MAP:
         MapData map;
