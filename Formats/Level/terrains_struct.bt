@@ -1,0 +1,85 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        terrains_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Terrain structure
+//--------------------------------------
+typedef struct TerrainFlag {
+	byte SOLID : 1;
+	byte IMPENETRABLE : 1;
+	byte OWNABLE : 1;
+	byte TAGGABLE : 1;
+	byte ROOM : 1;
+	byte ATTACKABLE : 1;
+	byte TORCH : 1;
+	byte WATER : 1;
+	byte LAVA : 1;
+	byte ALWAYS_EXPLORED : 1;
+	byte PLAYER_COLOURED_PATH : 1;
+	byte PLAYER_COLOURED_WALL : 1;
+	byte CONSTRUCTION_TYPE_WATER : 1;
+	byte CONSTRUCTION_TYPE_QUAD : 1;
+	byte UNEXPLORE_IF_DUG_BY_ANOTHER_PLAYER : 1;
+	byte FILL_INABLE : 1;
+	byte ALLOW_ROOM_WALLS : 1;
+	byte DECAY : 1;
+	byte RANDOM_TEXTURE : 1;
+	byte TERRAIN_COLOR_RED : 1;
+	byte TERRAIN_COLOR_GREEN : 1;
+	byte TERRAIN_COLOR_BLUE : 1;
+	byte UNK_1 : 1;
+	byte DWARF_CAN_DIG_THROUGH : 1;
+	byte REVEAL_THROUGH_FOG_OF_WAR : 1;
+	byte AMBIENT_COLOR_RED : 1;
+	byte AMBIENT_COLOR_GREEN : 1;
+	byte AMBIENT_COLOR_BLUE : 1;
+	byte TERRAIN_LIGHT : 1;
+	byte AMBIENT_LIGHT : 1;
+};
+
+typedef struct TerrainData {
+	char name[32];
+	ArtResource completeResource;
+	ArtResource sideResource;
+	ArtResource topResource;
+	ArtResource taggedTopResource;
+	struct StringId {
+        uint Ids[5];
+	    ubyte unk1[4];
+    } stringId;
+	float32 depth;
+	float32 lightHeight;
+	TerrainFlag flags;
+	ushort damage;
+	ushort unk196;
+	ushort unk198;
+	ushort goldValue;
+    ushort manaGain;
+	ushort maxManaGain;
+	ushort toolTipStringId;
+	ushort nameStringId;
+	ushort maxHealthEffectId;
+    ushort destroyedEffectId;
+	ushort generalDescriptionStringId;
+	ushort strengthStringId;
+	ushort weaknessStringId;
+	ushort unk1ae[16];
+	ubyte wibbleH;
+	ubyte leanH[3];
+	ubyte wibbleV;
+	ubyte leanV[3];
+	ubyte terrainId;
+	ushort startingHealth;
+	ubyte maxHealthTypeTerrainId;
+	ubyte destroyedTypeTerrainId;
+	ColorRGB terrainLight;
+	ubyte textureFrames;
+	char soundCategory[32];
+	ushort maxHealth;
+	ColorRGB ambientLight;
+	char soundCategoryFirstPerson[32];
+	uint unk224;
+};

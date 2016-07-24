@@ -21,6 +21,7 @@ LittleEndian();
 #include "map_struct.bt";
 #include "player_struct.bt";
 #include "shots_struct.bt";
+#include "terrains_struct.bt";
 #include "traps_struct.bt";
 
 enum MapType {
@@ -120,6 +121,9 @@ switch (header.signature) {
         break;
     case SHOTS:
         ShotBlock shot[count]<optimize=false>;
+        break;
+    case TERRAIN:
+        TerrainData terrain[count]<optimize=false>;
         break;
     case TRAPS:
         TrapData trap[count]<optimize=false>;
