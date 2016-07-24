@@ -49,7 +49,7 @@ enum <ubyte> GenerationType {
     TEST_3
 };
 
-struct EffectBlock {
+struct EffectData {
 	char name[32];
 	ArtResource artResource;
 	Light light;

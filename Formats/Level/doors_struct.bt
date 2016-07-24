@@ -20,7 +20,7 @@ struct DoorFlag {
     ubyte unk[3];
 };
 
-struct DoorBlock {
+struct DoorData {
 	char name[32];
 	ArtResource mesh;
 	ArtResource guiIcon;

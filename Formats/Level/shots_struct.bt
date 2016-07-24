@@ -115,7 +115,7 @@ enum <ubyte> AttackCategory {
     MELEE_SCYTHE_ATTACK
 };
 
-struct ShotBlock {
+struct ShotData {
 	char name[32];
 	ArtResource meshResource;
 	Light light;

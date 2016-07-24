@@ -98,22 +98,22 @@ local int count = header.general.itemCount;
 
 switch (header.signature) {
     case CREATURE_SPELLS:
-        CreatureSpellsBlock spells[count]<optimize=false>;
+        CreatureSpellData spells[count]<optimize=false>;
         break;
 	case CREATURES:
-        CreatureBlock creature[count]<optimize=false>;
+        CreatureData creature[count]<optimize=false>;
         break;
     case DOORS:
-        DoorBlock doors[count]<optimize=false>;
+        DoorData doors[count]<optimize=false>;
         break;
     case EFFECT_ELEMENTS:
-        EffectElementsBlock effectElement[count]<optimize=false>;
+        EffectElementData effectElement[count]<optimize=false>;
         break;
 	case EFFECTS:
-        EffectBlock effect[count]<optimize=false>;
+        EffectData effect[count]<optimize=false>;
         break;
     case KEEPER_SPELLS:
-        KeeperSpellsBlock keeperSpells[count]<optimize=false>;
+        KeeperSpellData keeperSpells[count]<optimize=false>;
         break;
     case MAP:
         MapData map;
@@ -128,7 +128,7 @@ switch (header.signature) {
         RoomData room[count]<optimize=false>;
         break;
     case SHOTS:
-        ShotBlock shot[count]<optimize=false>;
+        ShotData shot[count]<optimize=false>;
         break;
     case TERRAIN:
         TerrainData terrain[count]<optimize=false>;

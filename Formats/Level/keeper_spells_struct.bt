@@ -40,7 +40,7 @@ enum <ubyte> TargetRule {
 	POSESSION
 };
 
-struct KeeperSpellsBlock {
+struct KeeperSpellData {
 	char name[32];
 	ArtResource guiIcon;
 	ArtResource editorIcon;

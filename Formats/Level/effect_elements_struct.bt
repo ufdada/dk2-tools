@@ -21,7 +21,7 @@ typedef struct {
     ubyte unk[2];
 } EffectElementFlag;
 
-struct EffectElementsBlock {
+struct EffectElementData {
 	char name[32];
 	ArtResource artResource;
 	float32 mass;

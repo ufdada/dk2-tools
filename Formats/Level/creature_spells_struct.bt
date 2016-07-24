@@ -29,7 +29,7 @@ enum <ubyte> AlternativeShot {
     INVISIBLE,
 };
 
-struct CreatureSpellsBlock {
+struct CreatureSpellData {
     char name[32];
     ArtResource editorIcon;
     ArtResource guiIcon;

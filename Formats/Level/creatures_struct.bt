@@ -237,7 +237,7 @@ typedef struct CreatureFlag2 {
     byte unk[3];
 };
 
-typedef struct {
+struct CreatureData {
 	char name[32];
     ubyte unknownRes[84];
 	ArtResource animWalkResource;
@@ -439,4 +439,4 @@ typedef struct {
         CreatureFlag2 flags2; // ???
         uint unknown;
     }
-} CreatureBlock;
+};
