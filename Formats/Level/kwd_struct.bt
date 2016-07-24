@@ -21,6 +21,7 @@ LittleEndian();
 #include "map_struct.bt";
 #include "objects_struct.bt";
 #include "player_struct.bt";
+#include "rooms_struct.bt";
 #include "shots_struct.bt";
 #include "terrains_struct.bt";
 #include "traps_struct.bt";
@@ -122,6 +123,9 @@ switch (header.signature) {
         break;
     case PLAYERS:
         PlayerData player[count]<optimize=false>;
+        break;
+    case ROOMS:
+        RoomData room[count]<optimize=false>;
         break;
     case SHOTS:
         ShotBlock shot[count]<optimize=false>;

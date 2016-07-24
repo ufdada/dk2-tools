@@ -1,0 +1,85 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        rooms_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Room structure
+//--------------------------------------
+typedef struct {
+    ubyte PLACEABLE_ON_WATER : 1;
+    ubyte PLACEABLE_ON_LAVA : 1;
+    ubyte PLACEABLE_ON_LAND : 1;
+    ubyte HAS_WALLS : 1;
+    ubyte CENTRE : 1; // Placement
+    ubyte SPECIAL_TILES : 1; // Placement
+    ubyte NORMAL_TILES : 1; // Placement
+    ubyte BUILDABLE : 1;
+    ubyte SPECIAL_WALLS : 1; // Placement
+    ubyte ATTACKABLE : 1;
+    ubyte UNKNOWN : 1; // Hero Gate [ Final ], Hero Gate [ Tile ] [ not used ]
+    ubyte UNKNOWN_2 : 1;
+    ubyte HAS_FLAME : 1;
+    ubyte IS_GOOD : 1;
+	ubyte unk[2];
+} RoomFlag;
+
+enum <ubyte> TileConstruction {
+	NO_CONSTRUCTION,
+	COMPLETE,
+	QUAD_CONSTRUCTION,
+	_3_BY_3,
+	_3_BY_3_ROTATED,
+	NORMAL_CONSTRUCTION,
+	CENTER_POOL,
+	DOUBLE_QUAD,
+	_5_BY_5_ROTATED,
+	HERO_GATE,
+	HERO_GATE_TILE,
+	HERO_GATE_2_BY_2,
+	HERO_GATE_FRONT_END,
+	HERO_GATE_3_BY_1
+};
+
+struct RoomData {
+	char name[32];
+	ArtResource guiIcon;
+	ArtResource editorIcon;
+	ArtResource completeResource;
+	ArtResource straightResource;
+	ArtResource insideCornerResource;
+	ArtResource unknownResource;
+	ArtResource outsideCornerResource;
+	ArtResource wallResource;
+	ArtResource capRecource;
+	ArtResource ceilingResource;
+	float32 ceilingHeight;
+	ubyte unkown1[2];
+	ushort torchIntensity;
+	RoomFlag flags;
+	ushort toolTipStringId;
+	ushort nameStringId;
+	ushort cost;
+	ushort fightEffectId;
+	ushort generalDescriptionStringId;
+	ushort strengthStringId;
+	ushort torchRadius; // float16
+	ushort roomEffects[8];
+	ubyte roomId;
+	ubyte unknown2;
+	ubyte terrainId;
+	TileConstruction construction;
+	ubyte createdCreatureId;
+	ColorRGB torchColor;
+	ubyte objectsIds[8];
+	char soundCategory[32];
+	ubyte orderInEditor;
+	ubyte X3c3;
+	ushort unknown3;
+	ubyte unknown4;
+	ArtResource torch;
+	ubyte recommendedSizeX;
+	ubyte recommendedSizeY;
+	ushort healthGain;
+};
