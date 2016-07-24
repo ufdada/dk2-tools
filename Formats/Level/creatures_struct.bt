@@ -38,17 +38,6 @@ enum <uint> JobType {
 	TOLLING = 28
 };
 
-enum <ubyte> DeathFallDirection {
-	NORTH,
-	NORTH_EAST,
-	EAST,
-	SOUTH_EAST,
-	SOUTH,
-	SOUTH_WEST,
-	WEST,
-	NORTH_WEST
-};
-
 enum <ubyte> Swipe {
 	NO_SWIPE = 0,
 	BITE = 1,
@@ -394,7 +383,7 @@ struct CreatureData {
     ubyte unk3eb2;
     ubyte lairObjectId; // f52
     ubyte unk3f1; // f53
-    DeathFallDirection deathFallDirection;
+    Direction deathFallDirection;
     ubyte unk3f2;
     char soundGategory[32]; // f56
     Material material; // f76, armour type

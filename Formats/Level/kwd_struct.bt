@@ -24,6 +24,7 @@ LittleEndian();
 #include "rooms_struct.bt";
 #include "shots_struct.bt";
 #include "terrains_struct.bt";
+#include "things_struct.bt";
 #include "traps_struct.bt";
 #include "variables_struct.bt";
 
@@ -133,6 +134,9 @@ switch (header.signature) {
         break;
     case TERRAIN:
         TerrainData terrain[count]<optimize=false>;
+        break;
+    case THINGS:
+        ThingData thing[count]<optimize=false>;
         break;
     case TRAPS:
         TrapData trap[count]<optimize=false>;

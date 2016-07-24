@@ -38,7 +38,7 @@ enum <ubyte> TileConstruction {
 	HERO_GATE,
 	HERO_GATE_TILE,
 	HERO_GATE_2_BY_2,
-	HERO_GATE_FRONT_END,
+	HERO_GATE_FRONT_END_TILE,
 	HERO_GATE_3_BY_1
 };
 
