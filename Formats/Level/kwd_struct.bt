@@ -25,6 +25,7 @@ LittleEndian();
 #include "shots_struct.bt";
 #include "terrains_struct.bt";
 #include "traps_struct.bt";
+#include "variables_struct.bt";
 
 enum MapType {
     GLOBALS = 0, // As in overrides the regular ones
@@ -100,7 +101,7 @@ switch (header.signature) {
     case CREATURE_SPELLS:
         CreatureSpellData spells[count]<optimize=false>;
         break;
-	case CREATURES:
+    case CREATURES:
         CreatureData creature[count]<optimize=false>;
         break;
     case DOORS:
@@ -109,7 +110,7 @@ switch (header.signature) {
     case EFFECT_ELEMENTS:
         EffectElementData effectElement[count]<optimize=false>;
         break;
-	case EFFECTS:
+    case EFFECTS:
         EffectData effect[count]<optimize=false>;
         break;
     case KEEPER_SPELLS:
@@ -135,5 +136,8 @@ switch (header.signature) {
         break;
     case TRAPS:
         TrapData trap[count]<optimize=false>;
+        break;
+    case VARIABLES:
+        VariableData variable[count]<optimize=false>;
         break;
 }
