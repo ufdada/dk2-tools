@@ -2,10 +2,10 @@
 //--------------------------------------
 //--- 010 Editor v6.0.3 Binary Template
 //
-// File:        effects_struct.bt
+// File:        shots_struct.bt
 // Author:      ufdada
 // Revision:    1.0
-// Purpose:     Effects structure
+// Purpose:     Shots structure
 //--------------------------------------
 typedef struct {
     ubyte NO_PROCESSING : 1;

@@ -21,6 +21,7 @@ LittleEndian();
 #include "map_struct.bt";
 #include "player_struct.bt";
 #include "shots_struct.bt";
+#include "traps_struct.bt";
 
 enum MapType {
     GLOBALS = 0, // As in overrides the regular ones
@@ -93,20 +94,20 @@ if (header.checkOne != header.signature + 1) {
 local int count = header.general.itemCount;
 
 switch (header.signature) {
-    case CREATURES:
-        CreatureBlock creature[count]<optimize=false>;
-        break;
     case CREATURE_SPELLS:
         CreatureSpellsBlock spells[count]<optimize=false>;
+        break;
+	case CREATURES:
+        CreatureBlock creature[count]<optimize=false>;
         break;
     case DOORS:
         DoorBlock doors[count]<optimize=false>;
         break;
-    case EFFECTS:
-        EffectBlock effect[count]<optimize=false>;
-        break;
     case EFFECT_ELEMENTS:
         EffectElementsBlock effectElement[count]<optimize=false>;
+        break;
+	case EFFECTS:
+        EffectBlock effect[count]<optimize=false>;
         break;
     case KEEPER_SPELLS:
         KeeperSpellsBlock keeperSpells[count]<optimize=false>;
@@ -119,5 +120,8 @@ switch (header.signature) {
         break;
     case SHOTS:
         ShotBlock shot[count]<optimize=false>;
+        break;
+    case TRAPS:
+        TrapData trap[count]<optimize=false>;
         break;
 }

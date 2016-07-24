@@ -194,8 +194,6 @@ enum <ubyte> FightStyle {
     SUPPORT = 4
 };
 
-
-
 typedef struct CreatureFlag {
 	byte IS_WORKER : 1;
 	byte CAN_BE_PICKED_UP : 1;
