@@ -41,17 +41,17 @@ struct ArtResourceSettings {
     struct {
       uint width; /* fixed */
       uint height; /* fixed */
-      int16 frames;
+      ushort frames;
     } image;
     struct {
-      int scale; /* fixed */
-      uint16 frames;
+      uint scale; /* fixed */
+      ushort frames;
     } mesh;
     struct {
       uint frames; /* 4 */
       uint fps; /* 8 */
-      uint16 start_dist; /* c */
-      uint16 end_dist; /* e */
+      ushort start_dist; /* c */
+      ushort end_dist; /* e */
     } anim;
     struct {
       uint32 id;
@@ -59,13 +59,13 @@ struct ArtResourceSettings {
     struct {
       uint32 x00;
       uint32 x04;
-      short frames;
+      ushort frames;
     } terrain;
   } data;
   //Type type; /* 10 */
-  short start_af; /* 11 */
-  short end_af; /* 12 */
-  short sometimes_one; /* 13 */
+  ushort start_af; /* 11 */
+  ushort end_af; /* 12 */
+  ushort sometimes_one; /* 13 */
 };
 
 struct ArtResource {
