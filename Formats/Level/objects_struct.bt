@@ -1,0 +1,138 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        objects_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Objects structure
+//--------------------------------------
+typedef struct {
+    ubyte DIE_OVER_TIME : 1;
+    ubyte DIE_OVER_TIME_IF_NOT_IN_ROOM : 1;
+    ubyte OBJECT_TYPE_SPECIAL : 1;
+    ubyte OBJECT_TYPE_SPELL_BOOK : 1;
+    ubyte OBJECT_TYPE_CRATE : 1;
+    ubyte OBJECT_TYPE_LAIR : 1;
+    ubyte OBJECT_TYPE_GOLD : 1;
+    ubyte OBJECT_TYPE_FOOD : 1;
+    ubyte CAN_BE_PICKED_UP : 1;
+	ubyte CAN_BE_SLAPPED : 1;
+	ubyte DIE_WHEN_SLAPPED : 1;
+	ubyte UNK_800 : 1;
+	ubyte OBJECT_TYPE_LEVEL_GEM : 1;
+	ubyte CAN_BE_DROPPED_ON_ANY_LAND : 1;
+	ubyte OBSTACLE : 1;
+	ubyte BOUNCE : 1;
+	ubyte BOULDER_CAN_ROLL_THROUGH : 1;
+	ubyte BOULDER_DESTROYS : 1;
+	ubyte PILLAR : 1;
+	ubyte UNK_80000 : 1;
+	ubyte DOOR_KEY : 1;
+	ubyte DAMAGEABLE : 1;
+	ubyte HIGHLIGHTABLE : 1;
+	ubyte PLACEABLE : 1;
+	ubyte FIRST_PERSON_OBSTACLE : 1;
+	ubyte SOLID_OBSTACLE : 1;
+	ubyte CAST_SHADOWS : 1;
+} ObjectFlag;
+
+enum <ubyte> StartState {
+	NO_STATE,
+	BEING_DROPPED,
+	BEING_SLAPPED,
+	PRISON_ARRIVE,
+	TEMPLE_ARRIVE,
+	GOLD_ARRIVE,
+	HATCHERY_ARRIVE,
+	LAIR_ARRIVE,
+	PECKING,
+	MOVE_TO,
+	WANDER,
+	WANDER_WITHIN_PLAYER,
+	CREATE_CALL_TO_ARMS,
+	CALL_TO_ARMS,
+	RESEND_CALL_TO_ARMS,
+	DESTROY_CALL_TO_ARMS,
+	DO_NOTHING,
+	BOULDER_STATE,
+	SPINNING,
+	DESTROY_CALL_TO_ARMS_COPY,
+	DESTROY_CALL_TO_ARMS_COPY_INIT,
+	ROTATE,
+	BEING_PICKED_UP,
+	DODGE,
+	FREE_CHICKEN,
+	ESCAPE_FROM_FIGHT,
+	ACTIVATE_ANIM,
+	WORKSHOP_ARRIVE,
+	KICKED,
+	SHAKE,
+	TORTURE_WHEEL_SPIN,
+	GOLD_PROCESS,
+	HATCHING,
+	FLARE,
+	TOMBSTONE_SCALE_UP,
+	TOMBSTONE_SCALE_DOWN,
+	SPECIAL,
+	HEART_CONSTRUCTION,
+	DESTRUCTOR,
+	MANA_VAULT,
+	TORTURE_COALS,
+	THREAT_BURN,
+	IDLE_EFFECT,
+	FRONTEND_LEVEL_GEM,
+	PRISON_DOOR_OPEN,
+	PRISON_DOOR_CLOSE,
+	OPEN_PRISON_DOOR_BAR,
+	CLOSE_PRISON_DOOR_BAR,
+	PLAY_WIN_ANIM_INDICATOR_TO_SMILES,
+	PLAY_WIN_ANIM_INDICATOR_TO_MONEY,
+	PORTAL_GEM,
+	MY_PET_DUNGEON_LEVEL_INDICATOR,
+	ENTRANCE_ARRIVE,
+	SPELL_BOOK_IDLE,
+	MPD_LEVEL_UP,
+	MPD_LEVEL_DOWN,
+	JACK_IN_THE_BOX_STATE,
+	CRYPT_DANCER,
+	CRYPT_SPECIAL_DANCER,
+	GEM_CHALLENGE_JEWEL,
+	PLINTH,
+	SPECIAL_PLINTH,
+	DROP_OFF_POINT,
+	GEM_EXIT_POINT
+};
+
+struct ObjectData {
+	char name[32];
+	ArtResource meshResource;
+	ArtResource guiIcon;
+	ArtResource inHandIconResource;
+	ArtResource inHandMeshResource;
+	ArtResource unknownResource;
+	ArtResource additionalResources[4];
+	Light light;
+	float32 width;
+	float32 height;
+	float32 mass;
+	float32 speed;
+	double32 airFriction;
+	Material material;
+	ubyte unk1[3];
+	ObjectFlag flags;
+	ushort hp;
+	ushort maxAngle;
+	ushort x34c;
+	ushort x34e;
+	ushort toolTipStringId;
+	ushort nameStringId;
+	ushort slapEffectId;
+	ushort deathEffectId;
+	ushort miscEffectId;
+	ubyte objectId;
+	StartState state;
+	ubyte roomCapacity;
+	ubyte pickUpPriority;
+	char soundCategory[32];
+};

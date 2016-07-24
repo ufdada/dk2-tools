@@ -19,6 +19,7 @@ LittleEndian();
 #include "effect_elements_struct.bt";
 #include "keeper_spells_struct.bt";
 #include "map_struct.bt";
+#include "objects_struct.bt";
 #include "player_struct.bt";
 #include "shots_struct.bt";
 #include "terrains_struct.bt";
@@ -115,6 +116,9 @@ switch (header.signature) {
         break;
     case MAP:
         MapData map;
+        break;
+    case OBJECTS:
+        ObjectData object[count]<optimize=false>;
         break;
     case PLAYERS:
         PlayerData player[count]<optimize=false>;
