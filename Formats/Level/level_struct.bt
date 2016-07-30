@@ -1,0 +1,183 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        level_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Level structure
+//--------------------------------------
+typedef struct LevelFlag {
+	byte UNKNOWN_1 : 1;
+    byte UNKNOWN_2 : 1;
+    byte UNKNOWN_3 : 1;
+	byte ALWAYS_IMPRISON_ENEMIES : 1;
+	byte ONE_SHOT_HORNY : 1;
+    byte IS_SECRET_LEVEL : 1;
+    byte IS_SPECIAL_LEVEL : 1;
+    byte SHOW_HERO_KILLS : 1;
+	byte AUTO_OBJECTIVE_BOX : 1;
+	byte HEART_MAKES_GEM : 1;
+    byte IS_MULTIPLAYER_LEVEL : 1;
+    byte IS_SKIRMISH_LEVEL : 1;
+    byte FREEZE_OPTIONS : 1;
+    byte IS_MY_PET_DUNGEON_LEVEL : 1;
+    byte UNKNOWN_4 : 1;
+    byte UNKNOWN_5 : 1;
+};
+
+enum <ubyte> LevelReward {
+	NO_LEVELREWARD = 0,
+    ALARM_REWARD = 1,
+    BARRICADE = 2,
+    BOULDER_REWARD = 3,
+    BRACED = 4,
+    BRIDGE_STONE = 5,
+    BRIDGE_WOODEN = 6,
+    CALL_TO_ARMS_REWARD = 7,
+    CASINO = 8,
+    DARK_LIBRARY = 12,
+    FEAR_REWARD = 14,
+    FIREBURST = 15,
+    FREEZE_REWARD = 16,
+    GAS_REWARD = 17,
+    GRAVEYARD = 18,
+    GUARD_ROOM = 19,
+    GUARD_POST = 20,
+    HATCHERY = 21,
+    LAIR = 24,
+    LIGHTNING_REWARD = 25,
+    MAGIC_DOOR = 26,
+    PIT = 27,
+    PRISON = 29,
+    REAPER_TALISMAN_4 = 30,
+    SECRET_DOOR = 32,
+    SENTRY = 33,
+    SPIKE = 35,
+    STEEL_DOOR = 36,
+    TEMPLE = 39,
+    TORTURE_REWARD = 41,
+    TRAINING = 42,
+    TREASURY = 43,
+    TRIGGER_REWARD = 44,
+    WOOD_DOOR = 47,
+    WORK_SHOP = 48,
+    REAPER_TALISMAN_1 = 49,
+    REAPER_TALISMAN_2 = 50,
+    REAPER_TALISMAN_3 = 51
+};
+
+enum <ubyte> TextTable {
+    NO_TEXT,
+    LEVEL_1,
+    LEVEL_2,
+    LEVEL_3,
+    LEVEL_4,
+    LEVEL_5,
+    LEVEL_6A,
+    LEVEL_6B,
+    LEVEL_7,
+    LEVEL_8,
+    LEVEL_9,
+    LEVEL_10,
+    LEVEL_11A,
+    LEVEL_11B,
+    LEVEL_11C,
+    LEVEL_12,
+    LEVEL_13,
+    LEVEL_14,
+    LEVEL_15A,
+    LEVEL_15B,
+    LEVEL_16,
+    LEVEL_17,
+    LEVEL_18,
+    LEVEL_19,
+    LEVEL_20,
+    MULTI_PLAYER_1,
+    MY_PET_DUNGEON_1,
+    SECRET_1,
+    SECRET_2,
+    SECRET_3,
+    SECRET_4,
+    SECRET_5,
+    DEMO_1,
+    DEMO_2,
+    DEMO_3,
+    MY_PET_DUNGEON_2,
+    MY_PET_DUNGEON_3,
+    MY_PET_DUNGEON_4,
+    MY_PET_DUNGEON_5,
+    MY_PET_DUNGEON_6,
+    MY_PET_DUNGEON_7,
+    MULTI_PLAYER_2,
+    MULTI_PLAYER_3,
+    MULTI_PLAYER_4,
+    MULTI_PLAYER_5,
+    MULTI_PLAYER_6,
+    MULTI_PLAYER_7,
+    MULTI_PLAYER_8,
+    MULTI_PLAYER_9,
+    MULTI_PLAYER_10,
+    MULTI_PLAYER_11,
+    MULTI_PLAYER_12,
+    MULTI_PLAYER_13,
+    MULTI_PLAYER_14,
+    MULTI_PLAYER_15,
+    MULTI_PLAYER_16,
+    MULTI_PLAYER_17,
+    MULTI_PLAYER_18,
+    MULTI_PLAYER_19,
+    MULTI_PLAYER_20
+};
+
+typedef struct LevelData {
+	wchar_t name[64];
+	wchar_t description[1024];
+	wchar_t author[64];
+	wchar_t email[64];
+	wchar_t information[1024];
+	ushort triggerId;
+	ushort ticksPerSecond;
+	char x01184[520];
+	struct {
+		wchar_t message[20];
+	} messages[512];
+	LevelFlag flagValue;
+	char speechStr[32];
+	ubyte talismanPices;
+	LevelReward LevelRewardPrevious[4];
+	LevelReward LevelRewardNext[4];
+	ubyte soundTrack;
+	TextTable textTableId;
+	ushort textTitleId;
+	ushort textPlotId;
+	ushort textDebriefId;
+	ushort textObjectiveId;
+	ubyte x063c3;
+    ubyte x063c4;
+	ushort textSubObjectiveId1;
+	ushort textSubObjectiveId2;
+	ushort textSubObjectiveId3;
+	ushort speclvlIdx;
+	ubyte textIntroductionOverrideObjective[8];
+	ushort textIntroductionOverrideIds[8];
+	char terrainPath[32];
+	ubyte oneShotHornyLev;
+	ubyte playerCount;
+	ubyte x06405;
+	ubyte x06406;
+	ushort speechHornyId;
+	ushort speechPrelevelId;
+	ushort speechPostlevelWin;
+	ushort speechPostlevelLost;
+	ushort speechPostlevelNews;
+	ushort speechPrelevelGenr;
+	wchar_t heroName[32];
+    ubyte unknown[8];
+    struct {
+        MapType type;
+        uint unk2;
+        char path[64];
+    } paths[header.levelInfo.itemCount]<optimize=false>;
+    uint unknownHeight[header.levelInfo.height];
+};

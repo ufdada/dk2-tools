@@ -18,6 +18,7 @@ LittleEndian();
 #include "effects_struct.bt";
 #include "effect_elements_struct.bt";
 #include "keeper_spells_struct.bt";
+#include "level_struct.bt";
 #include "map_struct.bt";
 #include "objects_struct.bt";
 #include "player_struct.bt";
@@ -97,6 +98,9 @@ switch (header.signature) {
         break;
     case KEEPER_SPELLS:
         KeeperSpellData keeperSpells[count]<optimize=false>;
+        break;
+    case LEVEL:
+        LevelData level;
         break;
     case MAP:
         MapData map;
