@@ -111,3 +111,24 @@ enum <ubyte> Direction {
 	WEST,
 	NORTH_WEST
 };
+
+enum MapType {
+    GLOBALS = 0, // As in overrides the regular ones
+    MAP = 100,
+    TERRAIN = 110,
+    ROOMS = 120,
+    TRAPS = 130,
+    DOORS = 140,
+    KEEPER_SPELLS = 150,
+    CREATURE_SPELLS = 160,
+    CREATURES = 170,
+    PLAYERS = 180,
+    THINGS = 190,
+    TRIGGERS = 210,
+    LEVEL = 220,
+    VARIABLES = 230,
+    OBJECTS = 240,
+    EFFECT_ELEMENTS = 250,
+    SHOTS = 260,
+    EFFECTS = 270
+};
