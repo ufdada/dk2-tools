@@ -17,6 +17,10 @@ string getVector(struct Vector3f &vec) {
 	return vector;
 }
 
+void setVector(struct Vector3f &vec, string s ){
+    SScanf( s, "(x=%lg, y=%lg, z=%lg)", v.x * FLOAT32, v.y * FLOAT32, v.z * FLOAT32 );
+}
+
 string getColorRGB(struct ColorRGB &rgb) {
     string color;
 	SPrintf( color, "(r=%lg, g=%lg, b=%lg)", rgb.red, rgb.green, rgb.blue );
@@ -30,21 +34,21 @@ string getColorRGBA(struct ColorRGBA &rgb) {
 }
 
 string getFloatValue(uint &i) {
-    string date;
-	SPrintf( date, "%f", (float)i / FLOAT32 );
-	return date;
+    string floatValue;
+	SPrintf( floatValue, "%f", (float)i / FLOAT32 );
+	return floatValue;
 }
 
 string getFloatPointValue(struct float32 &f) {
-    string date;
-	SPrintf( date, "%lg", (float)f.value / FLOAT32 );
-	return date;
+    string floatValue;
+	SPrintf( floatValue, "%lg", (float)f.value / FLOAT32 );
+	return floatValue;
 }
 
 string getDoubleValue(struct double32 &d) {
-    string date;
-	SPrintf( date, "%lg", (float)d.value / DOUBLE32 );
-	return date;
+    string doubleValue;
+	SPrintf( doubleValue, "%lg", (float)d.value / DOUBLE32 );
+	return doubleValue;
 }
 
 typedef struct {
@@ -72,7 +76,7 @@ typedef struct {
     uint x;
     uint y;
     uint z;
-} Vector3f<read=getVector>;
+} Vector3f<read=getVector, write=setVector>;
 
 typedef struct {
 	byte UNKNOWN_LIGHT1 : 1;  // FIXME unknown flag
