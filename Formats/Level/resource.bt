@@ -8,7 +8,7 @@
 // Purpose:     Resource structure
 //--------------------------------------
 typedef struct {
-    byte UNKNOWN : 1;
+    byte UNK_1 : 1; // separate pictures?
     byte PLAYER_COLOURED : 1;
     byte ANIMATING_TEXTURE : 1;
     byte HAS_START_ANIMATION : 1;
@@ -18,12 +18,19 @@ typedef struct {
     byte DOESNT_LOOP : 1;
     byte FLAT : 1;
     byte DOESNT_USE_PROGRESSIVE_MESH : 1;
+	byte UNK_400 : 1;
+	byte UNK_800 : 1;
+	byte UNK_1000 : 1;
+	byte UNK_2000 : 1;
+	byte UNK_4000 : 1;
+	byte UNK_8000 : 1;
     byte USE_ANIMATING_TEXTURE_FOR_SELECTION : 1;
     byte PRELOAD : 1;
     byte BLOOD : 1;
+	byte unk;
 } ArtResourceFlag;
 
-enum <short> Type {
+enum <ubyte> Type {
     NONE,
     SPRITE,
     ALPHA,
@@ -35,42 +42,38 @@ enum <short> Type {
     MESH_COLLECTION
 };
 
-struct ArtResourceSettings {
+struct ArtResource {
+  char name[64];
   ArtResourceFlag flags; /* 0 */
   union {
     struct {
-      uint width; /* fixed */
-      uint height; /* fixed */
-      ushort frames;
+		float32 width; /* fixed */
+		float32 height; /* fixed */
+		ushort frames;
     } image;
     struct {
-      uint scale; /* fixed */
-      ushort frames;
+		float32 scale;
+		ushort frames;
     } mesh;
     struct {
-      uint frames; /* 4 */
-      uint fps; /* 8 */
-      ushort start_dist; /* c */
-      ushort end_dist; /* e */
+		float32 frames; /* 4 */
+		float32 fps; /* 8 */
+		ushort start_dist; /* c */
+		ushort end_dist; /* e */
     } anim;
     struct {
-      uint32 id;
+		uint id;
     } proc;
     struct {
-      uint32 x00;
-      uint32 x04;
-      ushort frames;
+		uint x00;
+		uint x04;
+		ubyte frames;
     } terrain;
   } data;
-  //Type type; /* 10 */
-  ushort start_af; /* 11 */
-  ushort end_af; /* 12 */
-  ushort sometimes_one; /* 13 */
-};
-
-struct ArtResource {
-  char name[64];
-  ArtResourceSettings settings;
+  Type type; /* 10 */
+  ubyte start_af; /* 11 */
+  ubyte end_af; /* 12 */
+  ubyte sometimes_one; /* 13 */
 };
 
 struct StringIds {
