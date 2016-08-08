@@ -48,3 +48,7 @@ struct EffectElementData {
 	ubyte fadePercentiage;
 	ushort nextEffectId;
 };
+
+string getEffectElementName(struct EffectElementData &d) {
+	return d.name;
+}

@@ -90,3 +90,7 @@ struct EffectData {
 	ubyte elementsPerTurn;
 	ushort unk3;
 };
+
+string getEffectName(struct EffectData &d) {
+	return d.name;
+}

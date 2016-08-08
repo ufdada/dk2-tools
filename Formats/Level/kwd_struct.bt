@@ -91,10 +91,10 @@ switch (header.signature) {
         DoorData doors[count]<optimize=false>;
         break;
     case EFFECT_ELEMENTS:
-        EffectElementData effectElement[count]<optimize=false>;
+        EffectElementData effectElement[count]<optimize=false, read=getEffectElementName>;
         break;
     case EFFECTS:
-        EffectData effect[count]<optimize=false>;
+        EffectData effect[count]<optimize=false, read=getEffectName>;
         break;
     case KEEPER_SPELLS:
         KeeperSpellData keeperSpells[count]<optimize=false>;
