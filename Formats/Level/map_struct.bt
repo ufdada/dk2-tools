@@ -14,6 +14,6 @@ typedef struct MapData {
 			ubyte playerId;
 			ubyte flag; // bridgeterrain
 			ubyte unk_4;
-		} col[header.mapInfo.width];
-	} row[header.mapInfo.height]<optimize=false>;
+		} col[header.info.map.width];
+	} row[header.info.map.height]<optimize=false>;
 } data;
