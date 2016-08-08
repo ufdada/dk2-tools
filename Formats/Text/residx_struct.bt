@@ -16,17 +16,27 @@ struct Header {
     int numFiles;
 } header;
 
-string getFilename(struct Entry &e) {
+string getEntryFilename(struct Entry &e) {
     local string filename;
     filename = ReadString(e.offset + 8);
     return filename;
 }
 
-for (i = 0; i < header.numFiles; i++) {
-    struct Entry {
-        int fileId;
-        textType type;
-        int16 offset;
-        int unknown;
-    } entry<read=getFilename>;
+string getFilename(struct FileList &fl) {
+    return fl.filename;
 }
+
+void setFilename(struct FileList &fl, string s) {
+    fl.filename = s;
+}
+
+struct Entry {
+    int fileId;
+    textType type;
+    int16 offset;
+    int unused;
+} entry[header.numFiles]<read=getEntryFilename>;
+
+struct FileList {
+    string filename;
+} files[header.numFiles]<optimize=false, read=getFilename, write=setFilename>;
