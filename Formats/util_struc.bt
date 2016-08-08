@@ -132,3 +132,12 @@ enum MapType {
     SHOTS = 260,
     EFFECTS = 270
 };
+
+local string corruptFileMessage = "Corrupt file. %s check failed. Expected: %i. Result: %i. Template stopped.";
+
+int showError(string type, int expected, int result) {
+	Warning( corruptFileMessage, type, expected, result);
+    Printf( corruptFileMessage, type, expected, result);
+    
+    return -1;
+}

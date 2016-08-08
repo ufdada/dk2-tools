@@ -32,24 +32,29 @@ LittleEndian();
 struct Header {
     MapType signature;
     uint byteSize; // bytes in real size => 4
-    int fileSize;
-    int checkOne;
-    int headerEndOffSet;
-    switch (header.signature) {
+    uint fileSize;
+    if (FileSize() != fileSize) {
+        return showError( "FileSize", fileSize, FileSize());
+    }
+    uint checkOne;
+    uint headerEndOffSet;
+    switch(signature) {
         case MAP:
             struct {
                 uint width;
                 uint height;
-            } mapInfo;
+            } map;
             break;
         case LEVEL:
             struct {
                 ushort itemCount;
                 ushort height;
-                ubyte unk1[4];
+                ubyte unk153;
+                ubyte unk41;
+                ubyte unk1[2]; // unused
                 timeStamp created;
                 timeStamp modified;
-            } levelInfo;
+            } level;
             break;
         default:
             struct {
@@ -58,22 +63,22 @@ struct Header {
                 timeStamp created;
                 timeStamp modified;
             } general;
+            break;
     }
-    int checkTwo;
-    int contentSize; // filesize without header
-} header;
 
-local string corruptFileMessage = "Corrupt file. %s check failed. Template stopped.";
+    uint checkTwo;
+    uint contentSize; // filesize without header
+    if (FileSize() - FTell() != contentSize) {
+        //return showError( "ContentSize", contentSize, FileSize() - FTell());
+    }
+} header;
 
 // Check file
 if (header.checkOne != header.signature + 1) {
-    Warning( corruptFileMessage, "First" );
-    Printf( corruptFileMessage, "First" );
-    return -1;
+    return showError("First", header.signature + 1, header.checkOne );
 } else if (header.checkTwo != header.signature + 2 && header.checkTwo != header.signature + 3 ) {
-    Warning( corruptFileMessage, "Second" );
-    Printf( corruptFileMessage, "Second" );
-    return -1;
+    // we only use the first one in the message, because it's the most common one.
+    return showError("Second", header.signature + 2, header.checkTwo );
 }
 
 if (header.signature != MAP && header.signature != LEVEL) {
