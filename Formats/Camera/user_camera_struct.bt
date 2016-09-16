@@ -1,0 +1,20 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        user_camera_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     User Camera File (registry)
+//--------------------------------------
+#include "../util_struc.bt"
+
+struct Entry {
+    ubyte header[4];
+    ubyte rotation_cw_z;
+    ubyte rotation_ccw_z;
+    ubyte angle;
+    ubyte angle_multiplier; // 0 = max 45, 1 = max 90, 2 = max 135, 3 = max 180, 4 = max 225, 5 = 270, 6 = 315, 7 = 360
+    ubyte rotation_cw_cam;
+    ubyte rotation_ccw_cam;
+} entry[3];
