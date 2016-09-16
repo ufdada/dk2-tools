@@ -8,21 +8,25 @@
 // Purpose:     Sound archive file
 //--------------------------------------
 uint files;
-uint offset;
-ubyte unknown[160];
-FSeek( offset );
+uint headerSize;
+uint entriesOffsets[(headerSize - 8) / sizeof(uint)];
 
-enum <char> SoundType { NONE = 0, WAV = 2, MP2_MONO = 36, MP2_STEREO = 37 };
+enum <char> SoundType {
+	NONE = 0,
+	WAV = 2,
+	MP2_MONO = 36,
+	MP2_STEREO = 37
+};
 
 struct Entry {
-    int indexSize;
-    int size;
+    uint indexSize;
+    uint size;
     char filename[16];
     ushort sampling_rate; // 22050
-    ubyte unkown2; // 16
+    ubyte resolution; // 16
     SoundType type; // 36 on mp2 (64kbit/s mono), 37 on mp2 (112kbit/s stereo), 2 on wav, 0 on blanks
     uint unknown4; // 0
-    uint nSamples;
+    uint samples;
     uint unknown5; // 0
     if (size != 0) {
         ubyte data[size]<optimize=false>;
