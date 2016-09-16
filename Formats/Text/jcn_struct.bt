@@ -1,0 +1,18 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        jcn_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     Japanese names (c for character?)
+//--------------------------------------
+while (FTell() < FileSize()) {
+	struct Entry {
+		wstring name;
+	} entry<read=showNames>;
+}
+
+wstring showNames(struct Entry &e) {
+	return e.name;
+}
