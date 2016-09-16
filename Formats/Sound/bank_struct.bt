@@ -7,18 +7,26 @@
 // Revision:    1.0
 // Purpose:     Bank file
 //--------------------------------------
-ubyte unknown1[20];
-uint unknown2;
+uint dword_first<format=hex>;
+uint dword_second<format=hex>;
+uint dword_third<format=hex>;
+uint dword_fourth<format=hex>;
+
+if (dword_first != 0xE9612C01 || dword_second != 0x11D231D0 || dword_third != 0xA00009B4 || dword_fourth != 0x3F293C9) {
+    Warning( "Bank-File is not valid!" );
+    Printf( "Bank-File is not valid!" );
+    return -1;
+}
+
+uint not_used1;
+uint not_used2;
 uint entries;
 
 struct Entry {
-    ulong unknown1;
-    union {
-        uint unknown2;
-        ushort unkown3[2];
-        ubyte unkown5[];
-    } unknown;
-    byte unknown4[3];
+    uint nulled<format=hex>;
+    uint unknown2; // 6746904
+    ushort unknown3; // 8539
+    ubyte unknown4; // 115
 } entry[entries]<optimize=false>;
 
 struct Archives {
