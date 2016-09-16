@@ -9,10 +9,10 @@
 // Original code by Hoenir
 //--------------------------------------
 
-struct Header {
-    int resX;
-    int resY;
-    int size; // size of the whole file - 12
+struct DatHeader {
+    uint resX;
+    uint resY;
+    uint size; // size of the whole file - 12
     short sResX;
     short sResY;
     long dataStartLocation;

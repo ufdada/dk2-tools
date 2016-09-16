@@ -9,41 +9,37 @@
 // Original code by Hoenir
 //--------------------------------------
 
-struct Entry {
-	string name;
-	int offset;
-};
-
-struct Header {
-	char signature[4]; //TCHC
-	int size;
-	int version;
-	int numEntries;
+struct DirHeader {
+	uchar signature[4]; //TCHC
+	uint size;
+	uint version;
+	uint numEntries;
 } header;
 
-Entry Dictionary[header.numEntries] <optimize=false, read=getMipmapping>;
+struct Entry {
+	string name;
+	uint offset;
+} entries[header.numEntries] <optimize=false, name=getName, read=getOffset, comment=getMipmapping>;
+
+enum MipMapLevel {
+    HIGH,       // 128x128
+    MEDIUM,     // 64x64
+    LOW,        // 32x32
+    VERY_LOW    // 16x16
+};
 
 string getMipmapping(struct Entry &entry) {
-    local string mipmap;
-    local string mmId = SubStr(entry.name, Strlen(entry.name) - 3);
+    local MipMapLevel s = Atoi(SubStr(entry.name, Strlen(entry.name) - 1));
 
-    switch(mmId) {
-        case "MM0": 
-            mipmap = "High (128x128)";
-            break;
-		case "MM1": 
-            mipmap = "Medium (64x64)";
-            break;
-		case "MM2": 
-            mipmap = "Low (32x32)";
-            break;
-		case "MM3": 
-            mipmap = "Very Low (16x16)";
-            break;
-		default:
-			mipmap = "None";
-			break;
-    }
+    return EnumToString(s);
+}
 
-    return mipmap;
+string getName(struct Entry &entry) {
+    return entry.name;
+}
+
+string getOffset(struct Entry &entry) {
+    string s;
+    SPrintf( s, "Offset: %i", entry.offset );
+    return s;
 }
