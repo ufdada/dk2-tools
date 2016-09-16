@@ -131,7 +131,7 @@ enum <ubyte> TextTable {
 };
 
 typedef struct LevelData {
-	    struct {
+    struct {
         wchar_t name[64];
 	    wchar_t description[1024];
 	    wchar_t author[64];
@@ -139,7 +139,7 @@ typedef struct LevelData {
 	    wchar_t information[1024];
 	    ushort triggerId;
 	    ushort ticksPerSecond;
-	    char x01184[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there. Probably only in custom maps
+	    char x01184[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
         struct {
             wchar_t message[512];
         } messages[20];
@@ -184,10 +184,10 @@ typedef struct LevelData {
     }
 
     struct {
-        ubyte unk222; // always 222 / DE
+        ubyte unk222; // always 222 / DE - Game crashes if it is set to something else
         ubyte unknown2[3]; // always 0
-        ubyte unknown3; // somewhere inbetween 60-160
-        ubyte unk4; // always 4
+        ubyte unknown3; // somewhere inbetween 60-160 - Changing this didn't showed any difference
+        ubyte unk4; // always 4 on premade maps - Changing this didn't showed any difference - different on self made maps (1 and 2)
         ubyte unknown5[2]; // always 0
     } unknownData; // seems to be a separate block, by taking a look at the header.contentSize
     struct {
