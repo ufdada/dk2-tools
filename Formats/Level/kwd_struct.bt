@@ -49,8 +49,8 @@ struct Header {
             struct {
                 ushort itemCount;
                 ushort height;
-                ubyte unk153;
-                ubyte unk41;
+                ubyte unk153; // zero on self made maps
+                ubyte unk41; // 48 on self made maps
                 ubyte unk1[2]; // unused
                 timeStamp created;
                 timeStamp modified;
