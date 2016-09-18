@@ -27,6 +27,7 @@ LittleEndian();
 #include "terrains_struct.bt";
 #include "things_struct.bt";
 #include "traps_struct.bt";
+#include "triggers_struct.bt";
 #include "variables_struct.bt";
 
 struct Header {
@@ -56,6 +57,14 @@ struct Header {
                 timeStamp modified;
             } level;
             break;
+        case TRIGGERS:
+            struct {
+                uint itemCount[2];
+                uint unk13;
+                timeStamp created;
+                timeStamp modified;
+            } trigger;
+            break;
         default:
             struct {
                 uint itemCount;
@@ -80,8 +89,9 @@ if (header.checkOne != header.signature + 1) {
     // we only use the first one in the message, because it's the most common one.
     return showError("Second", header.signature + 2, header.checkTwo );
 }
-
-if (header.signature != MAP && header.signature != LEVEL) {
+if (header.signature == TRIGGERS) {
+    local int count = header.trigger.itemCount[0] + header.trigger.itemCount[1];
+} else if (header.signature != MAP && header.signature != LEVEL) {
     local int count = header.general.itemCount;
 }
 
@@ -130,6 +140,9 @@ switch (header.signature) {
         break;
     case TRAPS:
         TrapData trap[count]<optimize=false>;
+        break;
+    case TRIGGERS:
+        TriggerData trigger[count]<optimize=false>;
         break;
     case VARIABLES:
         VariableData variable[count]<optimize=false>;
