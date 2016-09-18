@@ -1,0 +1,155 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+typedef enum <ubyte> {
+    CREATE_CREATURE_ = 1,
+    CREATE_PORTAL_GEM = 2, // text like [ X, Y ]
+    SEND_TO_AP = 3, // or only sent
+    DISPLAY_OBJECTIVE = 4, // text like X [ Zoom To AP Y ]
+    INFORMATION = 5, // text like X [ Zoom To AP Y ]
+    MAKE = 6,
+    FLAG = 7,
+    INITIALIZE_TIMER = 8,
+    FLASH_BUTTON = 9,
+    WIN_GAME = 10,
+    LOSE_GAME = 11,
+    WIN_SUBOBJECTIVE = 12,
+    LOSE_SUBOBJECTIVE = 13,
+    CREATE_HERO_PARTY = 14,
+    SET_OBJECTIVE = 15,
+    FLASH_ACTION_POINT = 16,
+    REVEAL_ACTION_POINT = 17,
+    SET_ALLIANCE = 18, // CREATE_ALLIANCE
+    ATTACH_PORTAL_GEM = 20,
+    FORCE_FIRST_PERSON = 21,
+    ALTER_TERRAIN_TYPE = 22,
+    SET_TIME_LIMIT = 23, // text like : X Seconds
+    PLAY_SPEECH = 24,
+    DISPLAY_TEXT_STRING = 25,
+    ZOOM_TO_ACTION_POINT = 26,
+    ROTATE_AROUND_ACTION_POINT = 27,
+    GENERATE_CREATURE = 28,
+    MAKE_HUNGRY = 29,
+    SHOW_HEALTH_FLOWER = 30,
+    FOLLOW_CAMERA_PATH = 31,
+    COLLAPSE_HERO_GATE = 32,
+    ALTER_SPEED = 33,
+    SET_MUSIC_LEVEL = 34, // text like X
+    REMOVE_FROM_MAP = 35,
+    SET_FIGHT_FLAG = 36,
+    SET_PORTAL_STATUS = 37,
+    SET_WIDESCREEN_MODE = 38,
+    MAKE_OBJECTIVE = 42,
+    ZOOM_TO = 43,
+    SET_CREATURE_MOODS = 44,
+    SET_SYSTEM_MESSAGES = 45,
+    DISPLAY_SLAB_OWNER = 46, // text like [ On | Off ] Of [ X, 1635980 ]
+    DISPLAY_NEXT_ROOM_TYPE = 47,
+    TOGGLE_EFFECT_GENERATOR = 48, // text like X [ On | Off ]
+    CHANGE_ROOM_OWNER = 49,
+    SET_SLAPS_LIMIT = 50,
+    SET_TIMER_SPEECH = 51
+} ActionType;
+
+
+typedef enum <ubyte> {
+    NONE_ = 0,
+    FLAG_ = 1,
+    TIMER = 2,
+    CREATURE_CREATED = 3, // Event, This creature is
+    CREATURE_KILLED = 4, // Event, This creature is
+    CREATURE_SLAPPED = 5, // Event, This creature is
+    CREATURE_ATTACKED = 6, // Event, This creature is
+    CREATURE_IMPRISONED = 7, // Event, This creature is
+    CREATURE_TORTURED = 8, // Event, This creature is
+    CREATURE_CONVERTED = 9, // Event, This creature is
+    CREATURE_CLAIMED = 10, // Event, This creature is
+    CREATURE_ANGRY = 11, // Event, This creature is
+    CREATURE_AFRAID = 12, // Event, This creature is
+    CREATURE_STEALS = 13, // Event, This creature is
+    CREATURE_LEAVES = 14, // Event, This creature is
+    CREATURE_STUNNED = 15, // Event, This creature is
+    CREATURE_DYING = 16, // Event, This creature is
+    DOOR_DESTROYED = 17, // Event, This door is
+    OBJECT_CLAIMED = 18, // Event, This object is
+    PLAYER_CREATURES = 19, // Player
+    PLAYER_HAPPY_CREATURES = 20, // Player
+    PLAYER_ANGRY_CREATURES = 21, // Player
+    PLAYER_CREATURES_KILLED = 22, // Player
+    PLAYER_KILLS_CREATURES = 23, // Player
+    PLAYER_ROOM_SLABS = 24, // Player
+    PLAYER_ROOMS = 25, // Player
+    PLAYER_ROOM_SIZE = 26, // Player
+    PLAYER_DOORS = 27, // Player
+    PLAYER_TRAPS = 28, // Player
+    PLAYER_KEEPER_SPELL = 29, // Player
+    PLAYER_GOLD = 30, // Player
+    PLAYER_GOLD_MINED = 31, // Player
+    PLAYER_MANA = 32, // Player
+    PLAYER_DESTROYS = 33, // Player
+    LEVEL_TIME = 34, // Attribute, This level's...
+    LEVEL_CREATURES = 35, // Attribute, This level's...
+    CREATURE_HEALTH = 36, // Attribute, This creature's...
+    CREATURE_GOLD_HELD = 37, // Attribute, This creature's...
+    AP_CONGREGATE_IN = 39, // Action point
+    AP_CLAIM_PART_OF = 40, // Action point
+    AP_CLAIM_ALL_OF = 41, // Action point
+    AP_SLAB_TYPES = 42, // Action point
+    PARTY_CREATED = 43, // Party
+    PARTY_MEMBERS_KILLED = 44, // Party
+    PARTY_MEMBERS_CAPTURED = 45, // Party
+    LEVEL_PAY_DAY = 46, // Event, This level's...
+    PLAYER_KILLED = 47, // Event, This player's...
+    CREATURE_EXPERIENCE_LEVEL = 49, // Attribute, This creature's...
+    PLAYER_CREATURES_AT_LEVEL = 52, // Player
+    GUI_BUTTON_PRESSED = 53, // GUI
+    CREATURE_HUNGER_SATED = 54, // Event, This creature is
+    CREATURE_PICKS_UP_PORTAL_GEM = 55, // Event, This creature is
+    PLAYER_DUNGEON_BREACHED = 56, // Event, This player's...
+    PLAYER_ENEMY_BREACHED = 57, // Event, This player's...
+    PLAYER_CREATURE_PICKED_UP = 58, // Event, This player's...
+    PLAYER_CREATURE_DROPPED = 59, // Event, This player's...
+    PLAYER_CREATURE_SLAPPED = 60, // Event, This player's...
+    PLAYER_CREATURE_SACKED = 61, // Event, This player's...
+    AP_TAG_PART_OF = 62, // Action point
+    CREATURE_SACKED = 63, // Event, This creature is
+    PARTY_MEMBERS_INCAPACITATED = 64, // Party
+    CREATURE_PICKED_UP = 65, // Event, This creature is
+    LEVEL_PLAYED = 67, // Attribute, This level's...
+    PLAYER_ROOM_FURNITURE = 68, // Player
+    AP_TAG_ALL_OF = 69, // Action point
+    AP_POSESSED_CREATURE_ENTERS = 70, // Action point
+    PLAYER_SLAPS = 71, // Player
+    GUI_TRANSITION_ENDS = 72, // GUI
+    PLAYER_CREATURES_GROUPED = 73, // Player
+    PLAYER_CREATURES_DYING = 74
+} TargetType;
+
+typedef struct TriggerData {
+    uint tag;
+    uint size;
+
+    ubyte tdata[8]; // very complex and tag depended
+    
+    ushort id;
+    ushort idNext;
+    ushort idChild;
+
+    switch(tag) {
+        case 213:
+            TargetType type;
+            break;
+        case 214:
+            ActionType type;
+            break;
+        default:
+            return showError( "Trigger tag", tag, "213 or 214");
+    }
+
+    ubyte repeatTimes;
+}
