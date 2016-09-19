@@ -1,10 +1,11 @@
+/* -*- Mode: C; -*- */
 //--------------------------------------
 //--- 010 Editor v6.0.3 Binary Template
 //
-// File:
-// Author:
-// Revision:
-// Purpose:
+// File:        triggers_struct.bt
+// Author:      ArchDemons
+// Revision:    1.0
+// Purpose:     Trigger structure
 //--------------------------------------
 typedef enum <ubyte> {
     CREATE_CREATURE_ = 1,
@@ -130,8 +131,14 @@ typedef enum <ubyte> {
     PLAYER_CREATURES_DYING = 74
 } TargetType;
 
+
+typedef enum <uint> {
+	TriggerGeneric = 213,
+	TriggerAction = 214
+} TriggerType;
+
 typedef struct TriggerData {
-    uint tag;
+    TriggerType tag;
     uint size;
 
     ubyte tdata[8]; // very complex and tag depended
@@ -141,10 +148,10 @@ typedef struct TriggerData {
     ushort idChild;
 
     switch(tag) {
-        case 213:
+        case TriggerGeneric:
             TargetType type;
             break;
-        case 214:
+        case TriggerAction:
             ActionType type;
             break;
         default:

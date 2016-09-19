@@ -29,7 +29,7 @@ typedef struct TrapFlag {
 	ubyte unk[1];
 };
 
-enum <ubyte> TriggerType {
+enum <ubyte> TriggerActionType {
 	NO_TRIGGER,
 	LINE_OF_SIGHT,
 	PRESSURE,
@@ -69,7 +69,7 @@ typedef struct TrapData {
 	ushort toolTipStringId;
 	ushort nameStringId;
 	ubyte unknown3;
-	TriggerType trigger;
+	TriggerActionType trigger;
 	ubyte trapId;
 	ubyte shotTypeId;
 	ubyte manufCrateObjectId;
