@@ -26,6 +26,7 @@ typedef enum <ubyte> {
     FLASH_ACTION_POINT = 16,
     REVEAL_ACTION_POINT = 17,
     SET_ALLIANCE = 18, // CREATE_ALLIANCE
+    // 19
     ATTACH_PORTAL_GEM = 20,
     FORCE_FIRST_PERSON = 21,
     ALTER_TERRAIN_TYPE = 22,
@@ -45,6 +46,9 @@ typedef enum <ubyte> {
     SET_FIGHT_FLAG = 36,
     SET_PORTAL_STATUS = 37,
     SET_WIDESCREEN_MODE = 38,
+    // 39
+    // 40
+    // 41
     MAKE_OBJECTIVE = 42,
     ZOOM_TO = 43,
     SET_CREATURE_MOODS = 44,
@@ -97,6 +101,7 @@ typedef enum <ubyte> {
     LEVEL_CREATURES = 35, // Attribute, This level's...
     CREATURE_HEALTH = 36, // Attribute, This creature's...
     CREATURE_GOLD_HELD = 37, // Attribute, This creature's...
+    // 38
     AP_CONGREGATE_IN = 39, // Action point
     AP_CLAIM_PART_OF = 40, // Action point
     AP_CLAIM_ALL_OF = 41, // Action point
@@ -106,7 +111,10 @@ typedef enum <ubyte> {
     PARTY_MEMBERS_CAPTURED = 45, // Party
     LEVEL_PAY_DAY = 46, // Event, This level's...
     PLAYER_KILLED = 47, // Event, This player's...
+    // 48
     CREATURE_EXPERIENCE_LEVEL = 49, // Attribute, This creature's...
+    // 50
+    // 51
     PLAYER_CREATURES_AT_LEVEL = 52, // Player
     GUI_BUTTON_PRESSED = 53, // GUI
     CREATURE_HUNGER_SATED = 54, // Event, This creature is
@@ -121,6 +129,7 @@ typedef enum <ubyte> {
     CREATURE_SACKED = 63, // Event, This creature is
     PARTY_MEMBERS_INCAPACITATED = 64, // Party
     CREATURE_PICKED_UP = 65, // Event, This creature is
+    // 66
     LEVEL_PLAYED = 67, // Attribute, This level's...
     PLAYER_ROOM_FURNITURE = 68, // Player
     AP_TAG_ALL_OF = 69, // Action point

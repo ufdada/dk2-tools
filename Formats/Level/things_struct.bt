@@ -63,20 +63,50 @@ enum <ubyte> Objective {
 	DESTROY_WALLS_OBJECTIVE = 12,
 	STEAL_GOLD_OBJECTIVE = 13,
 	STEAL_SPELLS_OBJECTIVE = 14,
+    // 15
+    // 16
 	STEAL_MAFUFACTURE_CRATES = 17,
 	KILL_CREATURES_OBJECTIVE = 18,
 	KILL_PLAYER_OBJECTIVE = 19,
+    // 20
+    // 21
 	WAIT_OBJECTIVE = 22,
 	SEND_TO_ACTION_POINT_OBJECTIVE = 23,
+    // 24
+    // 25
+    // 26
 	JAIL_BREAK_OBJECTIVE = 27
 };
 
 enum <ubyte> RoomType {
 	PORTAL = 12,
+    // 13
 	DUNGEON_HEART = 14,
+    // 15
+    // 16
+    // 17
+    // 18
+    // 19
+    // 20
+    // 21
+    // 22
+    // 23
+    // 24
+    // 25
+    // 26
+    // 27
+    // 28
+    // 29
+    // 30
+    // 31
+    // 32
 	HERO_GATE_2X2 = 33,
 	HERO_GATE_FRONT_END = 34,
+    // 35
+    // 36
 	HERO_GATE_3X1 = 37,
+    // 38
+    // 39
 	HERO_PORTAL = 40
 };
 
