@@ -7,36 +7,31 @@
 // Revision:    1.0
 // Purpose:     Sound archive file
 //--------------------------------------
-uint files;
-uint headerSize;
-uint entriesOffsets[(headerSize - 8) / sizeof(uint)];
-
 enum <char> SoundType {
-	NONE = 0,
-	WAV = 2,
-	MP2_MONO = 36,
-	MP2_STEREO = 37
+	NONE = 0, //  on blanks
+	WAV = 2, // on wav
+	MP2_MONO = 36, // on mp2 (64kbit/s mono)
+	MP2_STEREO = 37 // on mp2 (112kbit/s stereo)
 };
 
-struct Entry {
-    uint indexSize;
-    uint size;
-    char filename[16];
-    ushort sampling_rate; // 22050
-    ubyte resolution; // 16
-    SoundType type; // 36 on mp2 (64kbit/s mono), 37 on mp2 (112kbit/s stereo), 2 on wav, 0 on blanks
-    uint unknown4; // 0
-    uint samples;
-    uint unknown5; // 0
-    if (size != 0) {
-        ubyte data[size]<optimize=false>;
-    }
-} entry[files]<optimize=false,read=ReadSoundData>;
+uint count;
+uint entriesOffsets[count];
 
-string ReadSoundData( Entry &entry )
-{
-    if( exists( entry.filename ) )
-        return entry.filename;
-    else
-        return "";
+struct Entry {
+    uint headerSize;
+    uint dataSize;
+    char filename[16];
+    ushort sampleRate; // 22050
+    ubyte resolution; // 16
+    SoundType type;
+    uint unknown_4; // 0
+    uint samples;
+    uint unknown_5; // 0
+    if (dataSize != 0) {
+        ubyte data[dataSize]<optimize=false>;
+    }
+} entry[count]<optimize=false,read=ReadSoundData>;
+
+string ReadSoundData( Entry &entry ) {
+    return entry.filename;
 }

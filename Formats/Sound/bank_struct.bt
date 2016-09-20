@@ -7,12 +7,40 @@
 // Revision:    1.0
 // Purpose:     Bank file
 //--------------------------------------
-uint dword_first<format=hex>;
-uint dword_second<format=hex>;
-uint dword_third<format=hex>;
-uint dword_fourth<format=hex>;
+local uint a, b;
 
-if (dword_first != 0xE9612C01 || dword_second != 0x11D231D0 || dword_third != 0xA00009B4 || dword_fourth != 0x3F293C9) {
+typedef struct {
+    int length;
+    char name[length];
+
+    b = FTell(); // save next Archive entry
+
+} Archive <read=ReadArchive>;
+
+string ReadArchive( Archive &archive ) {
+    return archive.name;
+}
+
+typedef struct {
+    uint nulled<format=hex>;
+    uint unknown_1; // 6746904
+    ushort unknown_2; // 8539
+    ubyte unknown_3; // 115
+
+    a = FTell(); // save current position
+    FSeek(b); // jump to first Archive entry
+
+    Archive archive;
+
+    FSeek(a); // restore current position
+
+} Entry <optimize=false, size=11>;
+
+// parse file
+uint checkSums[4]<format=hex>;
+
+if (checkSums[0] != 0xE9612C01 || checkSums[1] != 0x11D231D0 
+    || checkSums[2] != 0xA00009B4 || checkSums[3] != 0x3F293C9) {
     Warning( "Bank-File is not valid!" );
     Printf( "Bank-File is not valid!" );
     return -1;
@@ -20,16 +48,8 @@ if (dword_first != 0xE9612C01 || dword_second != 0x11D231D0 || dword_third != 0x
 
 uint not_used1;
 uint not_used2;
-uint entries;
+uint count;
 
-struct Entry {
-    uint nulled<format=hex>;
-    uint unknown2; // 6746904
-    ushort unknown3; // 8539
-    ubyte unknown4; // 115
-} entry[entries]<optimize=false>;
+b = FTell() + count * sizeof(Entry);
 
-struct Archives {
-    int length;
-    char name[length];
-} archive[entries]<optimize=false>;
+Entry entry[count];
