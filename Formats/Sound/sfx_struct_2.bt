@@ -2,23 +2,19 @@
 //--------------------------------------
 //--- 010 Editor v6.0.3 Binary Template
 //
-// File:        sfx_struct.bt
-// Author:      ufdada
+// File:        sfx_struct_2.bt
+// Author:      ArchDemon
 // Revision:    1.0
 // Purpose:     Sound fx
 //--------------------------------------
-
-/* 
-this part correcty parse structure, but data sometimes not correct
-if you expand all tree and appy template again - it`s show all correct,
-but another way - not always correct
+/*
+this part parse file correctly but structure - not
 */
-local int i, j;
-local int k, n, l;
-local int a, b, c;
-local int eCount;
+local int i, j, k, n;
+local int hSize, eSize, eeSize;
 
-typedef struct {
+typedef struct
+{
     uint index;
     ushort unknows_1;
     ushort unknows_2;
@@ -34,7 +30,7 @@ typedef struct {
     uint index;
     uint unknown_1;
     uint unknown_2;
-    uint edi_2; // if (edi_2) { need some magic; }
+    uint archiveId;
 } EEEEntry <read=ReadEEEEntry, bgcolor=0xFF8CE6>; // , size=16>;
 
 string ReadEEEEntry( EEEEntry &entry ) {
@@ -43,25 +39,15 @@ string ReadEEEEntry( EEEEntry &entry ) {
     return s;
 }
 
-typedef struct {  
+typedef struct {
     uint entryCount; // EEEEntry count
     uint dataCount; // Data count
     uint end_pointer_position; // I think not needed
     ushort unknown[13];
     uint data_pointer_next; // I think not needed
-    
-    c = FTell(); // save position
-    FSeek(l); // jump to EEEEntry position
-    
-    EEEEntry entry[entryCount] <optimize=false>;
-    if (dataCount != 0) {
-        Data data[dataCount] <optimize=false>;
-    }
-    
-    n = FTell(); // save EEEntry position
-    FSeek(c); // restore position
-
-} EEEntry <size=42, bgcolor=0xFFB7BC>;
+    // EEEEntry entry[entryCount];
+    // Data data[dataCount];
+} EEEntry <bgcolor=0xFFB7BC>; // , size=42>;
 
 typedef struct {
     uint index;
@@ -69,17 +55,8 @@ typedef struct {
     uint unknown_1;
     uint unknown_2;
     uint unknown_3;
-    
-    b = FTell(); // save position
-    FSeek(n); // jump to EEEntry position
-    l = n + count * sizeof(EEEntry); // position of EEEEntry
-
-    EEEntry entry[count] <optimize=false>;
-
-    //n = l; // save next EEEntry position
-    FSeek(b); // restore position
-
-} EEntry <size=20, read=ReadEEntry, bgcolor=0xBCFFB7>;
+    // EEEntry entry[count];
+} EEntry <read=ReadEEntry, bgcolor=0xBCFFB7>; // , size=20> 
 
 string ReadEEntry( EEntry &entry ) {
     string s;
@@ -95,16 +72,8 @@ typedef struct {
     float minDistance;
     float maxDistance;
     float scale;
-    
-    a = FTell(); // save position
-    FSeek(k); // jump to SfxMapEEntry position
-    
-    EEntry entry[count] <optimize=false>;
-    
-    k = FTell(); // save current SfxMapEEntry position
-    FSeek(a); // restore position
-
-} Entry <size=24, bgcolor=0xBCB7FF>;
+    // EEntry entry[count];
+} Entry <bgcolor=0xBCB7FF>; // , size=24>;
 
 uint checkSums[4]<format=hex>;
 
@@ -119,11 +88,30 @@ uint unknown_1;
 uint unknown_2;
 uint count;
 
-eCount = 0;
-k = FTell() + count * sizeof(Entry); // position of first EEntry
-for(i = 0; i < count; i++ ) {
-    eCount += ReadUInt(FTell() + i * sizeof(Entry));
-}
-n = k + eCount * sizeof(EEntry); // position of EEEntry
-
 Entry entry[count] <optimize=false>;
+
+eSize = 0;
+for(i = 0; i < count; i++ )
+{
+    eSize += entry[i].count;
+}
+EEntry entryE[eSize] <optimize=false>;
+
+hSize = 0;
+eeSize = 0;
+for (i = 0; i < eSize; i++ )
+{
+    eeSize = entryE[i].count;
+    EEEntry entryEE[eeSize] <optimize=false>;
+
+    for (k = hSize; k < hSize + eeSize; k++)
+    {
+        EEEEntry entryEEE[entryEE[k].entryCount] <optimize=false>;
+        
+        if (entryEE[k].dataCount > 0)
+        {
+            Data data[entryEE[k].dataCount] <optimize=false>;
+        }
+    }
+    hSize += eeSize;
+}
