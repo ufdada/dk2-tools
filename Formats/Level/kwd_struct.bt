@@ -34,7 +34,8 @@ struct Header {
     MapType signature;
     uint byteSize; // bytes in real size => 4
     uint fileSize;
-    if (FileSize() != fileSize) {
+    // old variables data has additional data attached to it (thing->camera positions)
+    if (FileSize() != fileSize && signature != VARIABLES && signature != THINGS) {
         return showError( "FileSize", fileSize, FileSize());
     }
     uint checkOne;
@@ -146,5 +147,7 @@ switch (header.signature) {
         break;
     case VARIABLES:
         VariableData variable[count]<optimize=false>;
+        Header thingHeader;
+        ThingData thing[thingHeader.general.itemCount]<optimize=false>;
         break;
 }
