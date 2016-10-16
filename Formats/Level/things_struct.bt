@@ -119,7 +119,7 @@ typedef struct CameraFlag {
 	byte UNKNOWN_20 : 1;
 	byte DISABLE_MOVE : 1;
 	byte DISABLE_CHANGE : 1;
-	unk[2];
+	byte unk[3];
 };
 
 struct GoodCreature {
