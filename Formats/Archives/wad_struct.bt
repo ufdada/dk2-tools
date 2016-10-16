@@ -1,0 +1,58 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        wad_struct.bt
+// Author:      ufdada
+// Revision:    1.0
+// Purpose:     World Asset Directory Structure
+//--------------------------------------
+#include "../util_struc.bt";
+
+enum <uint> CompressType { UNCOMPRESSED = 0, COMPRESSED = 4 };
+local string tag = "DWFB";
+
+struct WadHeader {
+    char signature[4]; // DWFB
+    if (signature != tag) {
+        Printf( "This is not a valid WAD-File. Expected %s, got %s\n", tag, signature);
+        return -1;
+    }
+    uint version;
+    if (version != 2) {
+        Printf( "This template only supports version 2. Please open an issue.\n");
+        return -1;
+    }
+	ubyte unk1[64]; // all zeros, probably unused;
+	uint files;
+	uint namesOffset; // offset of the name block
+	uint namesSize; // size of the whole block of names
+	uint unk2;
+} header;
+
+struct WadEntry {
+    uint unk1; // index? sequence?
+    uint nameOffset;
+    uint nameSize;
+	uint fileOffset;
+	uint compressedSize;
+	CompressType type;
+    if (type != UNCOMPRESSED && type != COMPRESSED) {
+        Printf( "File uses an unknown Compression: %i\n", type);
+    }
+	uint size; // only filled if file is compressed (original size)
+	uint unk2[3];
+
+    // Getting the file contents
+    local int pos = FTell();
+    FSeek(nameOffset);
+    uchar name[nameSize];
+    FSeek(fileOffset);
+    ubyte file[compressedSize];
+    FSeek(pos);
+
+} entry[header.files]<optimize=false, read=getAssetFileName>;
+
+string getAssetFileName(struct WadEntry &e) {
+	return e.name;
+}
