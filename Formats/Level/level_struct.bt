@@ -179,17 +179,20 @@ typedef struct LevelData {
 	    ubyte textIntroductionOverrideObjective[8];
 	    ushort textIntroductionOverrideIds[8];
 	    char terrainPath[32];
-	    ubyte oneShotHornyLev;
-	    ubyte playerCount;
-	    ubyte x06405; // always 0?
-	    ubyte x06406; // always 0?
-	    ushort speechHornyId;
-	    ushort speechPrelevelId;
-	    ushort speechPostlevelWin;
-	    ushort speechPostlevelLost;
-	    ushort speechPostlevelNews;
-	    ushort speechPrelevelGenr;
-	    wchar_t heroName[32];
+        // For newer level version
+	    if (header.contentSize > 25603) {
+            ubyte oneShotHornyLev;
+	        ubyte playerCount;
+	        ubyte x06405; // always 0?
+	        ubyte x06406; // always 0?
+	        ushort speechHornyId;
+	        ushort speechPrelevelId;
+	        ushort speechPostlevelWin;
+	        ushort speechPostlevelLost;
+	        ushort speechPostlevelNews;
+	        ushort speechPrelevelGenr;
+	        wchar_t heroName[32];
+        }
     } content;
 
     local int headerSize = 28 + header.headerEndOffSet;
