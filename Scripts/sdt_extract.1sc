@@ -1,0 +1,117 @@
+/* -*- Mode: C; -*- */
+//------------------------------------------------
+//--- 010 Editor v7.0.2 Script File
+//
+//      File: sdt_extract.1sc
+//   Authors: ufdada
+//   Version: 1.0
+//   Purpose: Extract sound files
+//  Category: Sound
+//   History: 
+//------------------------------------------------
+if (RunTemplate("../Formats/Sound/sdt_struct.bt") < 0) {
+    MessageBox( idOk, GetScriptName(), "Failed to parse File '%s'", GetFileName() );
+    return -1;
+}
+
+string destinationdir = "E:/sdt/";
+string origFilename = FileNameGetBase( GetFileName(), false );
+string destination;
+string extension;
+string filename;
+int i;
+// get current file to select afterwards
+int filenum = GetFileNum();
+int extensionIndex;
+int header = 0;
+int numChannels = 1;
+
+int pointer;
+
+// entry values
+int dataSize;
+int resolution;
+int sampleRate;
+
+for (i = 0; i < count; i++) {
+    if (entry[i].type == NONE) {
+        // ignore blanks!
+        continue;
+    }
+
+    switch(entry[i].type) {
+        case WAV:
+        case WAV_OLD:
+            header = 1;
+            extension = "wav";
+            break;
+        case MP2_MONO:
+        case MP2_STEREO:
+            extension = "mp2";
+            break;
+        default:
+            MessageBox( idOk, GetScriptName(), "Not supported type: %Ld.", entry[i].type );
+            break;
+    }
+    extensionIndex = Strchr( entry[i].filename, '.' );
+    filename = entry[i].filename;
+    if (extensionIndex > -1) {
+        filename = SubStr(entry[i].filename, 0, extensionIndex);
+    }
+    destination = destinationdir + origFilename + "/";
+    MakeDir( destination );
+    destination = destination + filename + "." + extension;
+    
+    CopyBytesToClipboard(entry[i].data, entry[i].dataSize, CHARSET_UNICODE, false);
+    
+    dataSize = entry[i].dataSize;
+    resolution =  entry[i].resolution;
+    sampleRate = entry[i].sampleRate;
+    
+    FileNew( "Hex" );
+
+    PasteFromClipboard();
+
+    if (header == 1) {
+        // WAV needs a header!
+        pointer = 0;
+        // make some space for it
+        InsertBytes(pointer, 44);
+        // we need a wav header
+        WriteString(pointer, "RIFF");
+        pointer = pointer + 4;
+        WriteInt(pointer, 44 - 8 + dataSize); //chunkSize 
+        pointer = pointer + 4;
+        WriteString(pointer, "WAVE"); // format
+        pointer = pointer + 4;
+        WriteString(pointer, "fmt "); // subchunk1Id
+        pointer = pointer + 4;
+        WriteInt(pointer, 16); // subchunkFmtSize
+        pointer = pointer + 4;
+        WriteShort(pointer, 1); // audioformat 1 = PCM
+        pointer = pointer + 2;
+        WriteShort(pointer, numChannels); // numChannels 1 = Mono, 2 = Stereo
+        pointer = pointer + 2;
+        WriteInt(pointer, sampleRate); // sampleRate
+        pointer = pointer + 4;
+        WriteInt(pointer, sampleRate * numChannels * resolution / 8); // byteRate
+        pointer = pointer + 4;
+        WriteShort(pointer, numChannels * resolution / 8); // blockAlign
+        pointer = pointer + 2;
+        WriteShort(pointer, resolution); // bitsPerSample
+        pointer = pointer + 2;
+        WriteString(pointer, "data"); // subchunk1Id
+        pointer = pointer + 4;
+        WriteInt(pointer, dataSize); // subchunk2Size
+    }
+    
+    // Save the new file to disk
+    if( FileSave( destination ) < 0 )
+    {
+        MessageBox( idOk, GetScriptName(), "An error occured writing file '%s' of size %Ld.", destination, entry[i].dataSize );
+        return -1;
+    }
+
+    FileClose();
+    FileSelect( filenum );
+}

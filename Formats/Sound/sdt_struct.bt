@@ -10,6 +10,7 @@
 enum <char> SoundType {
 	NONE = 0, //  on blanks
 	WAV = 2, // on wav
+	WAV_OLD = 3, // used before 1.7, like in the german cd version
 	MP2_MONO = 36, // on mp2 (64kbit/s mono)
 	MP2_STEREO = 37 // on mp2 (112kbit/s stereo)
 };
@@ -28,7 +29,7 @@ struct Entry {
     uint samples;
     uint unknown_5; // 0
     if (dataSize != 0) {
-        ubyte data[dataSize]<optimize=false>;
+        uchar data[dataSize]<optimize=false>;
     }
 } entry[count]<optimize=false,read=ReadSoundData>;
 
