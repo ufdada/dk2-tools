@@ -1,0 +1,67 @@
+/* -*- Mode: C; -*- */
+//------------------------------------------------
+//--- 010 Editor v7.0.2 Script File
+//
+//      File: wad_extract.1sc
+//   Authors: ufdada
+//   Version: 1.0
+//   Purpose: Extract wad files
+//  Category: Archives
+//      TODO: - decompress Files
+//------------------------------------------------
+if (RunTemplate("../Formats/Archives/wad_struct.bt") < 0) {
+    MessageBox( idOk, GetScriptName(), "Failed to parse File '%s'", GetFileName() );
+    return -1;
+}
+
+string destinationdir = "E:/wad/";
+string origFilename = FileNameGetBase( GetFileName(), false );
+string destination;
+string filename;
+int folderSeparatorIndex;
+string subfolder = "";
+int i;
+// get current file to select afterwards
+int filenum = GetFileNum();
+int extensionIndex;
+for (i = 0; i < header.files; i++) {
+    if (entry[i].type == COMPRESSED) {
+		Printf("Compression is not supported currently\n");
+        continue;
+    }
+
+    filename = entry[i].name;
+    folderSeparatorIndex = Strchr( filename, '\\' );
+    // if there is a folder in the name, set subfolder back;
+    if (folderSeparatorIndex > -1) {
+        subfolder = "";
+    }
+
+    while (folderSeparatorIndex > -1) {
+        subfolder += "/" + SubStr(filename, 0, folderSeparatorIndex);
+        filename = SubStr(filename, folderSeparatorIndex + 1, Strlen(filename));
+        folderSeparatorIndex = Strchr( filename, '\\' );
+    }
+    destination = destinationdir + origFilename + subfolder + "/";
+    MakeDir( destination );
+
+    Printf("Extracting %s to folder %s\n", filename, destination);
+
+    destination = destination + filename;
+
+    CopyBytesToClipboard(entry[i].file, entry[i].compressedSize, CHARSET_UNICODE, false);
+    
+    FileNew( "Hex" );
+
+    PasteFromClipboard();
+    
+    // Save the new file to disk
+    if( FileSave( destination ) < 0 )
+    {
+        Printf( "An error occured writing file '%s' of size %Ld.\n", destination, entry[i].compressedSize );
+        return -1;
+    }
+
+    FileClose();
+    FileSelect( filenum );
+}
