@@ -114,7 +114,7 @@ enum <ubyte> ImprisonedCreatureFatePolicy {
 
 typedef struct PlayerHeader {
     uint playerCount;
-    ubyte unk[32];
+    ubyte unk_1[32];
 };
 
 typedef struct PlayerData {
@@ -125,7 +125,7 @@ typedef struct PlayerData {
     ubyte openness; // Misc, byte, percentage
     ubyte removeCallToArmsIfTotalCreaturesLessThan; // Battles, byte
     ubyte buildLostRoomAfterSeconds; // Rooms, byte
-    ubyte unknown1[3]; // 3 bytes
+    ubyte unk_1[3]; // 0, 0, 0
     uint createEmptyAreasWhenIdle; // Rooms, hmm int
     uint buildBiggerLairAfterClaimingPortal; // Rooms, hmm int
     uint sellCapturedRoomsIfLowOnGold; // Rooms, hmm int
@@ -181,8 +181,7 @@ typedef struct PlayerData {
     SpellUsagePolicy useSpellsInBattle; // Spells, byte, 0-4, 0 being often, 4 being rarely
     SpellPower spellsPowerPreference; // Spells, byte, 0-4, 0 being high power, 4 being low power
     CallToArmsUsagePolicy useCallToArms;
-    ubyte unk2;
-    ubyte unk2;
+    ubyte unk_2[2]; // 200, 42
     ushort mineGoldUntil;
     ushort waitSecondsAfterPreviousAttackBeforeAttackingAgain;
     uint startMana;

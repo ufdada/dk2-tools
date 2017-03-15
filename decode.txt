@@ -1,0 +1,88 @@
+[x] shots
+[x] effect elements
+[x] creatures spells
+[ ] traps
+  [ ] ushort unk_1; // 1000, 5980, 0 (232,3; 92,23; 0,0
+  [ ] ubyte unk_2[2]; // 246,255; 0,0
+  [ ] TrapFlag: UNK_1(0x00008), UNK_2(0x00400)
+[ ] rooms
+  [ ] ubyte unk_1[2]; // 195,159
+  [ ] ubyte unk_2; // always 100 ?
+[ ] terrains
+  [ ] struct StringId: ubyte unk_1[4]; // always 0 ?
+  [ ] ushort unk_198; // 504, 508, 0
+  [ ] ushort unk_1ae[16]; // always 0 ?
+  [ ] uint unk_224; // 4628, 0
+[ ] objects
+  [ ] ArtResource unknownResource;
+  [ ] ubyte unk_1[3];
+  [ ] ushort unk_2;
+  [ ] ushort unk_3;
+[ ] doors
+  [ ] ushort unk_1; // 99
+  [ ] uint unk_2; // 22
+  [ ] ushort unk_3; // 1000
+  [ ] ubyte unk_4[2]; // 192,250
+[ ] variables
+  [ ] StatType: UNK_8(8), UNK_11(11), UNK_12(12), UNK_14(14), UNK_20(20), UNK_23(23), UNK_25(25), UNK_26(26), UNK_29(29)
+  [ ] VariableType: 0, 17, 66, 77, 61, 62, 63, 233
+[ ] players
+  [ ] PlayerHeader: ubyte unk_1[32];
+  [ ] PlayerData:
+    [ ] ubyte unk_1[3]; // 0, 0, 0
+    [ ] ubyte unk_2[2]; // 200, 42
+[ ] levels
+  [ ] char unk_1[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
+  [ ] ubyte unk_2; // mostly 249
+  [ ] ubyte unk_3; // 24, in FrontEnd, (Secret-)Levels it is 192 (not MPD and level1, level4, level6b, level8, level16, level3, level2)
+  [ ] ubyte unk_4; // always 0?
+  [ ] ubyte unk_5; // always 0?
+  [ ] unk_6
+  [ ] uint unk_7[header.level.height]; // seems to be some kind of sequence (maybe the available rooms/spells?)
+[ ] tiles
+  [ ] ubyte unk_4;
+[ ] keepers spells
+  [ ] ubyte unk_1[4]; // xc8
+  [ ] ushort unk_2;
+[ ] effects
+  [ ] ushort unk_1; // 0 always ?
+[ ] Light
+  [ ] LightFlag: UNK_1(0x0001),
+[ ] things
+  [ ] ActionPointFlag: UNK_1(0x04), UNK_2(0x08)
+  [ ] CameraFlag: UNK_1(0x10), UNK_2(0x20)
+  [ ] CAMERA_THING: 
+    [ ] Vector3f unk_1
+    [ ] Vector3f unk_2
+    [ ] Vector3f unk_3;
+  [ ] GoodCreature: ubyte unk_1[2];
+  [ ] OBJECT_THING: ubyte unk_1[4];
+  [ ] TRAP_THING: 
+    [ ] int unk_1
+    [ ] ubyte unk_2;
+  [ ] DOOR_THING:
+    [ ] int unk_1
+    [ ] ubyte unk_2[3];
+  [ ] NEUTRAL_CREATURE_THING: ubyte unk_1;
+  [ ] HEROPARTY_THING: 
+    [ ] int unk_1; // x23
+    [ ] int unk_2; // x27
+  [ ] EFFECT_GENERATOR_THING: 
+    [ ] int unk_1; // x08
+    [ ] int unk_2; // x0c
+    [ ] ushort unk_3; // x10
+    [ ] ushort unk_4; // x12
+  [ ] ROOM_THING:
+    [ ] int unk_1; // x08
+    [ ] short unk_2; // x0c
+    [ ] ubyte unk_3; // x0f
+[ ] ArtResource
+  [ ] ArtResourceFlag: UNK_1(0x0001), UNK_2(0x0400), UNK_3(0x8000)
+  [ ] ArtResourceType: UNK_1(12)
+  [ ] terrain: 
+    [ ] uint unk_1; // x00
+    [ ] uint unk_2; // x04
+  [ ] StringIds: short unk_1[4]; // x14
+[ ] creatures
+  [ ] CreatureFlag: UNK_1(0x40), UNK_2(256), UNK_3(0x800), UNK_4(0x1000), UNK_5(0x20000000)
+  [ ] More

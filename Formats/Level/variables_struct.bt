@@ -7,10 +7,9 @@
 // Revision:    1.0
 // Purpose:     Variables structure
 //
-// TODO: Figure out the rest of the file data
 //--------------------------------------
 enum <ubyte> SacrificeRewardType {
-	NO_REWARD,
+	NONE_REWARD,
 	CREATURE,
 	OBJECT,
 	GOLD,
@@ -23,7 +22,7 @@ enum <ubyte> SacrificeRewardType {
 };
 
 enum <ushort> AvailabilityType {
-	NOT_AVAILABLE,
+	NONE_TYPE,
 	ROOM_AVAILABLE,
 	CREATURE_AVAILABLE,
 	TRAP_AVAILABLE,
@@ -32,7 +31,7 @@ enum <ushort> AvailabilityType {
 };
 
 enum <int> AvailabilityValue{
-    UNKNOWN_VALUE,
+    NONE_VALUE,
 	EMPTY,
 	DISABLE,
 	ENABLE,
@@ -293,28 +292,28 @@ enum <int> StatType {
 	PAY,
 	MAX_GOLD_HELD,
 	INITIAL_GOLD_HELD,
-	UNKNOWN_8,
+	UNK_008,
 	HUNGER_FILL_CHICKENS,
 	MANA_GENERATED_BY_PRAYER_PER_SECOND,
-	UNKNOWN_11,
-	UNKNOWN_12,
+	UNK_011,
+	UNK_012,
 	EXPERIENCE_POINTS_FOR_NEXT_LEVEL,
-	UNKNOWN_14,
+	UNK_014,
 	EXPERIENCE_POINTS_PER_SECOND,
 	EXPERIENCE_POINTS_FROM_TRAINING_PER_SECOND,
 	RESEARCH_POINTS_PER_SECOND,
 	MANUFACTURE_POINTS_PER_SECOND,
 	DECOMPOSE_VALUE,
-	UNKNOWN_20,
+	UNK_020,
 	SPEED_TILES_PER_SECOND,
 	RUN_SPEED_TILES_PER_SECOND,
-	UNKNOWN_23,
+	UNK_023,
 	TORTURE_TIME_TO_CONVERT_SECONDS,
-	UNKNOWN_25,
-	UNKNOWN_26,
+	UNK_025,
+	UNK_026,
 	POSSESSION_MANA_COST_PER_SECOND,
 	OWN_LAND_HEALTH_INCREASE_PER_SECOND,
-	UNKNOWN_29,
+	UNK_029,
 	DISTANCE_CAN_HEAR_TILES,
 	MELEE_RECHARGE_TIME_SECONDS
 };
@@ -361,8 +360,8 @@ struct VariableData {
         default:
             struct {
 		        int value;
-		        int unknown1;
-		        int unknown2;
+		        int unk_1;
+		        int unk_2;
 	        } unknown;
             break;
     }

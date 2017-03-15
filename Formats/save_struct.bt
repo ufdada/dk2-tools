@@ -1,0 +1,178 @@
+/* -*- Mode: C; -*- */
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:        save_struct.bt
+// Author:      ArchDemon
+// Revision:    1.0
+// Purpose:     Save
+//--------------------------------------
+typedef struct {
+    ushort u_1;
+    ushort u_2;
+    ubyte u_3[46];
+} Data <bgcolor=0x8CE6FF>;
+
+typedef struct {
+    ushort u_1;
+    ushort u_2;
+    ubyte u_3[32];
+} PlayerData <bgcolor=0xFF8CE6>;
+
+typedef struct {
+    ushort u_1;
+    uint u_2[4];
+} D0;
+
+typedef struct {
+    uint _2A_1;
+    uint _2A_2;
+    ubyte u_1[9];
+    uint u_2[8];
+    uint u_3[87];
+    ubyte u_4[51];
+} D00;
+
+typedef struct {
+    uint _1;
+    ubyte _8;
+    ubyte _2A;
+    ubyte _6F;
+} D01;
+
+typedef struct {
+    ushort u_1;
+    ubyte u_2[8];
+} D1 <bgcolor=0xFFB7BC>;
+
+typedef struct {
+    uint u_1;
+    uint u_2;
+} DUINT;
+
+typedef struct {
+    uint id;  // 122
+    uint quantity;
+    DUINT data[quantity];  // 26
+} D2 <bgcolor=0xAFB7BC>;
+
+typedef struct {
+    uint id;  // 172
+    uint quantity;
+    uint data[quantity];  // 46
+} D3 <bgcolor=0x5FB7BC>;
+
+typedef struct {
+    uint id;  // 142
+    uint quantity;
+    DUINT data[quantity];  // 8
+} D4 <bgcolor=0x1FB7BC>;
+
+typedef struct {
+    uint id;  // 132
+    uint quantity;
+    DUINT data[quantity];  // 16
+} D5 <bgcolor=0x1F87BC>;
+
+typedef struct {
+    uint id;  // 152
+    uint quantity;
+    DUINT data[quantity];  // 13
+} D6 <bgcolor=0x1F47BC>;
+
+
+typedef struct {
+    wchar_t name[218];
+    D2 d2;
+    D3 d3;
+    D4 d4;
+    D5 d5;
+    D6 d6;
+    ubyte data[2705];
+    D01 d01_1;
+    ubyte u_1[257];
+    D01 d01_2;
+    ubyte u_2[47];
+    D0 u_3[46];
+    ubyte u_4[87];
+    //ubyte data[3938];
+} Player;
+
+
+typedef struct {
+    wchar_t name[218];
+    D2 d2;
+    D3 d3;
+    D4 d4;
+    D5 d5;
+    D6 d6;
+    //ubyte data[1305];
+} Player1;
+
+//MapType signature;
+uint signature;
+uint u_1;
+char date[20];
+uint u_2; // 16
+ubyte not_changed_1[4];
+uint u_4;
+ubyte u_5[4];
+uint u_6; // 40
+uint u_7;
+ubyte not_changed_2[4];
+uint u_8;
+ubyte u_9[4];
+uint u_10;  // 8
+uint u_11;  // 8
+ushort u_12_1;  // 3
+ushort u_12_2;
+ubyte u_13[118]; // or 117
+
+char level[24]; // or 10
+
+ubyte not_changed_3[12];
+ubyte u_14_2[3];
+ubyte u_14_3[9];
+uint ff<format=hex>;
+ubyte not_changed_4[12];
+uint u_14_5;  // like time not sure
+ubyte u_14_6[522];
+ubyte u_14_7[336];
+D00 not_changed_5;
+ubyte u_14_8[222];
+uint _1_1;
+ubyte u_14_9[40];
+uint _1_2;
+ubyte u_14_10[12];
+uint _64;
+ubyte u_14_11[2133];
+D01 d01_1;
+ubyte u_14_12[257];
+D01 d01_2;
+ubyte u_14_13[47];
+D0 u_14_14[46];
+ubyte u_14_15[87];
+
+Player good;
+Player neutral;
+Player1 player;
+PlayerData player_data[507];
+ubyte u_15_1[35];
+D1 u_15_2[1143];
+//ubyte u_15_3[14049];
+//ubyte u_01[159]<bgcolor=0xBCFFB7>;
+//uint u_15_4[170];
+//ubyte u_15_5[1154];
+
+local int64 size = FileSize();
+
+FSeek(size - 242 * sizeof(Data) - 52);
+
+Data d[242];
+ubyte u_15_3[52];
+/*
+while (!FEof())
+{
+    ubyte u_15;
+}
+*/

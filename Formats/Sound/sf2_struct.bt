@@ -1,0 +1,322 @@
+//--------------------------------------
+//--- 010 Editor v6.0.3 Binary Template
+//
+// File:
+// Author:
+// Revision:
+// Purpose:
+//--------------------------------------
+typedef enum <ushort>
+{
+ monoSample = 1, 
+ rightSample = 2, 
+ leftSample = 4, 
+ linkedSample = 8, 
+ RomMonoSample = 0x8001, 
+ RomRightSample = 0x8002, 
+ RomLeftSample = 0x8004, 
+ RomLinkedSample = 0x8008 
+} SFSampleLink;
+
+typedef enum <ubyte>
+{
+  startAddrsOffset = 0,
+  endAddrsOffset = 1,
+  startloopAddrsOffset = 2,
+  endloopAddrsOffset = 3,
+  startAddrsCoarseOffset = 4,
+  modLfoToPitch = 5,
+  vibLfoToPitch = 6,
+  modEnvToPitch = 7,
+  initialFilterFc = 8,
+  initialFilterQ = 9,
+  modLfoToFilterFc = 10,
+  modEnvToFilterFc = 11,
+  endAddrsCoarseOffset = 12,
+  modLfoToVolume = 13,
+  unused1 = 14,
+  chorusEffectsSend = 15,
+  reverbEffectsSend = 16,
+  pan = 17,
+  unused2 = 18,
+  unused3 = 19,
+  unused4 = 20,
+  delayModLFO = 21,
+  freqModLFO = 22,
+  delayVibLFO = 23,
+  freqVibLFO = 24,
+  delayModEnv = 25,
+  attackModEnv = 26,
+  holdModEnv = 27,
+  decayModEnv = 28,
+  sustainModEnv = 29,
+  releaseModEnv = 30,
+  keynumToModEnvHold = 31,
+  keynumToModEnvDecay = 32,
+  delayVolEnv = 33,
+  attackVolEnv = 34,
+  holdVolEnv = 35,
+  decayVolEnv = 36,
+  sustainVolEnv = 37,
+  releaseVolEnv = 38,
+  keynumToVolEnvHold = 39,
+  keynumToVolEnvDecay = 40,
+  instrument = 41,
+  reserved1 = 42,
+  keyRange = 43,
+  velRange = 44,
+  startloopAddrsCoarseOffset = 45,
+  keynum = 46,
+  velocity = 47,
+  initialAttenuation = 48,
+  reserved2 = 49,
+  endloopAddrsCoarseOffset = 50,
+  coarseTune = 51,
+  fineTune = 52,
+  sampleID = 53,
+  sampleModes = 54,
+  reserved3 = 55,
+  scaleTuning = 56,
+  exclusiveClass = 57,
+  overridingRootKey = 58,
+  unused5 = 59,
+  endOper = 60
+} Generators;
+
+typedef enum <ubyte>
+{
+  NoController = 0 ,
+  NoteOnVelocity = 2 ,
+  NoteOnKeyNumber = 3,
+  PolyPressure = 10,
+  ChannelPressure = 13,
+  PitchWheel = 14,
+  PitchWheelSensitivity = 16,
+  Link = 127
+} Modulators;
+
+typedef enum <ubyte>
+{
+  Linear = 0,
+  Concave = 1, // output = log(sqrt(value^2)/(max value)^2) 
+  Convex = 2,
+  Switch = 3
+} ModulatorTypes;
+
+typedef enum <ubyte>
+{
+  Linear_ = 0,
+  Absolute = 2 // output = square root ((input value)^2) or output = output * sgn(output)
+} Transforms;
+
+typedef struct
+{
+  Modulators bIndex : 7; // A 7 bit value specifying the controller source
+  ubyte fCC    : 1; // MIDI Continuous Controller Flag
+  ubyte fD     : 1; // Direction
+  ubyte fP     : 1; // Polarity 
+  ModulatorTypes bType  : 6; // A 6 bit value specifying the continuity of the controller
+} SFModulator <size=2>;
+
+typedef struct
+{
+  Generators bIndex : 7; 
+  ubyte fCC    : 1;
+  ubyte fD     : 1;
+  ubyte fP     : 1;
+  ubyte bType  : 6;
+} SFGenerator <size=2>;
+
+typedef struct
+{
+  Transforms bIndex : 7; 
+  ubyte fCC    : 1;
+  ubyte fD     : 1;
+  ubyte fP     : 1;
+  ubyte bType  : 6;
+} SFTransform <size=2>;
+
+// The genAmountType is a union which allows signed 16 bit, unsigned 16 bit, and two unsigned 8 bit fields: 
+typedef struct 
+{ 
+ ubyte byLo; 
+ ubyte byHi; 
+} rangesType; 
+
+typedef union 
+{ 
+ rangesType ranges; 
+ short shAmount; 
+ ushort wAmount; 
+} genAmountType; 
+
+typedef struct sfVersionTag // <iver-rec>
+{ 
+    ushort wMajor; 
+    ushort wMinor; 
+};
+
+typedef struct sfPresetHeader // <phdr-rec>
+{ 
+ char achPresetName[20]; 
+ ushort wPreset; 
+ ushort wBank; 
+ ushort wPresetBagNdx; 
+ uint dwLibrary; 
+ uint dwGenre; 
+ uint dwMorphology; 
+};
+
+typedef struct sfPresetBag // <pbag-rec>
+{ 
+ ushort wGenNdx; 
+ ushort wModNdx; 
+}; 
+ 
+typedef struct sfModList // <pmod-rec>
+{ 
+ SFModulator sfModSrcOper; 
+ SFGenerator sfModDestOper; 
+ short modAmount; 
+ SFModulator sfModAmtSrcOper; 
+ SFTransform sfModTransOper; 
+}; 
+ 
+typedef struct sfGenList // <pgen-rec>
+{ 
+ SFGenerator sfGenOper; 
+ genAmountType genAmount; 
+}; 
+ 
+typedef struct sfInst // <inst-rec>
+{ 
+ char achInstName[20]; 
+ ushort wInstBagNdx; 
+};
+
+typedef struct sfInstBag // <ibag-rec>
+{ 
+ ushort wInstGenNdx; 
+ ushort wInstModNdx; 
+}; 
+ 
+typedef struct sfInstModList // <imod-rec>
+{ 
+ SFModulator sfModSrcOper; 
+ SFGenerator sfModDestOper; 
+ short modAmount; 
+ SFModulator sfModAmtSrcOper; 
+ SFTransform sfModTransOper; 
+}; 
+ 
+typedef struct sfInstGenList // <igen-rec>
+{ 
+ SFGenerator sfGenOper; 
+ genAmountType genAmount; 
+}; 
+ 
+typedef struct sfSample // <shdr-rec> 
+{ 
+ char achSampleName[20]; 
+ uint dwStart; 
+ uint dwEnd; 
+ uint dwStartloop; 
+ uint dwEndloop; 
+ uint dwSampleRate; 
+ ubyte byOriginalKey; 
+ byte chCorrection; // CHAR
+ ushort wSampleLink; 
+ SFSampleLink sfSampleType; 
+};
+
+char ckID[4];  //  A chunk ID identifies the type of data within the chunk. 
+uint ckSize;  //  The size of the chunk data in bytes, excluding any pad byte.
+char sfbk[4];
+   char INFO_listID[4];
+   uint INFO_listSize;
+       
+       char INFO_list[4];       
+       
+       char ifil_ckID[4];
+       uint ifil_ckSize;
+       sfVersionTag ifil_ckData[ifil_ckSize / sizeof(sfVersionTag)];
+
+       char INAM_chID[4];
+       uint INAM_chSize;
+       char szName[INAM_chSize];
+
+       char isng_ckID[4];
+       uint isng_ckSize;
+       char szSoundEngine[isng_ckSize];
+
+       char IPRD_ckID[4];
+       uint IPRD_ckSize;
+       char szProduct[IPRD_ckSize];
+
+       char IENG_ckID[4];
+       uint IENG_ckSize;
+       char IENGszName[IENG_ckSize];
+
+       char ISTF_ckID[4];
+       uint ISTF_ckSize;
+       char szTools[ISTF_ckSize];
+
+       char ICRD_ckID[4];
+       uint ICRD_ckSize;
+       char szDate[ICRD_ckSize];
+
+       char ICMT_ckID[4];
+       uint ICMT_ckSize;
+       char szComment[ICMT_ckSize];
+
+       char ICOP_ckID[4];
+       uint ICOP_ckSize;
+       char szCopyright[ICOP_ckSize];
+
+    char sdta_listID[4];
+    uint sdta_listSize;
+    char sdta_list[4];
+
+        char smpl_ckID[4];
+        uint smpl_ckSize;
+        short sample[smpl_ckSize / sizeof(short)];
+
+    char pdta_listID[4];
+    uint pdta_listSize;
+    char pdta_list[4];
+
+        char phdr_chID[4];
+        uint phdr_chSize;
+        sfPresetHeader phdr_chData[phdr_chSize / sizeof(sfPresetHeader)];
+
+        char pbag_chID[4];
+        uint pbag_chSize;
+        sfPresetBag pbag_chData[pbag_chSize / sizeof(sfPresetBag)];
+
+        char pmod_chID[4];
+        uint pmod_chSize;
+        sfModList pmod_chData[pmod_chSize / sizeof(sfModList)];
+
+        char pgen_chID[4];
+        uint pgen_chSize;
+        sfGenList pgen_chData[pgen_chSize / sizeof(sfGenList)];
+
+        char inst_chID[4];
+        uint inst_chSize;
+        sfInst inst_chData[inst_chSize / sizeof(sfInst)];
+
+        char ibag_chID[4];
+        uint ibag_chSize;
+        sfInstBag ibag_chData[ibag_chSize / sizeof(sfInstBag)];
+
+        char imod_chID[4];
+        uint imod_chSize;
+        sfInstModList imod_chData[imod_chSize / sizeof(sfInstModList)];
+
+        char igen_chID[4];
+        uint igen_chSize;
+        sfInstGenList igen_chData[igen_chSize / sizeof(sfInstGenList)];
+
+        char shdr_chID[4];
+        uint shdr_chSize;
+        sfSample shdr_chData[shdr_chSize / sizeof(sfSample)];

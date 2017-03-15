@@ -15,10 +15,10 @@ typedef struct {
     ubyte DIRECTIONAL_FRICTION : 1;
     ubyte CAN_BE_DISTURBED : 1;
     ubyte ROTATE_TO_MOVEMENT_DIRECTION : 1;
-    ubyte UNK_1 : 1;
-    ubyte UNK_2 : 1;
+    ubyte none_1 : 1;
+    ubyte none_2 : 1;
 	ubyte ALWAYS_TRIGGER : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } EffectElementFlag;
 
 struct EffectElementData {
