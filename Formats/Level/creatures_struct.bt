@@ -77,11 +77,11 @@ enum <ubyte> SpecialAbility {
 	PICK_LOCKS = 8,
 	FEAR_ATTACK = 9,
 	GHOST_POSESSION = 10,
-    UNK_1 = 11,
-    UNK_2 = 12,
-    UNK_3 = 13,
-    UNK_4 = 14,
-    UNK_5 = 15
+    UNK_11 = 11,
+    UNK_12 = 12,
+    UNK_13 = 13,
+    UNK_14 = 14,
+    UNK_15 = 15
 };
 
 struct Attraction {
@@ -92,13 +92,13 @@ struct Attraction {
 
 struct Spell {
 	Vector3f shotOffset;
-    ubyte x0c;
+    ubyte unk_1; // x0c
     byte playAnimation;
-    ubyte x0e; // This is rather weird, this seems to change with the perception range value
-    ubyte x0f;
+    ubyte unk_2; // x0e This is rather weird, this seems to change with the perception range value
+    ubyte unk_3; // x0f
     float32 shotDelay;
-    ubyte x14;
-    ubyte x15;
+    ubyte unk_4; // x14
+    ubyte unk_5; // x15
     ubyte creatureSpellId;
     ubyte levelAvailable;
 };
@@ -158,9 +158,9 @@ struct JobPreference {
     ushort moodChange;
     ushort manaChange;
     ubyte chance; // of happening, percentage
-    ubyte x09;
-    ubyte x0a;
-    ubyte x0b;
+    ubyte unk_1; // x09
+    ubyte unk_2; // x0a
+    ubyte unk_3; // x0b
 };
 
 struct JobAlternative {
@@ -191,13 +191,13 @@ typedef struct CreatureFlag {
 	byte ALWAYS_FLEE : 1;
 	byte CAN_WALK_ON_WATER : 1;
 	byte CAN_WALK_ON_LAVA : 1;
-	byte UNKNOWN_1 : 1;
+	byte UNK_1 : 1; // FIXME unknown flag. In Troll
 	byte IS_EVIL : 1;
-	byte UNKNOWN_2 : 1;
+	byte UNK_2 : 1;
 	byte IS_IMMUNE_TO_TURNCOAT : 1;
 	byte AVAILABLE_VIA_PORTAL : 1;
-	byte UNKNOWN_3 : 1;
-	byte UNKNOWN_4 : 1;
+	byte UNK_3 : 1; // FIXME unknown flag. In Imp
+	byte UNK_4 : 1;
 	byte CAN_FLY : 1;
 	byte IS_HORNY : 1;
 	byte GENERATE_DEAD_BODY : 1;
@@ -214,7 +214,7 @@ typedef struct CreatureFlag {
 	byte REVEALS_ADJACENT_TRAPS : 1;
 	byte IS_UNIQUE : 1;
 	byte CAMERA_ROLLS_WHEN_TURNING : 1;
-	byte UNKNOWN_5 : 1;
+	byte UNKNOWN_5 : 1; // FIXME unknown flag. In Imp
 	byte MPD_RANDOM_INVADER : 1;
 	byte IS_MALE : 1;
 };
@@ -224,12 +224,12 @@ typedef struct CreatureFlag2 {
 	byte IS_STONE_KNIGHT : 1;
 	byte IS_EMOTIONLESS : 1;
 	byte AVAILABLE_VIA_HERO_PORTAL : 1;
-    byte unk[3];
+    byte none[3];
 };
 
 struct CreatureData {
 	char name[32];
-    ubyte unknownRes[84];
+    ubyte unk_1[84];
 	ArtResource animWalkResource;
 	ArtResource animRunResource;
 	ArtResource animDraggedPoseResource;
@@ -244,14 +244,14 @@ struct CreatureData {
     ArtResource animSleepResource;
     ArtResource animEatResource;
     ArtResource animResearchResource;
-    ArtResource unknown2Resource;
+    ArtResource unk_2;
     ArtResource animDejectedPoseResource;
     ArtResource animTortureResource;
-    ArtResource unknown3Resource;
+    ArtResource unk_3;
     ArtResource animDrinkResource;
     ArtResource animIdle1Resource;
     ArtResource animRecoilHfbResource;
-    ArtResource unknown4Resource;
+    ArtResource unk_4;
     ArtResource animPrayResource;
     ArtResource animFallbackResource;
     ArtResource animElecResource;
@@ -261,16 +261,16 @@ struct CreatureData {
     ArtResource animDrunkResource;
     ArtResource animEntranceResource;
     ArtResource animIdle2Resource;
-    ArtResource unknown5Resource; // imp-jump (iw)
-    ArtResource unknown6Resource;
+    ArtResource unk_5; // imp-jump (iw)
+    ArtResource unk_6;
     ArtResource animDrunk2Resource;
-    ArtResource unknown7Resource; // imp-jump (iw)
-    ArtResource unknown8Resource;
+    ArtResource unk_7; // imp-jump (iw)
+    ArtResource unk_8;
     ArtResource icon1Resource;
     ArtResource icon2Resource;
-	ushort unkcec; // cec
-    uint unkcee; // cee
-    uint unkcf2; // cf2
+	ushort unk_9; // 0xcec
+    uint unk_10; // 0xcee
+    uint unk_11; // 0xcf2
     byte orderInEditor; // cf6
     ushort angerStringIdGeneral; // cf7
     uint shotDelay; // float32 // cf9
@@ -292,7 +292,7 @@ struct CreatureData {
     GammaEffect firstPersonGammaEffect; // d3b
     ubyte firstPersonWalkCycleScale; // Movement
     ubyte introCameraPathIndex;
-    ubyte unk2e2;
+    ubyte unk_12; // 0x2e2
     ArtResource portraitResource; // d40
     Light light; // d94
     Attraction attractions[2];
@@ -306,14 +306,14 @@ struct CreatureData {
     JobType hateJobs[2];
     JobAlternative alternativeJobs[3];
     struct Xe94 {
-        uint x00;
-        uint x04;
-        uint x08;
-    } xe94;
-    int unkea0; // ea0
+        uint unk_1;
+        uint unk_2;
+        uint unk_3;
+    } unk_13;
+    int unk_14; // 0xea0
     float32 height; // ea4
-    int unkea8; // ea8 float32?
-    int unk3ab; // eac
+    int unk_15; // 0xea8 float32?
+    int unk_16; // 0xeac
     float32 eyeHeight; // eb0
     float32 speed; // eb4
     float32 runSpeed; // eb8
@@ -326,12 +326,12 @@ struct CreatureData {
     float32 guardDuration; // ed4, seconds
     float32 idleDuration; // ed8, seconds
     float32 slapFearlessDuration; // edc
-    int unkee0; // ee0
-    int unkee4; // ee4
+    int unk_17; // 0xee0
+    int unk_18; // 0xee4
     short possessionManaCost; // ee8
     short ownLandHealthIncrease; // eea
     float32 meleeRange; // eec
-    int unkef0; // ef0
+    int unk_19; // 0xef0
     float32 tortureTimeToConvert; // ef4, seconds
     float32 meleeRecharge; // ef8
     CreatureFlag flags; // efc
@@ -349,10 +349,10 @@ struct CreatureData {
     ushort meleeDamage; // f14
     ushort slapDamage; // f16
     ushort manaGenPrayer; // f18
-    ushort unk3cb; // f1a
+    ushort unk_20; // 0xf1a
     ushort pay; // f1c
     ushort maxGoldHeld; // f1e
-    ushort unk3cc; // f20 float32?
+    ushort unk_21; // 0xf20 float32?
     ushort decomposeValue; // f22
     ushort nameStringId;
     ushort tooltipStringId;
@@ -371,31 +371,31 @@ struct CreatureData {
     ushort deathEffectId; // f40
     Swipe melee1Swipe; // f42, Swipes, 1st person attacks
     Swipe melee2Swipe;
-    ubyte unk3d3;
+    ubyte unk_22; // 0x3d3
     Swipe spellSwipe; // f45
     SpecialAbility firstPersonSpecialAbility1; // f46, Special abilities, 1st person
     SpecialAbility firstPersonSpecialAbility2;
-    ubyte unkf48[3]; // f48
+    ubyte unk_23[3]; // 0xf48
     ubyte creatureId; // f4b
-    ubyte unk3ea[2]; // f4c
+    ubyte unk_24[2]; // 0xf4c
     ubyte hungerFill;
     ubyte unhappyThreshold; // f4f
     AttackType meleeAttackType; // f50
-    ubyte unk3eb2;
+    ubyte unk_25; // 0x3eb2
     ubyte lairObjectId; // f52
-    ubyte unk3f1; // f53
+    ubyte unk_26; // 0xf53
     Direction deathFallDirection;
-    ubyte unk3f2;
+    ubyte unk_27; // 0x3f2
     char soundGategory[32]; // f56
     Material material; // f76, armour type
     ArtResource firstPersonFilterResource; // f77
-    short unkfcb; // fcb
-    uint unk4; // fcd float32?
+    short unk_28; // fcb
+    uint unk_29; // fcd float32?
     ArtResource drunkIdle; // fd1
     Swipe special1Swipe; // 1025
     Swipe special2Swipe;
     ArtResource firstPersonMeleeResource; // 1027
-    uint unk6; // 107b
+    uint unk_30; // 107b
     short tortureHpChange; // 107f
     short tortureMoodChange; // 1081
     ArtResource animMelee2Resource; // 1083

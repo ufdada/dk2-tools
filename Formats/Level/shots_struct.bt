@@ -17,7 +17,7 @@ typedef struct {
     ubyte AT_START : 1;
     ubyte AT_END : 1;
     ubyte HIT_THING : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } ShotProcessFlag;
 
 typedef struct {
@@ -30,7 +30,7 @@ typedef struct {
     ubyte KILL_EFFECTS_WHEN_DEAD : 1;
     ubyte PASS_ON_SHOT_VELOCITY_TO_CREATION_EFFECT : 1;
     ubyte RECOIL : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } ShotFlag;
 
 enum <ubyte> DamageType {
@@ -97,10 +97,6 @@ enum <ubyte> ProcessType {
 };
 
 enum <ubyte> AttackCategory {
-    UNK0,
-    UNK1,
-    UNK2,
-    UNK3,
     FIRE_ATTACK,
     MOVEMENT,
     LIGHTNING_ATTACK,

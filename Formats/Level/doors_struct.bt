@@ -9,15 +9,15 @@
 //--------------------------------------
 
 struct DoorFlag {
-	ubyte UNK_1 : 1;
-	ubyte UNK_2 : 1;
-	ubyte UNK_3 : 1;
-	ubyte UNK_4 : 1;
-	ubyte UNK_5 : 1;
+	ubyte none_1 : 1;
+	ubyte none_2 : 1;
+	ubyte none_3 : 1;
+	ubyte none_4 : 1;
+	ubyte none_5 : 1;
 	ubyte IS_SECRET : 1; // Secret
     ubyte IS_BARRICADE : 1; // Barricade
     ubyte IS_GOOD : 1; // Good (as in alignment)
-    ubyte unk[3];
+    ubyte none[3];
 };
 
 struct DoorData {
@@ -30,13 +30,15 @@ struct DoorData {
 	ArtResource closeResource;
 	float32 height;
 	ushort healthGain;
-	ubyte unk1[8];
+	ushort unk_1;
+    uint unk_2;
+    ushort unk_3;
 	Material material;
 	ubyte trapId;
 	DoorFlag flags;
 	ushort health;
 	ushort goldCost;
-	ubyte unk2[2];
+	ubyte unk_4[2];
 	ushort deathEffectId;
 	uint manufToBuild;
 	ushort manaCost;

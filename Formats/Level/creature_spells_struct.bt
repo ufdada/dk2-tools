@@ -17,7 +17,7 @@ typedef struct {
     ubyte IMP_HASTE : 1;
     ubyte CAST_ON_SELF : 1;
     ubyte CAST_ON_OTHERS : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } CreatureSpellFlag;
 
 enum <ubyte> AlternativeShot {

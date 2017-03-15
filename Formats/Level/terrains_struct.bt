@@ -30,7 +30,7 @@ typedef struct TerrainFlag {
 	byte TERRAIN_COLOR_RED : 1;
 	byte TERRAIN_COLOR_GREEN : 1;
 	byte TERRAIN_COLOR_BLUE : 1;
-	byte UNK_1 : 1;
+	byte none : 1;
 	byte DWARF_CAN_DIG_THROUGH : 1;
 	byte REVEAL_THROUGH_FOG_OF_WAR : 1;
 	byte AMBIENT_COLOR_RED : 1;
@@ -48,14 +48,14 @@ typedef struct TerrainData {
 	ArtResource taggedTopResource;
 	struct StringId {
         uint Ids[5];
-	    ubyte unk1[4];
+	    ubyte unk_1[4];
     } stringId;
 	float32 depth;
 	float32 lightHeight;
 	TerrainFlag flags;
 	ushort damage;
-	ushort unk196;
-	ushort unk198;
+	ushort editorTextureId;
+	ushort unk_198; // 504, 508, 0
 	ushort goldValue;
     ushort manaGain;
 	ushort maxManaGain;
@@ -66,7 +66,7 @@ typedef struct TerrainData {
 	ushort generalDescriptionStringId;
 	ushort strengthStringId;
 	ushort weaknessStringId;
-	ushort unk1ae[16];
+	ushort unk_1ae[16];
 	ubyte wibbleH;
 	ubyte leanH[3];
 	ubyte wibbleV;
@@ -81,5 +81,5 @@ typedef struct TerrainData {
 	ushort maxHealth;
 	ColorRGB ambientLight;
 	char soundCategoryFirstPerson[32];
-	uint unk224;
+	uint unk_224; // 4628, 0
 };

@@ -35,7 +35,7 @@ struct Header {
     uint byteSize; // bytes in real size => 4
     uint fileSize;
     if (FileSize() != fileSize) {
-        return showError( "FileSize", fileSize, FileSize());
+        showError( "FileSize", fileSize, FileSize());
     }
     uint checkOne;
     uint headerEndOffSet;
@@ -80,71 +80,76 @@ struct Header {
     if (FileSize() - FTell() != contentSize) {
         //return showError( "ContentSize", contentSize, FileSize() - FTell());
     }
-} header;
+};
 
-// Check file
-if (header.checkOne != header.signature + 1) {
-    return showError("First", header.signature + 1, header.checkOne );
-} else if (header.checkTwo != header.signature + 2 && header.checkTwo != header.signature + 3 ) {
-    // we only use the first one in the message, because it's the most common one.
-    return showError("Second", header.signature + 2, header.checkTwo );
-}
-if (header.signature == TRIGGERS) {
-    local int count = header.trigger.itemCount[0] + header.trigger.itemCount[1];
-} else if (header.signature != MAP && header.signature != LEVEL) {
-    local int count = header.general.itemCount;
-}
-
-switch (header.signature) {
-    case CREATURE_SPELLS:
-        CreatureSpellData spells[count]<optimize=false>;
-        break;
-    case CREATURES:
-        CreatureData creature[count]<optimize=false>;
-        break;
-    case DOORS:
-        DoorData doors[count]<optimize=false>;
-        break;
-    case EFFECT_ELEMENTS:
-        EffectElementData effectElement[count]<optimize=false, read=getEffectElementName>;
-        break;
-    case EFFECTS:
-        EffectData effect[count]<optimize=false, read=getEffectName>;
-        break;
-    case KEEPER_SPELLS:
-        KeeperSpellData keeperSpells[count]<optimize=false>;
-        break;
-    case LEVEL:
-        LevelData level;
-        break;
-    case MAP:
-        MapData map;
-        break;
-    case OBJECTS:
-        ObjectData object[count]<optimize=false>;
-        break;
-    case PLAYERS:
-        PlayerData player[count]<optimize=false>;
-        break;
-    case ROOMS:
-        RoomData room[count]<optimize=false>;
-        break;
-    case SHOTS:
-        ShotData shot[count]<optimize=false>;
-        break;
-    case TERRAIN:
-        TerrainData terrain[count]<optimize=false>;
-        break;
-    case THINGS:
-        ThingData thing[count]<optimize=false>;
-        break;
-    case TRAPS:
-        TrapData trap[count]<optimize=false>;
-        break;
-    case TRIGGERS:
-        TriggerData trigger[count]<optimize=false>;
-        break;
-    case VARIABLES:
-        VariableData variable[count]<optimize=false>;
-        break;
+local int count;
+while (!FEof()) {
+    Header header<optimize=false>;
+    
+    // Check file
+    if (header.checkOne != header.signature + 1) {
+        return showError("First", header.signature + 1, header.checkOne );
+    } else if (header.checkTwo != header.signature + 2 && header.checkTwo != header.signature + 3 ) {
+        // we only use the first one in the message, because it's the most common one.
+        return showError("Second", header.signature + 2, header.checkTwo );
+    }
+    if (header.signature == TRIGGERS) {
+        count = header.trigger.itemCount[0] + header.trigger.itemCount[1];
+    } else if (header.signature != MAP && header.signature != LEVEL) {
+        count = header.general.itemCount;
+    }
+    
+    switch (header.signature) {
+        case CREATURE_SPELLS:
+            CreatureSpellData spells[count]<optimize=false>;
+            break;
+        case CREATURES:
+            CreatureData creature[count]<optimize=false>;
+            break;
+        case DOORS:
+            DoorData doors[count]<optimize=false>;
+            break;
+        case EFFECT_ELEMENTS:
+            EffectElementData effectElement[count]<optimize=false, read=getEffectElementName>;
+            break;
+        case EFFECTS:
+            EffectData effect[count]<optimize=false, read=getEffectName>;
+            break;
+        case KEEPER_SPELLS:
+            KeeperSpellData keeperSpells[count]<optimize=false>;
+            break;
+        case LEVEL:
+            LevelData level;
+            break;
+        case MAP:
+            MapData map;
+            break;
+        case OBJECTS:
+            ObjectData object[count]<optimize=false>;
+            break;
+        case PLAYERS:
+            PlayerData player[count]<optimize=false>;
+            break;
+        case ROOMS:
+            RoomData room[count]<optimize=false>;
+            break;
+        case SHOTS:
+            ShotData shot[count]<optimize=false>;
+            break;
+        case TERRAIN:
+            TerrainData terrain[count]<optimize=false>;
+            break;
+        case THINGS:
+            ThingData thing[count]<optimize=false>;
+            break;
+        case TRAPS:
+            TrapData trap[count]<optimize=false>;
+            break;
+        case TRIGGERS:
+            TriggerData trigger[count]<optimize=false>;
+            break;
+        case VARIABLES:
+            VariableData variable[count]<optimize=false>;
+            break;
+    }
 }
