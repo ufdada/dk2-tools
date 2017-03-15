@@ -8,9 +8,9 @@
 // Purpose:     Level structure
 //--------------------------------------
 typedef struct LevelFlag {
-	byte UNKNOWN_1 : 1;
-    byte UNKNOWN_2 : 1;
-    byte UNKNOWN_3 : 1; // always on?!
+	byte none_1 : 1;
+    byte none_2 : 1;
+    byte UNK_1 : 1; // always on?!
 	byte ALWAYS_IMPRISON_ENEMIES : 1;
 	byte ONE_SHOT_HORNY : 1;
     byte IS_SECRET_LEVEL : 1;
@@ -22,8 +22,8 @@ typedef struct LevelFlag {
     byte IS_SKIRMISH_LEVEL : 1;
     byte FREEZE_OPTIONS : 1;
     byte IS_MY_PET_DUNGEON_LEVEL : 1;
-    byte UNKNOWN_4 : 1;
-    byte UNKNOWN_5 : 1;
+    byte none_3 : 1;
+    byte none_4 : 1;
 };
 
 enum <ubyte> LevelReward {
@@ -153,7 +153,7 @@ typedef struct LevelData {
 	    wchar_t information[1024];
 	    ushort triggerId;
 	    ushort ticksPerSecond;
-	    char x01184[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
+	    char unk_1[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
         struct {
             wchar_t message[512];
         } messages[20];
@@ -168,10 +168,10 @@ typedef struct LevelData {
 	    ushort textPlotId;
 	    ushort textDebriefId;
 	    ushort textObjectiveId;
-	    ubyte unk249; // mostly 249
+	    ubyte unk_2; // mostly 249
         // 247 in Bottleneck, Olympia, Pressure, Siege, Small, Spiral, Swiss Cheese, The Deep End, TrapTime, U Turn, Warrens, level16, level6b, level4, level3, level2
         // 243 in level 17 
-        ubyte x063c4; // 24, in FrontEnd, (Secret-)Levels it is 192 (not MPD and level1, level4, level6b, level8, level16, level3, level2)
+        ubyte unk_3; // 24, in FrontEnd, (Secret-)Levels it is 192 (not MPD and level1, level4, level6b, level8, level16, level3, level2)
 	    ushort textSubObjectiveId1;
 	    ushort textSubObjectiveId2;
 	    ushort textSubObjectiveId3;
@@ -183,8 +183,8 @@ typedef struct LevelData {
 	    if (header.contentSize > 25603) {
             ubyte oneShotHornyLev;
 	        ubyte playerCount;
-	        ubyte x06405; // always 0?
-	        ubyte x06406; // always 0?
+	        ubyte unk_4; // always 0?
+	        ubyte unk_5; // always 0?
 	        ushort speechHornyId;
 	        ushort speechPrelevelId;
 	        ushort speechPostlevelWin;
@@ -201,16 +201,17 @@ typedef struct LevelData {
     }
 
     struct {
-        ubyte unk222; // always 222 / DE - Game crashes if it is set to something else
-        ubyte unknown2[3]; // always 0
-        ubyte unknown3; // somewhere inbetween 60-160 - Changing this didn't showed any difference
-        ubyte unk4; // always 4 on premade maps - Changing this didn't showed any difference - different on self made maps (1 and 2)
-        ubyte unknown5[2]; // always 0
-    } unknownData; // seems to be a separate block, by taking a look at the header.contentSize
+        ubyte unk_1; // always 222 / DE - Game crashes if it is set to something else
+        ubyte unk_2[3]; // always 0
+        ubyte unk_3; // somewhere inbetween 60-160 - Changing this didn't showed any difference
+        ubyte unk_4; // always 4 on premade maps - Changing this didn't showed any difference - different on self made maps (1 and 2)
+        ubyte unk_5[2]; // always 0
+    } unk_6; // seems to be a separate block, by taking a look at the header.contentSize
     struct {
         MapType type;
-        uint unk2; // probably unused
+        uint unk_1; // probably unused
         char path[64];
     } paths[header.level.itemCount];
-    uint unknownSequence[header.level.height]; // seems to be some kind of sequence (maybe the available rooms/spells?)
+
+    uint unk_7[header.level.height]; // seems to be some kind of sequence (maybe the available rooms/spells?)
 };

@@ -11,7 +11,7 @@ typedef struct {
     ubyte DIE_WHEN_HIT_SOLID : 1;
     ubyte SHRINK : 1;
     ubyte EXPAND : 1;
-    ubyte UNK_1 : 1;
+    ubyte none_1 : 1;
     ubyte DIRECTIONAL_FRICTION : 1;
     ubyte EXPAND_THEN_SHRINK : 1;
     ubyte GENERATE_EFFECTS : 1;
@@ -24,7 +24,7 @@ typedef struct {
 	ubyte FADE_IN_OUT : 1;
 	ubyte USE_GENERATION_SCALE : 1;
 	ubyte ALWAYS_TRIGGER : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } EffectFlag;
 
 enum <ubyte> GenerationType {
@@ -88,7 +88,7 @@ struct EffectData {
 	ushort misc3;
 	GenerationType type;
 	ubyte elementsPerTurn;
-	ushort unk3;
+	ushort unk_1; // 0 always ?
 };
 
 string getEffectName(struct EffectData &d) {

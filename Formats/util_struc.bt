@@ -45,6 +45,12 @@ string getFloatPointValue(struct float32 &f) {
 	return floatValue;
 }
 
+string getFloat16PointValue(struct float16 &f) {
+    string floatValue;
+	SPrintf( floatValue, "%lg", (float)f.value / FLOAT32 );
+	return floatValue;
+}
+
 string getDoubleValue(struct double32 &d) {
     string doubleValue;
 	SPrintf( doubleValue, "%lg", (float)d.value / DOUBLE32 );
@@ -54,6 +60,10 @@ string getDoubleValue(struct double32 &d) {
 typedef struct {
     uint value;
 } float32<read=getFloatPointValue>; 
+
+typedef struct {
+    ushort value;
+} float16<read=getFloat16PointValue>; 
 
 typedef struct {
     uint value;
@@ -79,23 +89,23 @@ typedef struct {
 } Vector3f<read=getVector, write=setVector>;
 
 typedef struct {
-	byte UNKNOWN_LIGHT1 : 1;  // FIXME unknown flag
+	byte UNK_1 : 1;  // FIXME unknown flag
 	byte FLICKER : 1;
 	byte PULSE : 1;
-    byte UNKNOWN_LIGHT2 : 1;
-    byte UNKNOWN_LIGHT3 : 1;
-    byte UNKNOWN_LIGHT4 : 1;
-    byte UNKNOWN_LIGHT5 : 1;
+    byte none_2 : 1;
+    byte none_3 : 1;
+    byte none_4 : 1;
+    byte none_5 : 1;
 	byte PLAYER_COLOURED : 1;
-    byte UNKNOWN_LIGHT6 : 1;
-    byte UNKNOWN_LIGHT7 : 1;
-    byte UNKNOWN_LIGHT8 : 1;
+    byte none_6 : 1;
+    byte none_7 : 1;
+    byte none_8 : 1;
 	byte COLOR_RED : 1; // If this is set, add 256 to the red value of the light
 	byte COLOR_GREEN : 1; // If this is set, add 256 to the green value of the light
 	byte COLOR_BLUE : 1; // If this is set, add 256 to the blue value of the light
-    byte UNKNOWN_LIGHT9 : 1;
-    byte UNKNOWN_LIGHT10 : 1;
-    byte unkFlag[2];
+    byte none_9 : 1;
+    byte none_10 : 1;
+    byte none[2];
 } LightFlag;
 
 struct Light {
@@ -137,10 +147,10 @@ enum MapType {
     EFFECTS = 270
 };
 
-local string corruptFileMessage = "Corrupt file. %s check failed. Expected: %i. Result: %i. Template stopped.";
+local string corruptFileMessage = "Corrupt file. %s check failed. Expected: %i. Result: %i.\n";
 
 int showError(string type, int expected, int result) {
-	Warning( corruptFileMessage, type, expected, result);
+    Warning( corruptFileMessage, type, expected, result);
     Printf( corruptFileMessage, type, expected, result);
     
     return -1;

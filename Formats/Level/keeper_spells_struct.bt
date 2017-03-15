@@ -8,12 +8,12 @@
 // Purpose:     Keeper Spells structure
 //--------------------------------------
 typedef struct {
-	ubyte UNK_1;
+	ubyte none_1;
     ubyte CREATE_WORKER : 1;
     ubyte ATTACKING : 1;
     ubyte DEFENSIVE : 1;
     ubyte DONT_CAST_ON_CREATURES : 1;
-    ubyte unk[2];
+    ubyte none[2];
 } KeeperSpellFlag;
 
 enum <ubyte> HandAnimId {
@@ -44,7 +44,7 @@ struct KeeperSpellData {
 	char name[32];
 	ArtResource guiIcon;
 	ArtResource editorIcon;
-	ubyte xc8[4];
+	ubyte unk_1[4]; // 0,0,12,254; 0,0,0,0 
 	float32 rechargeTime;
 	uint shotData1;
 	uint shotData2;
@@ -52,7 +52,7 @@ struct KeeperSpellData {
 	TargetRule targetRule;
 	ubyte orderInEditor;
 	KeeperSpellFlag flags;
-	ushort xe0Unreferenced;
+	ushort unk_2; // 30571 (107, 119) always ?
 	ushort manaDrain;
 	ushort toolTipStringId;
 	ushort nameStringId;

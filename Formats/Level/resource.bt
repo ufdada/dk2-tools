@@ -18,28 +18,29 @@ typedef struct {
     byte DOESNT_LOOP : 1;
     byte FLAT : 1;
     byte DOESNT_USE_PROGRESSIVE_MESH : 1;
-	byte UNK_400 : 1;
-	byte UNK_800 : 1;
-	byte UNK_1000 : 1;
-	byte UNK_2000 : 1;
-	byte UNK_4000 : 1;
-	byte UNK_8000 : 1;
+	byte UNK_2 : 1; // 0x0400
+	byte none_1 : 1;
+	byte none_2 : 1;
+	byte none_3 : 1;
+	byte none_4 : 1;
+	byte UNK_3 : 1; // 0x8000
     byte USE_ANIMATING_TEXTURE_FOR_SELECTION : 1;
     byte PRELOAD : 1;
     byte BLOOD : 1;
-	byte unk;
+	byte none;
 } ArtResourceFlag;
 
 enum <ubyte> Type {
-    NONE,
-    SPRITE,
-    ALPHA,
-    ADDITIVE_ALPHA,
-    TERRAIN_MESH,
-    MESH,
-    ANIMATING_MESH,
-    PROCEDURAL_MESH,
-    MESH_COLLECTION
+    NONE = 0,
+    SPRITE = 1,
+    ALPHA = 2,
+    ADDITIVE_ALPHA = 3,
+    TERRAIN_MESH = 4,
+    MESH = 5,
+    ANIMATING_MESH = 6,
+    PROCEDURAL_MESH = 7,
+    MESH_COLLECTION = 8,
+    UNK_1 = 12
 };
 
 struct ArtResource {
@@ -65,8 +66,8 @@ struct ArtResource {
 		uint id;
     } proc;
     struct {
-		uint x00;
-		uint x04;
+		uint unk_1; // x00
+		uint unk_2; // x04
 		ubyte frames;
     } terrain;
   } data;
@@ -75,10 +76,10 @@ struct ArtResource {
   ubyte end_af; /* 12 */
   ubyte sometimes_one; /* 13 */
 };
-
+// FIXME in terrains we have StringIds structure
 struct StringIds {
   uint32 ids[5];
-  short x14[4];
+  short unk_1[4]; // x14
 };
 
 enum <byte> Material {

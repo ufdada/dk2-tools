@@ -19,7 +19,7 @@ typedef struct {
     ubyte CAN_BE_PICKED_UP : 1;
 	ubyte CAN_BE_SLAPPED : 1;
 	ubyte DIE_WHEN_SLAPPED : 1;
-	ubyte UNK_800 : 1;
+	ubyte none_1 : 1; // 0x800
 	ubyte OBJECT_TYPE_LEVEL_GEM : 1;
 	ubyte CAN_BE_DROPPED_ON_ANY_LAND : 1;
 	ubyte OBSTACLE : 1;
@@ -27,7 +27,7 @@ typedef struct {
 	ubyte BOULDER_CAN_ROLL_THROUGH : 1;
 	ubyte BOULDER_DESTROYS : 1;
 	ubyte PILLAR : 1;
-	ubyte UNK_80000 : 1;
+	ubyte none_2 : 1; // 0x80000
 	ubyte DOOR_KEY : 1;
 	ubyte DAMAGEABLE : 1;
 	ubyte HIGHLIGHTABLE : 1;
@@ -119,12 +119,12 @@ struct ObjectData {
 	float32 speed;
 	double32 airFriction;
 	Material material;
-	ubyte unk1[3];
+	ubyte unk_1[3];
 	ObjectFlag flags;
 	ushort hp;
 	ushort maxAngle;
-	ushort x34c;
-	ushort x34e;
+	ushort unk_2; // x34c
+	ushort unk_3; // x34e
 	ushort toolTipStringId;
 	ushort nameStringId;
 	ushort slapEffectId;
