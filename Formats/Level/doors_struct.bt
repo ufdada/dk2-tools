@@ -32,7 +32,7 @@ struct DoorData {
 	ushort healthGain;
 	ushort unk_1; // 99 always ?
     uint unk_2; // 22 always ?
-    ushort unk_3; // 1000 always ?
+    ushort unk_3; // 1000 (232, 3) always ?
 	Material material;
 	ubyte trapId;
 	DoorFlag flags;
