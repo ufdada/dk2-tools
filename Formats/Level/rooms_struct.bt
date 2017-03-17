@@ -55,7 +55,7 @@ struct RoomData {
 	ArtResource capRecource;
 	ArtResource ceilingResource;
 	float32 ceilingHeight;
-	ubyte unk_1[2]; // 195,159
+	ushort unk_1; // 40899 (195,159)
 	ushort torchIntensity;
 	RoomFlag flags;
 	ushort toolTipStringId;

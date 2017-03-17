@@ -62,7 +62,8 @@ enum <ubyte> Swipe {
 	LEFT_SMALL_PUNCH = 19,
 	RIGHT_SMALL_PUNCH = 20,
 	LEFT_KING_FGBS_SLASH = 21,
-	RIGHT_KING_FGBS_SLASH = 22
+	RIGHT_KING_FGBS_SLASH = 22,
+    UNK_30 = 36
 };
 
 enum <ubyte> SpecialAbility {
@@ -271,7 +272,7 @@ struct CreatureData {
 	ushort unk_9; // 0xcec
     uint unk_10; // 0xcee
     uint unk_11; // 0xcf2
-    byte orderInEditor; // cf6
+    ubyte orderInEditor; // cf6
     ushort angerStringIdGeneral; // cf7
     uint shotDelay; // float32 // cf9
     ushort olhiEffectId; // cfd, OLHI, wut?
@@ -312,7 +313,7 @@ struct CreatureData {
     } unk_13;
     int unk_14; // 0xea0
     float32 height; // ea4
-    int unk_15; // 0xea8 float32?
+    float32 unk_15; // 0xea8 float32?
     int unk_16; // 0xeac
     float32 eyeHeight; // eb0
     float32 speed; // eb4
@@ -352,7 +353,7 @@ struct CreatureData {
     ushort unk_20; // 0xf1a
     ushort pay; // f1c
     ushort maxGoldHeld; // f1e
-    ushort unk_21; // 0xf20 float32?
+    float16 unk_21; // 0xf20 float16?
     ushort decomposeValue; // f22
     ushort nameStringId;
     ushort tooltipStringId;
@@ -371,7 +372,7 @@ struct CreatureData {
     ushort deathEffectId; // f40
     Swipe melee1Swipe; // f42, Swipes, 1st person attacks
     Swipe melee2Swipe;
-    ubyte unk_22; // 0x3d3
+    Swipe melee3Swipe; // 0x3d3
     Swipe spellSwipe; // f45
     SpecialAbility firstPersonSpecialAbility1; // f46, Special abilities, 1st person
     SpecialAbility firstPersonSpecialAbility2;
@@ -390,7 +391,7 @@ struct CreatureData {
     Material material; // f76, armour type
     ArtResource firstPersonFilterResource; // f77
     short unk_28; // fcb
-    uint unk_29; // fcd float32?
+    float32 unk_29; // fcd float32?
     ArtResource drunkIdle; // fd1
     Swipe special1Swipe; // 1025
     Swipe special2Swipe;
@@ -413,12 +414,14 @@ struct CreatureData {
     struct X1323 {
         ushort unk_1;
         ushort unk_2;
-    } unk_37[48]; // unk_30
+    } unk_37[48];
     ArtResource animPoseFrameResource; // 13e3
     ArtResource animWalk2Resource;
     ArtResource animDiePoseResource;
     ushort uniqueNameTextId;
-    ubyte unk_38[8]; // 0x14e1
+    struct Unk_38 {
+        ubyte unk_38[4]; // 0x14e1
+    } unk_38[2];
     int firstPersonSpecialAbility1Count; // 14e9, available uses or something, not really sure
     int firstPersonSpecialAbility2Count;
     ArtResource uniqueResource; // 14f1
