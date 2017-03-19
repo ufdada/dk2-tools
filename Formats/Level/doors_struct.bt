@@ -20,7 +20,7 @@ struct DoorFlag {
     ubyte none[3];
 };
 
-struct DoorData {
+typedef struct {
 	char name[32];
 	ArtResource mesh;
 	ArtResource guiIcon;
@@ -32,7 +32,7 @@ struct DoorData {
 	ushort healthGain;
 	ushort unk_1; // 99 always ?
     uint unk_2; // 22 always ?
-    ushort unk_3; // 1000 (232, 3) always ?
+    ushort researchTime;
 	Material material;
 	ubyte trapId;
 	DoorFlag flags;
@@ -52,4 +52,10 @@ struct DoorData {
 	ubyte manufCrateObjectId;
 	ubyte keyObjectId;
 	char soundCategory[32];
-};
+} DoorData<read=getDoorName>;
+
+string getDoorName(DoorData &item) {
+    string result;
+	SPrintf(result, "%s", item.name);
+	return result;
+}

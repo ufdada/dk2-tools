@@ -104,13 +104,13 @@ enum <ubyte> StartState {
 	GEM_EXIT_POINT
 };
 
-struct ObjectData {
+typedef struct {
 	char name[32];
 	ArtResource meshResource;
 	ArtResource guiIcon;
 	ArtResource inHandIconResource;
 	ArtResource inHandMeshResource;
-	ArtResource unknownResource;
+	ArtResource unknownResource; // gui\spells\call_to_arms in Call To Arms only
 	ArtResource additionalResources[4];
 	Light light;
 	float32 width;
@@ -119,12 +119,12 @@ struct ObjectData {
 	float32 speed;
 	double32 airFriction;
 	Material material;
-	ubyte unk_1[3];
+	ubyte unk_1[3]; // always 49,145,0
 	ObjectFlag flags;
 	ushort hp;
 	ushort maxAngle;
-	ushort unk_2; // x34c
-	ushort unk_3; // x34e
+	ushort unk_2; // always 0
+	ushort manaValue;
 	ushort toolTipStringId;
 	ushort nameStringId;
 	ushort slapEffectId;
@@ -135,4 +135,10 @@ struct ObjectData {
 	ubyte roomCapacity;
 	ubyte pickUpPriority;
 	char soundCategory[32];
-};
+} ObjectData<read=getObjectName>;
+
+string getObjectName(ObjectData &item) {
+    string result;
+	SPrintf(result, "%s", item.name);
+	return result;
+}

@@ -83,9 +83,9 @@ typedef struct {
 } ColorRGB<read=getColorRGB>;
 
 typedef struct {
-    uint x;
-    uint y;
-    uint z;
+    int x;
+    int y;
+    int z;
 } Vector3f<read=getVector, write=setVector>;
 
 typedef struct {

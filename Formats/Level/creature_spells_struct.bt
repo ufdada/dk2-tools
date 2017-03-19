@@ -29,7 +29,7 @@ enum <ubyte> AlternativeShot {
     INVISIBLE,
 };
 
-struct CreatureSpellData {
+typedef struct {
     char name[32];
     ArtResource editorIcon;
     ArtResource guiIcon;
@@ -37,7 +37,7 @@ struct CreatureSpellData {
     uint shotData2;
     float32 range;
     CreatureSpellFlag flags;
-    ubyte data2[2];
+    ushort combatPoints;
     ushort soundEvent;
     ushort nameStringId;
     ushort toolTipStringId;
@@ -50,5 +50,11 @@ struct CreatureSpellData {
     ubyte alternativeRoomId;
     float32 rechargeTime;
     AlternativeShot alternativeShot;
-    ubyte data3[27];
-};
+    ubyte null_1[27]; // not parsed in game
+} CreatureSpellData<read=getCreatureSpellName>;
+
+string getCreatureSpellName(CreatureSpellData &item) {
+    string result;
+	SPrintf(result, "%s", item.name);
+	return result;
+}

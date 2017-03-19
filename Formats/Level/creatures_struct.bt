@@ -94,7 +94,7 @@ struct Attraction {
 struct Spell {
 	Vector3f shotOffset;
     ubyte unk_1; // x0c
-    byte playAnimation;
+    ubyte playAnimation;
     ubyte unk_2; // x0e This is rather weird, this seems to change with the perception range value
     ubyte unk_3; // x0f
     float32 shotDelay;
@@ -186,13 +186,14 @@ enum <ubyte> FightStyle {
 };
 
 typedef struct CreatureFlag {
+    // FIXME flag IS_STATUE in editor but not changed this values
 	byte IS_WORKER : 1;
 	byte CAN_BE_PICKED_UP : 1;
 	byte CAN_BE_SLAPPED : 1;
 	byte ALWAYS_FLEE : 1;
 	byte CAN_WALK_ON_WATER : 1;
 	byte CAN_WALK_ON_LAVA : 1;
-	byte UNK_1 : 1; // FIXME unknown flag. In Troll
+	byte CAN_DISARM_TRAPS : 1;
 	byte IS_EVIL : 1;
 	byte UNK_2 : 1;
 	byte IS_IMMUNE_TO_TURNCOAT : 1;
@@ -207,15 +208,15 @@ typedef struct CreatureFlag {
 	byte IS_FEARLESS : 1;
 	byte CAN_BE_ELECTROCUTED : 1;
 	byte NEED_BODY_FOR_FIGHT_IDLE : 1;
-	byte TRAIN_WHEN_IDLE : 1;
+	byte NOT_TRAIN_WHEN_IDLE : 1; // inverse value
 	byte ONLY_ATTACKABLE_BY_HORNY : 1;
 	byte CAN_BE_RESURECTED : 1;
 	byte DOESNT_GET_ANGRY_WITH_ENEMIES : 1;
 	byte FREES_FRIENDS_ON_JAILBREAK : 1;
 	byte REVEALS_ADJACENT_TRAPS : 1;
 	byte IS_UNIQUE : 1;
-	byte CAMERA_ROLLS_WHEN_TURNING : 1;
-	byte UNKNOWN_5 : 1; // FIXME unknown flag. In Imp
+	byte CAMERA_ROLLS_WHEN_TURNING : 1; // FIXME not found in editor
+	byte UNK_5 : 1; // FIXME unknown flag. In Imp
 	byte MPD_RANDOM_INVADER : 1;
 	byte IS_MALE : 1;
 };
@@ -228,9 +229,27 @@ typedef struct CreatureFlag2 {
     byte none[3];
 };
 
-struct CreatureData {
+typedef struct CreatureFlag3 {
+	byte UNK_1 : 1;
+	byte UNK_2 : 1;
+	byte UNK_3 : 1;
+	byte UNK_4 : 1;
+    ubyte none[3];
+};
+
+typedef struct UnkArtResource {
+    char name[64];
+    ArtResourceFlag flags;
+    ubyte unk_1[12];
+    Type type;
+    ubyte start_af;
+    ubyte end_af;
+    ubyte sometimes_one;
+};
+
+typedef struct {
 	char name[32];
-    ubyte unk_1[84];
+    UnkArtResource unk_1;
 	ArtResource animWalkResource;
 	ArtResource animRunResource;
 	ArtResource animDraggedPoseResource;
@@ -306,11 +325,7 @@ struct CreatureData {
     JobPreference angryJobs[3];
     JobType hateJobs[2];
     JobAlternative alternativeJobs[3];
-    struct Xe94 {
-        uint unk_1;
-        uint unk_2;
-        uint unk_3;
-    } unk_13;
+    Vector3f animationOffset;
     int unk_14; // 0xea0
     float32 height; // ea4
     float32 unk_15; // 0xea8 float32?
@@ -374,11 +389,12 @@ struct CreatureData {
     Swipe melee2Swipe;
     Swipe melee3Swipe; // 0x3d3
     Swipe spellSwipe; // f45
-    SpecialAbility firstPersonSpecialAbility1; // f46, Special abilities, 1st person
+    SpecialAbility firstPersonSpecialAbility1; // f46
     SpecialAbility firstPersonSpecialAbility2;
     ubyte unk_23[3]; // 0xf48
     ubyte creatureId; // f4b
-    ubyte unk_24[2]; // 0xf4c
+    ubyte unk_24_1; // 0xf4c
+    ubyte unk_24_2;
     ubyte hungerFill;
     ubyte unhappyThreshold; // f4f
     AttackType meleeAttackType; // f50
@@ -405,11 +421,7 @@ struct CreatureData {
     ArtResource unk_33;
     ArtResource unk_34;
     ArtResource unk_35;
-    struct Unk7 {
-        uint unk_1;
-        uint unk_2;
-        uint unk_3;
-    } unk_36[7]; // 127b
+    Vector3f animationOffsets[7]; // 127b
     ArtResource animWalkbackResource; // 12cf
     struct X1323 {
         ushort unk_1;
@@ -422,14 +434,20 @@ struct CreatureData {
     struct Unk_38 {
         ubyte unk_38[4]; // 0x14e1
     } unk_38[2];
-    int firstPersonSpecialAbility1Count; // 14e9, available uses or something, not really sure
+    int firstPersonSpecialAbility1Count; // 14e9
     int firstPersonSpecialAbility2Count;
     ArtResource uniqueResource; // 14f1
-    int unk_39; // 1545
+    CreatureFlag3 unk_39; // 1545
     if (header.contentSize / header.general.itemCount >= 5537l ) {
         // When the file is embedded in the globals, there is some extra stuff
         ubyte unk_40[80]; // ExtraBytes
         CreatureFlag2 flags2; // ???
         uint unk_41;
     }
-};
+} CreatureData<read=getCreatureName>;
+
+string getCreatureName(CreatureData &item) {
+    string result;
+	SPrintf(result, "%s", item.name);
+	return result;
+}
