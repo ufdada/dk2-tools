@@ -117,7 +117,7 @@ typedef struct PlayerHeader {
     ubyte unk_1[32];
 };
 
-typedef struct PlayerData {
+typedef struct {
     int startingGold;
     Ai isAi;
     AiType aiType; // x08, byte
@@ -197,7 +197,11 @@ typedef struct PlayerData {
     ImprisonedCreatureFatePolicy fateOfImprisonedCreatures;
     ushort triggerId;
     byte playerId;
-    ushort camerax;
-    ushort cameray;
+    ushort cameraX;
+    ushort cameraY;
     char name[32];
-};
+} PlayerData<read=gettPlayerName>;
+
+string getPlayerName(PlayerData &item) {
+    return item.name;
+}

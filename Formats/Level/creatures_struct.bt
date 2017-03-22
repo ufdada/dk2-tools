@@ -63,7 +63,7 @@ enum <ubyte> Swipe {
 	RIGHT_SMALL_PUNCH = 20,
 	LEFT_KING_FGBS_SLASH = 21,
 	RIGHT_KING_FGBS_SLASH = 22,
-    UNK_30 = 36
+    UNK_36 = 36
 };
 
 enum <ubyte> SpecialAbility {
@@ -264,14 +264,14 @@ typedef struct {
     ArtResource animSleepResource;
     ArtResource animEatResource;
     ArtResource animResearchResource;
-    ArtResource unk_2;
+    ArtResource unk_2<comment="always null">;
     ArtResource animDejectedPoseResource;
     ArtResource animTortureResource;
-    ArtResource unk_3;
+    ArtResource unk_3<comment="always null">;
     ArtResource animDrinkResource;
     ArtResource animIdle1Resource;
     ArtResource animRecoilHfbResource;
-    ArtResource unk_4;
+    ArtResource unk_4<comment="Bile_Demon-Building">;
     ArtResource animPrayResource;
     ArtResource animFallbackResource;
     ArtResource animElecResource;
@@ -281,11 +281,11 @@ typedef struct {
     ArtResource animDrunkResource;
     ArtResource animEntranceResource;
     ArtResource animIdle2Resource;
-    ArtResource unk_5; // imp-jump (iw)
-    ArtResource unk_6;
+    ArtResource unk_5<comment="imp-jump (iw), Mis_whip, Vampire-IntoBat, ske-Attention, Dan-aggressive">;
+    ArtResource unk_6<comment="VAM-EatCorpse">;
     ArtResource animDrunk2Resource;
-    ArtResource unk_7; // imp-jump (iw)
-    ArtResource unk_8;
+    ArtResource animLootResource<comment="imp-jump (iw), VAM-EatCorpse, Knight-Happy, REA3_Roar">; 
+    ArtResource unk_8<comment="always null">;
     ArtResource icon1Resource;
     ArtResource icon2Resource;
 	ushort unk_9; // 0xcec
@@ -416,11 +416,11 @@ typedef struct {
     short tortureHpChange; // 107f
     short tortureMoodChange; // 1081
     ArtResource animMelee2Resource; // 1083
-    ArtResource unk_31;
-    ArtResource unk_32;
-    ArtResource unk_33;
-    ArtResource unk_34;
-    ArtResource unk_35;
+    ArtResource unk_31<comment="Imp-Idle3">;
+    ArtResource unk_32<comment="Imp-Idle4">;
+    ArtResource unk_33<comment="Imp-Idle3">;
+    ArtResource unk_34<comment="Imp-Idle4">;
+    ArtResource unk_35<comment="IMP-Dig2">;
     Vector3f animationOffsets[7]; // 127b
     ArtResource animWalkbackResource; // 12cf
     struct X1323 {
@@ -440,14 +440,13 @@ typedef struct {
     CreatureFlag3 unk_39; // 1545
     if (header.contentSize / header.general.itemCount >= 5537l ) {
         // When the file is embedded in the globals, there is some extra stuff
-        ubyte unk_40[80]; // ExtraBytes
+        ubyte unk_40[80]<comment="ExtraBytes">; 
         CreatureFlag2 flags2; // ???
-        uint unk_41;
+        ushort unk_41;
+        float16 unk_42;  
     }
 } CreatureData<read=getCreatureName>;
 
 string getCreatureName(CreatureData &item) {
-    string result;
-	SPrintf(result, "%s", item.name);
-	return result;
+    return item.name;
 }

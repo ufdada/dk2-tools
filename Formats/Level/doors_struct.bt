@@ -55,7 +55,5 @@ typedef struct {
 } DoorData<read=getDoorName>;
 
 string getDoorName(DoorData &item) {
-    string result;
-	SPrintf(result, "%s", item.name);
-	return result;
+	return item.name;
 }

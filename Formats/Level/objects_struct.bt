@@ -138,7 +138,5 @@ typedef struct {
 } ObjectData<read=getObjectName>;
 
 string getObjectName(ObjectData &item) {
-    string result;
-	SPrintf(result, "%s", item.name);
-	return result;
+	return item.name;
 }

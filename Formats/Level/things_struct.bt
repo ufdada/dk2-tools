@@ -116,7 +116,7 @@ typedef struct CameraFlag {
 	byte DISABLE_PITCH : 1; // angleXZ ?
 	byte DISABLE_ZOOM : 1;
 	byte UNK_1 : 1; // ViewDistance, Lens
-	byte UNK_2 : 1;
+	byte UNK_2 : 1; // ViewDistance, Lens
 	byte DISABLE_MOVE : 1; // Position
 	byte DISABLE_CHANGE : 1;
 	ubyte none[3];

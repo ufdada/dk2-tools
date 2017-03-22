@@ -201,9 +201,12 @@ typedef struct LevelData {
     }
 
     struct {
-        uint unk_1; // always 222 / DE - Game crashes if it is set to something else
-        uint pathAndUnk_7Size; // size in bytes other part of file
-    } unk_6; // seems to be a separate block, by taking a look at the header.contentSize
+        uint checkThree; // always 222 / DE - Game crashes if it is set to something else
+        if (checkThree != 222) {
+            return showError( "Three", checkThree, 222);
+        }
+        uint contentSize; // size in bytes other part of file
+    } pathHeader;
     struct {
         MapType type;
         uint unk_1; // probably unused

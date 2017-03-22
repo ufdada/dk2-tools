@@ -40,16 +40,18 @@ typedef struct TerrainFlag {
 	byte AMBIENT_LIGHT : 1;
 };
 
-typedef struct TerrainData {
+typedef struct StringId {
+    uint ids[5];
+	ubyte unk_1[4];
+};
+
+typedef struct {
 	char name[32];
 	ArtResource completeResource;
 	ArtResource sideResource;
 	ArtResource topResource;
 	ArtResource taggedTopResource;
-	struct StringId {
-        uint Ids[5];
-	    ubyte unk_1[4];
-    } stringId;
+	StringId stringId;
 	float32 depth;
 	float32 lightHeight;
 	TerrainFlag flags;
@@ -82,4 +84,8 @@ typedef struct TerrainData {
 	ColorRGB ambientLight;
 	char soundCategoryFirstPerson[32];
 	uint unk_3; // 4628, 0
-};
+} TerrainData<read=getTerrainName>;
+
+string getTerrainName(TerrainData &item) {
+    return item.name;
+}

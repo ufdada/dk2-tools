@@ -21,7 +21,7 @@ typedef struct {
     ubyte none[2];
 } EffectElementFlag;
 
-struct EffectElementData {
+typedef struct {
 	char name[32];
 	ArtResource artResource;
 	float32 mass;
@@ -47,8 +47,8 @@ struct EffectElementData {
 	ubyte tableColorIndex;
 	ubyte fadePercentiage;
 	ushort nextEffectId;
-};
+} EffectElementData<read=getEffectElementName>;
 
-string getEffectElementName(struct EffectElementData &d) {
-	return d.name;
+string getEffectElementName(EffectElementData &item) {
+	return item.name;
 }

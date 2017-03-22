@@ -82,7 +82,5 @@ typedef struct {
 } TrapData<read=getTrapName>;
 
 string getTrapName(TrapData &item) {
-    string result;
-	SPrintf(result, "%s", item.name);
-	return result;
+	return item.name;
 }
