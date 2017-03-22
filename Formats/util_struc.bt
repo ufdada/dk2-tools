@@ -8,65 +8,19 @@
 // Purpose:     Utility structures
 //--------------------------------------
 
-const int FLOAT32 = 4096.0;
-const int DOUBLE32 = 65536.0;
-
-string getVector(struct Vector3f &vec) {
-    string vector;
-	SPrintf( vector, "(x=%lg, y=%lg, z=%lg)", (float)vec.x / FLOAT32, (float)vec.y / FLOAT32, (float)vec.z / FLOAT32 );
-	return vector;
-}
-
-void setVector(struct Vector3f &vec, string s ){
-    SScanf( s, "(x=%lg, y=%lg, z=%lg)", v.x * FLOAT32, v.y * FLOAT32, v.z * FLOAT32 );
-}
-
-string getColorRGB(struct ColorRGB &rgb) {
-    string color;
-	SPrintf( color, "(r=%lg, g=%lg, b=%lg)", rgb.red, rgb.green, rgb.blue );
-	return color;
-}
-
-string getColorRGBA(struct ColorRGBA &rgb) {
-    string color;
-	SPrintf( color, "(r=%lg, g=%lg, b=%lg, a=%lg)", rgb.red, rgb.green, rgb.blue, rgb.alpha );
-	return color;
-}
-
-string getFloatValue(uint &i) {
-    string floatValue;
-	SPrintf( floatValue, "%f", (float)i / FLOAT32 );
-	return floatValue;
-}
-
-string getFloatPointValue(struct float32 &f) {
-    string floatValue;
-	SPrintf( floatValue, "%lg", (float)f.value / FLOAT32 );
-	return floatValue;
-}
-
-string getFloat16PointValue(struct float16 &f) {
-    string floatValue;
-	SPrintf( floatValue, "%lg", (float)f.value / FLOAT32 );
-	return floatValue;
-}
-
-string getDoubleValue(struct double32 &d) {
-    string doubleValue;
-	SPrintf( doubleValue, "%lg", (float)d.value / DOUBLE32 );
-	return doubleValue;
-}
+const float FLOAT32 = 4096.0;
+const float DOUBLE32 = 65536.0;
 
 typedef struct {
-    uint value;
+    int value;
 } float32<read=getFloatPointValue>; 
 
 typedef struct {
-    ushort value;
+    short value;
 } float16<read=getFloat16PointValue>; 
 
 typedef struct {
-    uint value;
+    int value;
 } double32<read=getDoubleValue>; 
 
 typedef struct {
@@ -83,9 +37,9 @@ typedef struct {
 } ColorRGB<read=getColorRGB>;
 
 typedef struct {
-    uint x;
-    uint y;
-    uint z;
+    int x;
+    int y;
+    int z;
 } Vector3f<read=getVector, write=setVector>;
 
 typedef struct {
@@ -146,6 +100,52 @@ enum MapType {
     SHOTS = 260,
     EFFECTS = 270
 };
+
+string getVector(Vector3f &vec) {
+    string vector;
+	SPrintf( vector, "(x=%lg, y=%lg, z=%lg)", vec.x / FLOAT32, vec.y / FLOAT32, vec.z / FLOAT32 );
+	return vector;
+}
+
+void setVector(Vector3f &vec, string s ){
+    SScanf( s, "(x=%lg, y=%lg, z=%lg)", v.x * FLOAT32, v.y * FLOAT32, v.z * FLOAT32 );
+}
+
+string getColorRGB(ColorRGB &rgb) {
+    string color;
+	SPrintf( color, "(r=%lg, g=%lg, b=%lg)", rgb.red, rgb.green, rgb.blue );
+	return color;
+}
+
+string getColorRGBA(ColorRGBA &rgb) {
+    string color;
+	SPrintf( color, "(r=%lg, g=%lg, b=%lg, a=%lg)", rgb.red, rgb.green, rgb.blue, rgb.alpha );
+	return color;
+}
+
+string getFloatValue(int &i) {
+    string floatValue;
+	SPrintf( floatValue, "%f", i / FLOAT32 );
+	return floatValue;
+}
+
+string getFloatPointValue(float32 &f) {
+    string floatValue;
+	SPrintf( floatValue, "%lg", f.value / FLOAT32 );
+	return floatValue;
+}
+
+string getFloat16PointValue(float16 &f) {
+    string floatValue;
+	SPrintf( floatValue, "%lg", f.value / FLOAT32 );
+	return floatValue;
+}
+
+string getDoubleValue(double32 &d) {
+    string doubleValue;
+	SPrintf( doubleValue, "%lg", d.value / DOUBLE32 );
+	return doubleValue;
+}
 
 local string corruptFileMessage = "Corrupt file. %s check failed. Expected: %i. Result: %i.\n";
 

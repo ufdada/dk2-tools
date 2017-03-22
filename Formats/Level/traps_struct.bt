@@ -11,14 +11,14 @@ typedef struct TrapFlag {
 	byte DIE_WHEN_TRIGGERED : 1;
 	byte REVEAL_WHEN_FIRED : 1;
 	byte none_2 : 1;
-	byte UNK_1 : 1; // always 1?
+	byte UNK_1 : 1; // always 1
 	byte DISARMABLE : 1;
 	byte INVISIBLE : 1;
 	byte none_3 : 1;
 	byte TRACK_NEAREST_TARGET : 1;
 	byte REQUIRE_MANA : 1;
 	byte LOOP_FIRE_ANIMATION : 1;
-	byte UNK_2 : 1; // always 1?
+	byte UNK_2 : 1; // always 1
 	byte GUARD_POST : 1;
 	byte OBSTACLE : 1;
 	byte DOOR_TRAP : 1;
@@ -36,7 +36,7 @@ enum <ubyte> TriggerActionType {
 	BY_TRIGGER
 };
 
-typedef struct TrapData {
+typedef struct {
 	char name[32];
 	ArtResource meshResource;
 	ArtResource guiIcon;
@@ -52,7 +52,7 @@ typedef struct TrapData {
 	uint triggerData;
 	uint shotData1;
 	uint shotData2;
-	ushort unk_1; // 1000, 5980, 0 (232,3; 92,23; 0,0)
+	ushort researchTime;
 	ushort threat;
 	TrapFlag flags;
 	ushort health;
@@ -68,7 +68,7 @@ typedef struct TrapData {
 	ubyte unk_2[2]; // 246,255; 0,0
 	ushort toolTipStringId;
 	ushort nameStringId;
-	ubyte editorIconId;
+	ubyte shotsWhenArmed;
 	TriggerActionType trigger;
 	ubyte trapId;
 	ubyte shotTypeId;
@@ -79,4 +79,8 @@ typedef struct TrapData {
 	Vector3f shotOffset;
 	float32 shotDelay;
 	ushort healthGain;
-};
+} TrapData<read=getTrapName>;
+
+string getTrapName(TrapData &item) {
+	return item.name;
+}

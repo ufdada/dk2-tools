@@ -111,7 +111,7 @@ enum <ubyte> AttackCategory {
     MELEE_SCYTHE_ATTACK
 };
 
-struct ShotData {
+typedef struct {
 	char name[32];
 	ArtResource meshResource;
 	Light light;
@@ -146,4 +146,8 @@ struct ShotData {
     char soundCategory[32];
     ushort threat;
     float32 burnDuration;
-};
+} ShotData<read=getShotName>;
+
+string getShotName(ShotData &item) {
+	return item.name;
+}

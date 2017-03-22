@@ -19,7 +19,7 @@ typedef struct {
     ubyte SPECIAL_WALLS : 1; // Placement
     ubyte ATTACKABLE : 1;
     ubyte UNK_1 : 1; // Hero Gate [ Final ], Hero Gate [ Tile ] [ not used ]
-    ubyte UNK_2 : 1;
+    ubyte UNK_2 : 1; // Hero Gate [ Final ], Hero Gate [ Tile ] [ not used ]
     ubyte HAS_FLAME : 1;
     ubyte IS_GOOD : 1;
 	ubyte none[2];
@@ -42,20 +42,20 @@ enum <ubyte> TileConstruction {
 	HERO_GATE_3_BY_1
 };
 
-struct RoomData {
+typedef struct {
 	char name[32];
 	ArtResource guiIcon;
 	ArtResource editorIcon;
 	ArtResource completeResource;
 	ArtResource straightResource;
 	ArtResource insideCornerResource;
-	ArtResource unknownResource;
+	ArtResource nullResource; // always null
 	ArtResource outsideCornerResource;
 	ArtResource wallResource;
 	ArtResource capRecource;
 	ArtResource ceilingResource;
 	float32 ceilingHeight;
-	ubyte unk_1[2]; // 195,159
+	ushort researchTime; // maybe. Not changed in editor
 	ushort torchIntensity;
 	RoomFlag flags;
 	ushort toolTipStringId;
@@ -67,7 +67,7 @@ struct RoomData {
 	float16 torchHeight;
 	ushort roomEffects[8];
 	ubyte roomId;
-	ubyte unk_2; // always 100 ?
+	ubyte returnPercentage;
 	ubyte terrainId;
 	TileConstruction construction;
 	ubyte createdCreatureId;
@@ -80,4 +80,8 @@ struct RoomData {
 	ubyte recommendedSizeX;
 	ubyte recommendedSizeY;
 	ushort healthGain;
-};
+} RoomData<read=getRoomName>;
+
+string getRoomName(RoomData &item) {
+    return item.name;
+}

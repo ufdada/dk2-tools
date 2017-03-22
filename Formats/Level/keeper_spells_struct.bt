@@ -40,7 +40,7 @@ enum <ubyte> TargetRule {
 	POSESSION
 };
 
-struct KeeperSpellData {
+typedef struct {
 	char name[32];
 	ArtResource guiIcon;
 	ArtResource editorIcon;
@@ -72,4 +72,8 @@ struct KeeperSpellData {
 	char soundCategoryGui[32];
 	HandAnimId handAnim;
 	HandAnimId NoGoHandAnim;
-};
+} KeeperSpellData<read=getKeeperSpellName>;
+
+string getKeeperSpellName(KeeperSpellData &item) {
+	return item.name;
+}

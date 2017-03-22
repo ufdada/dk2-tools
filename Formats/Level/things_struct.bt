@@ -111,13 +111,13 @@ enum <ubyte> RoomType {
 };
 
 typedef struct CameraFlag {
-	byte DISABLE_YAW : 1;
-	byte DISABLE_ROLL : 1;
-	byte DISABLE_PITCH : 1;
+	byte DISABLE_YAW : 1; // angleXY ?
+	byte DISABLE_ROLL : 1; // angleYZ ?
+	byte DISABLE_PITCH : 1; // angleXZ ?
 	byte DISABLE_ZOOM : 1;
-	byte UNK_1 : 1;
-	byte UNK_2 : 1;
-	byte DISABLE_MOVE : 1;
+	byte UNK_1 : 1; // ViewDistance, Lens
+	byte UNK_2 : 1; // ViewDistance, Lens
+	byte DISABLE_MOVE : 1; // Position
 	byte DISABLE_CHANGE : 1;
 	ubyte none[3];
 };
@@ -273,22 +273,22 @@ typedef struct ThingData {
 			break;
 		case CAMERA_THING:
 			struct {
-				Vector3f unk_1; // x00
-				Vector3f unk_2; // x0c
-				Vector3f unk_3; // x18
-				float32 fog;
-				float32 fogMin;
-				float32 fogMax;
-				float32 height;
-				float32 heightMin;
-				float32 heightMax;
-				float32 fov;
-				float32 fovMin;
-				float32 fovMax;
+				Vector3f position;
+				Vector3f positionMinClipExtent;
+				Vector3f positionMaxClipExtent;
+				float32 viewDistanceValue;
+				float32 viewDistanceMin;
+				float32 viewDistanceMax;
+				float32 zoomValue;
+				float32 zoomValueMin;
+				float32 zoomValueMax;
+				float32 lensValue;
+				float32 lensValueMin;
+				float32 lensValueMax;
 				CameraFlag flag;
-				ushort angleYaw;
-				ushort angleRoll;
-				ushort anglePitch;
+				ushort angleYaw; // angleXY ?
+				ushort angleRoll; // angleYZ ?
+				ushort anglePitch; // angleXZ ?
 				ushort id;
 			} camera;
 			break;

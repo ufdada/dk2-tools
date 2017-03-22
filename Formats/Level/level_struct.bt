@@ -160,8 +160,8 @@ typedef struct LevelData {
 	    LevelFlag flagValue;
 	    char speechStr[32];
 	    ubyte talismanPices;
-	    LevelReward LevelRewardPrevious[4];
-	    LevelReward LevelRewardNext[4];
+	    LevelReward rewardPrevious[4];
+	    LevelReward rewardNext[4];
 	    ubyte soundTrack;
 	    TextTable textTableId;
 	    ushort textTitleId;
@@ -183,8 +183,8 @@ typedef struct LevelData {
 	    if (header.contentSize > 25603) {
             ubyte oneShotHornyLev;
 	        ubyte playerCount;
-	        ubyte unk_4; // always 0?
-	        ubyte unk_5; // always 0?
+	        LevelReward rewardPrevious;
+	        LevelReward rewardNext;
 	        ushort speechHornyId;
 	        ushort speechPrelevelId;
 	        ushort speechPostlevelWin;
@@ -201,9 +201,12 @@ typedef struct LevelData {
     }
 
     struct {
-        ubyte unk_1; // always 222 / DE - Game crashes if it is set to something else
-        uint pathAndUnk_7Size; // size in bytes other part of file
-    } unk_6; // seems to be a separate block, by taking a look at the header.contentSize
+        uint checkThree; // always 222 / DE - Game crashes if it is set to something else
+        if (checkThree != 222) {
+            return showError( "Three", checkThree, 222);
+        }
+        uint contentSize; // size in bytes other part of file
+    } pathHeader;
     struct {
         MapType type;
         uint unk_1; // probably unused

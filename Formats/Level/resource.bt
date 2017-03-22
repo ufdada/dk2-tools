@@ -43,7 +43,7 @@ enum <ubyte> Type {
     UNK_1 = 12
 };
 
-struct ArtResource {
+typedef struct {
   char name[64];
   ArtResourceFlag flags; /* 0 */
   union {
@@ -51,36 +51,40 @@ struct ArtResource {
 		float32 width; /* fixed */
 		float32 height; /* fixed */
 		ushort frames;
+        ushort none_1;
     } image;
     struct {
-		float32 scale;
+		uint scale;
 		ushort frames;
+        ushort none_1;
+        uint none_2;
     } mesh;
     struct {
-		float32 frames; /* 4 */
-		float32 fps; /* 8 */
-		ushort start_dist; /* c */
-		ushort end_dist; /* e */
+		uint frames; /* 4 */
+		uint fps; /* 8 */
+		ushort startDist; /* c */
+		ushort endDist; /* e */
     } anim;
     struct {
 		uint id;
+        uint none_1;
+		uint none_2;
     } proc;
     struct {
-		uint unk_1; // x00
-		uint unk_2; // x04
-		ubyte frames;
+		uint none_1; // x00
+		uint none_2; // x04
+		uint none_3;
     } terrain;
   } data;
   Type type; /* 10 */
-  ubyte start_af; /* 11 */
-  ubyte end_af; /* 12 */
-  ubyte sometimes_one; /* 13 */
-};
-// FIXME in terrains we have StringIds structure
-struct StringIds {
-  uint32 ids[5];
-  short unk_1[4]; // x14
-};
+  ubyte startAf; /* 11 */
+  ubyte endAf; /* 12 */
+  ubyte sometimesOne; /* 13 */
+} ArtResource<read=getArtResourceName>;
+
+string getArtResourceName(ArtResource &item) {
+	return item.name;
+}
 
 enum <byte> Material {
 	NO_MATERIAL,
