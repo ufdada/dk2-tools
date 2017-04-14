@@ -200,7 +200,7 @@ typedef struct {
     ushort cameraX;
     ushort cameraY;
     char name[32];
-} PlayerData<read=gettPlayerName>;
+} PlayerData<read=getPlayerName>;
 
 string getPlayerName(PlayerData &item) {
     return item.name;
