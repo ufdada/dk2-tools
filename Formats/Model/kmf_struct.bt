@@ -16,45 +16,69 @@
 // v0.40
 // - identified several unkown values
 // - refactored lodEntries, so they should be now easier to read
+#include "../util_struc.bt"
 
-local int i;
-enum FormatType { MESH = 1, ANIM = 2 };
+enum FormatType { MESH = 1, ANIM = 2, GROP = 3 };
 enum MaterialFlags { UNKNOWN_0, UNKNOWN_2 = 2, UNKNOWN_3 = 3, UNKNOWN_4 = 4, UNKNOWN_5 = 5, EnvironmentMapped = 6 };
 
-typedef struct {	// a vertex definition
-	float x;
-	float y;
-	float z;
-} Vec3f;
-
-struct {
-	char magic[4];
-	int size; // size of file incl. header
-	int version; // = 17
-} KMSH;
-
-struct {
-	char signature[4];
-	int size;
-	FormatType format;
-	int uk; // = 1
-} HEAD;
+local string tKmsh = "KMSH";
+local string tSphd = "SPHD";
+local string tCtrl = "CTRL";
+local string tMat2 = "MAT2";
+local string tMatl = "MATL";
+local string tHead = "HEAD";
+local string tAnim = "ANIM"; 
+local string tMesh = "MESH";
+local string tGrop = "GROP";
+local string tElem = "ELEM";
+local string tGeom = "GEOM";
+local string tVert = "VERT";
+local string tVgeo = "VGEO";
+local string tSprs = "SPRS";
+local string tPoly = "POLY";
+local string tItab = "ITAB";
 
 struct UV {
 	short uv1;
 	short uv2;
 };
 
+typedef struct Triangle {
+    ubyte x;
+    ubyte y;
+    ubyte z;
+};
+
 struct Texture {
 	string name;
 };
 
+struct CTRL {	// numCTRL only non-zero in ANIM files
+	char signature[4];
+    checkSignature(signature, tCtrl);
+	uint size;
+	uint numCTRL;
+	if (numCTRL > 0){
+		uint uk[numCTRL*2];
+	}
+};
+
+struct SPHD (int lodCount) {
+	char signature[4];
+    checkSignature(signature, tSphd);
+	uint size;
+	uint lodEntries[lodCount]; // one entry for each LOD
+	uint numVertsEx; // number of entries in the extended vertex list
+	float mmFactor;
+};
+
 struct MAT2 {
 	char signature[4];
-	int size;
+    checkSignature(signature, tMat2);
+	uint size;
 	string name;
-	int numTextures;
-	Texture texturenames[numTextures]<optimize=false>;
+	uint numTextures;
+	Texture texturenames[numTextures] <optimize=false>;
 	MaterialFlags flags;
 	float brightness;
 	float gamma;
@@ -63,87 +87,230 @@ struct MAT2 {
 
 struct MATL {
 	char signature[4];
-	int size;
-	int numMaterials;
-	MAT2 materials[numMaterials]<optimize=false>;
-} mertials;
+    checkSignature(signature, tMatl);
+	uint size;
+	uint numMaterials;
+	MAT2 materials[numMaterials] <optimize=false>;
+};
 
-struct MESH {
+struct {
 	char signature[4];
-	int size; // incl. signature
-	struct HEAD {
-		char head[4];
-		int size;
-		string meshname;
-		int numGroups;	// number of groups in SPRS
-		int numVerts;	// total number of vertices defined in GEOM
-		Vec3f pos;
-		float scale;
-		int numLOD;	// number of total LOD entries
-	} header;
+    checkSignature(signature, tKmsh);
+	uint size;
+	uint version; // = 17
+    struct HEAD {
+	    char signature[4];
+        checkSignature(signature, tHead);
+	    uint size;
+	    FormatType format;
+	    uint uk; // = 1
+    } header;
 
-	struct CTRL {	// numCTRL only non-zero in ANIM files
-		char signature[4];
-		int size;
-		int numCTRL;
-		if (numCTRL > 0){
-			int uk[numCTRL*2];
-		}
-	} ctrl;
+    if (header.format != GROP) {
+        MATL martials;
+    }
+    
+    if (header.format == ANIM) {
+         struct ANIM {
+	        char signature[4];
+            checkSignature(signature, tAnim);
+	        uint size;
+    
+            struct ANIM_HEAD {
+	            char signature[4];
+                checkSignature(signature, tHead);
+	            uint size;
+                string meshname;
+	            uint sprsCount;
+	            uint frameCount;
+	            uint indexCount;
+                uint geomCount;
+                uint frameFactorFunction;
+                Vec3f pos;
+                float cubeScale;
+                float scale;
+                uint lodCount;
+            } header;
 
-	typedef struct {	// only used in ANIM files
-		char signature[4];
-		int size;
-		float x,y,z;
-	} POLY;
+	        CTRL ctrl;
+	        struct ANIM_SPRS (ANIM_HEAD &header) {
+	            char signature[4];
+                checkSignature(signature, tSprs);
+	            uint size;
+	            local uint j, n, k;
+            
+                SPHD sprite(header.lodCount)[header.sprsCount] <optimize=false>;
+            
+                for (j = 0; j < header.sprsCount; j++) {
+                    struct SPRS_SPRS (uint lodCount) {
+                        char signature[4];
+                        checkSignature(signature, tSprs);
+	                    uint size;
+	                    uint index;
+                
+                        struct POLY (uint lodCount) {	// only used in ANIM files
+	                        char signature[4];
+                            checkSignature(signature, tPoly);
+	                        uint size;
+                        
+                            for (n = 0; n < lodCount; n++) {
+                                k = sprite[j].lodEntries[n];
+                                if (k != 0) {
+			                        struct (uint triangleCount) {
+				                        Triangle lodVertIndices[triangleCount];
+			                        } lodEntries(k) <optimize=false>;
+                                }
+	                        }
+                        } poly(lodCount) <optimize=false>;
+            
+                        struct VERT {
+                            char signature[4];
+                            checkSignature(signature, tVert);
+	                        uint size;
+            
+                            struct AnimVertEx {
+	                            UV uv;
+	                            Vec3f normal;
+                                ushort index;	// index of the vertex in GEOM
+                            } verts[sprite[j].numVertsEx]; // extended vertex list
+                        } verts <optimize=false>;
+                    } sprsSprs(header.lodCount) <optimize=false>;
+                }
+            
+                struct ITAB {
+                    char signature[4];
+                    checkSignature(signature, tItab);
+	                uint size;
+                    local uint k = (int) ((header.frameCount - 1) / 128.0 + 1);
+                    uint itab[k * header.indexCount];
+                } itab;
+            
+                struct ANIM_GEOM (uint geomCount) {
+	                char signature[4];
+                    checkSignature(signature, tGeom);
+	                uint size;
+                    struct AnimGeom {
+	                    int coordinates;
+                        ubyte frameBase;
+                    } geom[geomCount] <read=getAnimGeom>;
+                } geometry(header.geomCount);
+                
+                struct VGEO (uint indexCount, uint frameCount) {
+                    char signature[4];
+                    checkSignature(signature, tVgeo);
+	                uint size;
+                    ubyte offsets[indexCount * frameCount];
+                } vgeo(header.indexCount, header.frameCount);
+            } sprites(header);
+        } anim;
 
-	typedef struct {
-		short index;	// index of the vertex in GEOM
-		UV uv;
-		Vec3f normal;
-	} VertEx;	// Extra vertex data with normals
+    } else if (header.format == MESH) {
+    
+        struct MESH {
+	        char signature[4];
+            checkSignature(signature, tMesh);
+	        uint size; // incl. signature
+    
+	        struct MESH_HEAD {
+	            char signature[4];
+                checkSignature(signature, tHead);
+	            uint size;
+	            string meshname;
+	            uint sprsCount;	// number of groups in SPRS
+	            uint vertsCount;	// total number of vertices defined in GEOM
+	            Vec3f pos;
+	            float scale;
+	            uint lodCount;	// number of total LOD entries
+            } header;
 
-	struct MODEL {
-		char signature[4];
-		int size;
+	        CTRL ctrl;
 
-		for (i = 0; i < header.numGroups; i++) {
-			struct SPHD {
-				char signature[4];
-				int size;
-				int lodEntries[header.numLOD]; // one entry for each LOD
-				int numVertsEx; // number of entries in the extended vertex list
-				float mmFactor;
-			} sprite_header;
-		}
+	        struct MESH_SPRS (MESH_HEAD &header) {
+	            char signature[4];
+                checkSignature(signature, tSprs);
+	            uint size;            
+                local uint i, k, n;
 
-		for (i = 0; i < header.numGroups; i++) {
-			struct SPRS {
-				char signature[4];
-				int size;
-				int index;
-				local int j;
-				for (j = 0; j < header.numLOD; j++) {
-					if (sprite_header[i].lodEntries[j] > 0){
-						struct {
-							local int k;
-							for (k = 0; k < sprite_header[i].lodEntries[j]; k++){
-								struct {
-									ubyte x,y,z; // indices for the extended vertex list
-								} lodVertIndices;
-							}
-						} lodEntries;
-					}
-				}
+                SPHD sprite(header.lodCount)[header.sprsCount] <optimize=false>;
+	            
+                for (i = 0; i < header.sprsCount; i++) {
+                    struct SPRS {
+	                    char signature[4];
+                        checkSignature(signature, tSprs);
+	                    uint size;
+	                    uint index;
 
-				VertEx VertsEx[sprite_header[i].numVertsEx]; // extended vertex list
-			} groups;
-		}
-	} model;
+	                    for (n = 0; n < header.lodCount; n++) {
+                            k = sprite[i].lodEntries[n];
+                            if (k != 0) {
+			                    struct (uint triangleCount) {
+			                        Triangle lodVertIndices[k];
+			                    } lodEntries(k) <optimize=false>;
+                            }
+	                    }
 
-	struct GEOM {
-		char signature[4];
-		int size;
-		Vec3f vertices[header.numVerts];
-	} geometry;
-} mesh;
+                        struct MeshVertEx {
+		                    short index;	
+		                    UV uv;
+		                    Vec3f normal;
+	                    } verts[sprite[i].numVertsEx] <optimize=false>;
+
+                    } groups <optimize=false>;
+                }
+
+            } sprites(header) <optimize=false>;
+
+            struct MESH_GEOM (uint geomCount) {
+	            char signature[4];
+                checkSignature(signature, tGeom);
+	            uint size;
+                Vec3f geom[geomCount];
+            } geometry(header.vertsCount) <optimize=false>;
+        } mesh;
+
+    } else if (header.format == GROP) {
+    
+        struct GROP {
+	        char signature[4];
+            checkSignature(signature, tGrop);
+	        uint size; // incl. signature
+
+            struct GROP_HEAD {
+                char signature[4];
+                checkSignature(signature, tHead);
+                uint size;
+                uint elementCount;
+            } header;
+    
+	        struct GROP_ELEM {
+                char signature[4];
+                checkSignature(signature, tElem);
+                uint size;
+                string name;
+                Vec3f pos;
+            } element[header.elementCount] <optimize=false>;
+        } grop;
+
+    } else {
+        Printf("Unknown model format %i", header.format);
+        return -1;
+    }
+    
+} model;
+
+string getAnimGeom(AnimGeom &g) {
+    string result;
+    float x = (((g.coordinates >> 20) & 0x3ff) - 0x200) / 511.0f;
+    float y = (((g.coordinates >> 10) & 0x3ff) - 0x200) / 511.0f;
+    float z = ((g.coordinates & 0x3ff) - 0x200) / 511.0f;
+
+	SPrintf(result, "(x=%lg, y=%lg, z=%lg)", x, y, z);
+	return result;
+}
+
+void checkSignature(char signature[], string expect) {
+    if (signature != expect) {
+        Printf("Wrong signature %s expect %s\n", signature, expect);
+        Exit(true);
+    }
+}

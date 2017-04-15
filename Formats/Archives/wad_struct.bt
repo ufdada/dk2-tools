@@ -46,7 +46,7 @@ struct WadEntry {
     // Getting the file contents
     local int pos = FTell();
     FSeek(nameOffset);
-    uchar name[nameSize];
+    char name[nameSize];
     FSeek(fileOffset);
     ubyte file[compressedSize];
     FSeek(pos);

@@ -11,15 +11,15 @@
 #include "../util_struc.bt"
 
 struct Entry {
-    Vector3f position;
-    Vector3f forward;
-    Vector3f left;
-    Vector3f up;
-    float32 fov; // Field of view in radians
-    float32 near;
+    Vec3f position;
+    Vec3f forward;
+    Vec3f left;
+    Vec3f up;
+    float lens; // Field of view in radians
+    float near;
 };
 
 // Reading the file
-int frames;
+uint frames;
 int unused[3];
-Entry Dictionary[frames];
+Entry dictionary[frames];

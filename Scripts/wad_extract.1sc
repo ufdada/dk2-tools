@@ -14,7 +14,8 @@ if (RunTemplate("../Formats/Archives/wad_struct.bt") < 0) {
     return -1;
 }
 
-string destinationdir = "E:/wad/";
+string destinationdir = InputDirectory("Select Folder");
+
 string origFilename = FileNameGetBase( GetFileName(), false );
 string destination;
 string filename;
@@ -25,11 +26,6 @@ int i;
 int filenum = GetFileNum();
 int extensionIndex;
 for (i = 0; i < header.files; i++) {
-    if (entry[i].type == COMPRESSED) {
-		Printf("Compression is not supported currently\n");
-        continue;
-    }
-
     filename = entry[i].name;
     folderSeparatorIndex = Strchr( filename, '\\' );
     // if there is a folder in the name, set subfolder back;
@@ -48,8 +44,12 @@ for (i = 0; i < header.files; i++) {
     Printf("Extracting %s to folder %s\n", filename, destination);
 
     destination = destination + filename;
-
-    CopyBytesToClipboard(entry[i].file, entry[i].compressedSize, CHARSET_UNICODE, false);
+    ClearClipboard();
+    if (entry[i].type == COMPRESSED) {
+        decompressFileData(entry[i].file, entry[i].size, filename);
+    } else {
+        CopyBytesToClipboard(entry[i].file, entry[i].compressedSize, CHARSET_UNICODE, false);
+    }
     
     FileNew( "Hex" );
 
@@ -64,4 +64,113 @@ for (i = 0; i < header.files; i++) {
 
     FileClose();
     FileSelect( filenum );
+    //break; // FIXME for debug only
+}
+
+
+void decompressFileData(ubyte src[], uint size, string filename) {
+    ubyte dest[size];
+    uint flag; // The flag byte read at the beginning of each main loop iteration
+    ubyte finished = false;
+    uint tmp, tmp2, tmp3, localtemp;
+
+    uint counter; // Counter for all loops
+    uint i = 0, j = 0, k;
+    if ((src[i++] & 1) != 0) {
+        i += 3;
+    }
+    i++; // <<skip second byte
+    // <decompressed size packed into 3 bytes
+
+    uint decsize = (((uint) src[i]) << 16) + (((uint) src[i + 1]) << 8) + (src[i + 2]);
+    if (size != decsize) {
+        Printf("Uncompressed size error %s", fileName);
+        return -1;
+    }
+
+    i += 3;
+    while (finished == false) {
+        if (i >= sizeof(src)) {
+            break;
+        }
+        flag = src[i++]; // Get flag byte
+        if ((flag & 0x80) == 0) {
+            tmp = src[i++];
+            counter = flag & 3; // mod 4
+            while (counter-- != 0) // Copy literally
+            {
+                dest[j] = src[i++];
+                j++;
+            }
+            k = j; // Get the destbuf position
+            k -= (flag & 0x60) << 3;
+            k -= tmp;
+            k--;
+
+            counter = ((flag >> 2) & 7) + 2;
+            do {
+                dest[j] = dest[k++];
+                j++;
+            } while (counter-- != 0); // Correct decrement
+        } else if ((flag & 0x40) == 0) {
+            tmp = src[i++];
+            tmp2 = src[i++];
+            counter = tmp >> 6;
+            while (counter-- != 0) // Copy literally
+            {
+                dest[j] = src[i++];
+                j++;
+            }
+            k = j;
+            k -= (tmp & 0x3F) << 8;
+            k -= tmp2;
+            k--;
+            counter = (flag & 0x3F) + 3;
+            do {
+                dest[j] = dest[k++];
+                j++;
+            } while (counter-- != 0); // Correct postfix decrement
+        } else if ((flag & 0x20) == 0) {
+            localtemp = src[i++];
+            tmp2 = src[i++];
+            tmp3 = src[i++];
+            counter = flag & 3;
+            while (counter-- != 0) // Copy literally
+            {
+                dest[j] = src[i++];
+                j++;
+            }
+            k = j;
+            k -= (flag & 0x10) << 12;
+            k -= localtemp << 8;
+            k -= tmp2;
+            k--;
+            counter = tmp3 + ((flag & 0x0C) << 6) + 4;
+            do {
+                dest[j] = dest[k++];
+                j++;
+            } while (counter-- != 0); // Correct
+        } else {
+            counter = (ubyte) ((flag & 0x1F) * 4 + 4);
+            if (counter > 0x70) {
+                finished = true;
+
+                // Crepare to copy the last bytes
+                counter = flag & 3;
+            }
+            while (counter-- != 0) // Copy literally
+            {
+                dest[j] = src[i++];
+                j++;
+            }
+        }
+    } 
+
+    if (finished == false) {
+
+        Printf("File %s might not be successfully extracted!", fileName);
+        return -1;
+    }
+
+    CopyBytesToClipboard(dest, size, CHARSET_UNICODE, false);
 }

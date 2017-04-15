@@ -42,6 +42,12 @@ typedef struct {
     int z;
 } Vector3f<read=getVector, write=setVector>;
 
+typedef struct {	// a vertex definition
+	float x;
+	float y;
+	float z;
+} Vec3f<read=getVector3>;
+
 typedef struct {
 	byte UNK_1 : 1;  // FIXME unknown flag
 	byte FLICKER : 1;
@@ -104,6 +110,12 @@ enum MapType {
 string getVector(Vector3f &vec) {
     string vector;
 	SPrintf( vector, "(x=%lg, y=%lg, z=%lg)", vec.x / FLOAT32, vec.y / FLOAT32, vec.z / FLOAT32 );
+	return vector;
+}
+
+string getVector3(Vec3f &vec) {
+    string vector;
+	SPrintf(vector, "(x=%lg, y=%lg, z=%lg)", vec.x, vec.y, vec.z);
 	return vector;
 }
 
