@@ -19,7 +19,20 @@
 #include "../util_struc.bt"
 
 enum FormatType { MESH = 1, ANIM = 2, GROP = 3 };
-enum MaterialFlags { UNKNOWN_0, UNKNOWN_2 = 2, UNKNOWN_3 = 3, UNKNOWN_4 = 4, UNKNOWN_5 = 5, EnvironmentMapped = 6 };
+
+struct MaterialFlags {
+    ubyte HAS_ALPHA           : 1; // 0x0001
+    ubyte UNKNOWN2            : 1; // 0x0002 Shinyness?
+    ubyte ALPHA_ADDITIVE      : 1; // 0x0004
+    ubyte UNKNOWN4            : 1; // 0x0008
+    ubyte UNKNOWN5            : 1; // 0x0010
+    ubyte UNKNOWN6            : 1; // 0x0020
+    ubyte UNKNOWN7            : 1; // 0x0040
+    ubyte UNKNOWN8            : 1; // 0x0080 Some sort of glow?
+    ubyte ENVIRONMENT_MAPPED  : 1; // 0x0100 Environment mapped, invisible guys have this???
+    ubyte UNKNOWN10; // Probably unused
+    ubyte UNKNOWN11; // Probably unused
+};
 
 local string tKmsh = "KMSH";
 local string tSphd = "SPHD";
