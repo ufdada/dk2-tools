@@ -92,7 +92,7 @@ struct MAT2 {
     string name;
     uint numTextures;
     Texture texturenames[numTextures] <optimize=false>;
-    MaterialFlags flags;
+    MaterialFlags flags<open=true>;
     float brightness;
     float gamma;
     string envmap;
