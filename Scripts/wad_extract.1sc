@@ -7,7 +7,6 @@
 //   Version: 1.0
 //   Purpose: Extract wad files
 //  Category: Archives
-//      TODO: - decompress Files
 //------------------------------------------------
 if (RunTemplate("../Formats/Archives/wad_struct.bt") < 0) {
     MessageBox( idOk, GetScriptName(), "Failed to parse File '%s'", GetFileName() );
@@ -50,11 +49,12 @@ for (i = 0; i < header.files; i++) {
     } else {
         CopyBytesToClipboard(entry[i].file, entry[i].compressedSize, CHARSET_UNICODE, false);
     }
-    
+
     FileNew( "Hex" );
 
     PasteFromClipboard();
-    
+    ClearClipboard();
+
     // Save the new file to disk
     if( FileSave( destination ) < 0 )
     {
@@ -64,9 +64,7 @@ for (i = 0; i < header.files; i++) {
 
     FileClose();
     FileSelect( filenum );
-    //break; // FIXME for debug only
 }
-
 
 void decompressFileData(ubyte src[], uint size, string filename) {
     ubyte dest[size];
@@ -155,7 +153,7 @@ void decompressFileData(ubyte src[], uint size, string filename) {
             if (counter > 0x70) {
                 finished = true;
 
-                // Crepare to copy the last bytes
+                // Prepare to copy the last bytes
                 counter = flag & 3;
             }
             while (counter-- != 0) // Copy literally
@@ -167,7 +165,6 @@ void decompressFileData(ubyte src[], uint size, string filename) {
     } 
 
     if (finished == false) {
-
         Printf("File %s might not be successfully extracted!", fileName);
         return -1;
     }
