@@ -14,6 +14,11 @@ if (RunTemplate("../Formats/Archives/wad_struct.bt") < 0) {
 }
 
 string destinationdir = InputDirectory("Select Folder");
+int from = 0, limit = header.files;
+if (header.files > 1000) {
+    from = InputNumber("Input start item index", "Item index", "0");
+    limit = from + InputNumber("Input items count", "Items count", "50");
+}
 
 string origFilename = FileNameGetBase( GetFileName(), false );
 string destination;
@@ -24,7 +29,7 @@ int i;
 // get current file to select afterwards
 int filenum = GetFileNum();
 int extensionIndex;
-for (i = 0; i < header.files; i++) {
+for (i = from; i < limit; i++) {
     filename = entry[i].name;
     folderSeparatorIndex = Strchr( filename, '\\' );
     // if there is a folder in the name, set subfolder back;
