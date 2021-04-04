@@ -8,16 +8,16 @@
 // Purpose:     Level structure
 //--------------------------------------
 typedef struct LevelFlag {
-	byte none_1 : 1;
+    byte none_1 : 1;
     byte none_2 : 1;
     byte UNK_1 : 1; // always on?!
-	byte ALWAYS_IMPRISON_ENEMIES : 1;
-	byte ONE_SHOT_HORNY : 1;
+    byte ALWAYS_IMPRISON_ENEMIES : 1;
+    byte ONE_SHOT_HORNY : 1;
     byte IS_SECRET_LEVEL : 1;
     byte IS_SPECIAL_LEVEL : 1;
     byte SHOW_HERO_KILLS : 1;
-	byte AUTO_OBJECTIVE_BOX : 1;
-	byte HEART_MAKES_GEM : 1;
+    byte AUTO_OBJECTIVE_BOX : 1;
+    byte HEART_MAKES_GEM : 1;
     byte IS_MULTIPLAYER_LEVEL : 1;
     byte IS_SKIRMISH_LEVEL : 1;
     byte FREEZE_OPTIONS : 1;
@@ -27,24 +27,24 @@ typedef struct LevelFlag {
 };
 
 enum <ubyte> LevelReward {
-	NO_LEVELREWARD = 0,
-    ALARM_REWARD = 1,
+    NONE = 0,
+    ALARM = 1,
     BARRICADE = 2,
-    BOULDER_REWARD = 3,
+    BOULDER = 3,
     BRACED = 4,
     BRIDGE_STONE = 5,
     BRIDGE_WOODEN = 6,
-    CALL_TO_ARMS_REWARD = 7,
+    CALL_TO_ARMS = 7,
     CASINO = 8,
     // 9
     // 10
     // 11
     DARK_LIBRARY = 12,
     // 13
-    FEAR_REWARD = 14,
+    FEAR = 14,
     FIREBURST = 15,
-    FREEZE_REWARD = 16,
-    GAS_REWARD = 17,
+    FREEZE = 16,
+    GAS = 17,
     GRAVEYARD = 18,
     GUARD_ROOM = 19,
     GUARD_POST = 20,
@@ -52,7 +52,7 @@ enum <ubyte> LevelReward {
     // 22
     // 23
     LAIR = 24,
-    LIGHTNING_REWARD = 25,
+    LIGHTNING = 25,
     MAGIC_DOOR = 26,
     PIT = 27,
     // 28
@@ -68,10 +68,10 @@ enum <ubyte> LevelReward {
     // 38
     TEMPLE = 39,
     // 40
-    TORTURE_REWARD = 41,
+    TORTURE = 41,
     TRAINING = 42,
     TREASURY = 43,
-    TRIGGER_REWARD = 44,
+    TRIGGER = 44,
     // 45
     // 46
     WOOD_DOOR = 47,
@@ -147,51 +147,51 @@ enum <ubyte> TextTable {
 typedef struct LevelData {
     struct {
         wchar_t name[64];
-	    wchar_t description[1024];
-	    wchar_t author[64];
-	    wchar_t email[64];
-	    wchar_t information[1024];
-	    ushort triggerId;
-	    ushort ticksPerSecond;
-	    char unk_1[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
+        wchar_t description[1024];
+        wchar_t author[64];
+        wchar_t email[64];
+        wchar_t information[1024];
+        ushort triggerId;
+        ushort ticksPerSecond;
+        char unk_1[520]; // seems to be some kind of history, CLSID, localhost and folder names are standing in there.
         struct {
             wchar_t message[512];
         } messages[20];
-	    LevelFlag flagValue;
-	    char speechStr[32];
-	    ubyte talismanPices;
-	    LevelReward rewardPrevious[4];
-	    LevelReward rewardNext[4];
-	    ubyte soundTrack;
-	    TextTable textTableId;
-	    ushort textTitleId;
-	    ushort textPlotId;
-	    ushort textDebriefId;
-	    ushort textObjectiveId;
-	    ubyte unk_2; // mostly 249
+        LevelFlag flagValue;
+        char speechStr[32];
+        ubyte talismanPices;
+        LevelReward rewardPrevious[4];
+        LevelReward rewardNext[4];
+        ubyte soundTrack;
+        TextTable textTableId;
+        ushort textTitleId;
+        ushort textPlotId;
+        ushort textDebriefId;
+        ushort textObjectiveId;
+        ubyte unk_2; // mostly 249
         // 247 in Bottleneck, Olympia, Pressure, Siege, Small, Spiral, Swiss Cheese, The Deep End, TrapTime, U Turn, Warrens, level16, level6b, level4, level3, level2
         // 243 in level 17 
         ubyte unk_3; // 24, in FrontEnd, (Secret-)Levels it is 192 (not MPD and level1, level4, level6b, level8, level16, level3, level2)
-	    ushort textSubObjectiveId1;
-	    ushort textSubObjectiveId2;
-	    ushort textSubObjectiveId3;
-	    ushort speclvlIdx;
-	    ubyte textIntroductionOverrideObjective[8];
-	    ushort textIntroductionOverrideIds[8];
-	    char terrainPath[32];
+        ushort textSubObjectiveId1;
+        ushort textSubObjectiveId2;
+        ushort textSubObjectiveId3;
+        ushort speclvlIdx;
+        ubyte textIntroductionOverrideObjective[8];
+        ushort textIntroductionOverrideIds[8];
+        char terrainPath[32];
         // For newer level version
-	    if (header.contentSize > 25603) {
+        if (header.contentSize > 25603) {
             ubyte oneShotHornyLev;
-	        ubyte playerCount;
-	        LevelReward rewardPrevious;
-	        LevelReward rewardNext;
-	        ushort speechHornyId;
-	        ushort speechPrelevelId;
-	        ushort speechPostlevelWin;
-	        ushort speechPostlevelLost;
-	        ushort speechPostlevelNews;
-	        ushort speechPrelevelGenr;
-	        wchar_t heroName[32];
+            ubyte playerCount;
+            LevelReward rewardPrevious;
+            LevelReward rewardNext;
+            ushort speechHornyId;
+            ushort speechPrelevelId;
+            ushort speechPostlevelWin;
+            ushort speechPostlevelLost;
+            ushort speechPostlevelNews;
+            ushort speechPrelevelGenr;
+            wchar_t heroName[32];
         }
     } content;
 
