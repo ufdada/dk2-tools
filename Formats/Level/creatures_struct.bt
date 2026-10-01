@@ -93,13 +93,13 @@ struct Attraction {
 
 struct Spell {
 	Vector3f shotOffset;
-    ubyte unk_1; // x0c
+    ubyte unk_1<comment="copied by the game, never read">; // x0c
     ubyte playAnimation;
-    ubyte unk_2; // x0e This is rather weird, this seems to change with the perception range value
-    ubyte unk_3; // x0f
+    ubyte unk_2<comment="never read by the game">; // x0e
+    ubyte unk_3<comment="never read by the game">; // x0f
     float32 shotDelay;
-    ubyte unk_4; // x14
-    ubyte unk_5; // x15
+    ubyte unk_4<comment="never read by the game">; // x14
+    ubyte unk_5<comment="never read by the game">; // x15
     ubyte creatureSpellId;
     ubyte levelAvailable;
 };
@@ -159,9 +159,9 @@ struct JobPreference {
     ushort moodChange;
     ushort manaChange;
     ubyte chance; // of happening, percentage
-    ubyte unk_1; // x09
-    ubyte unk_2; // x0a
-    ubyte unk_3; // x0b
+    ubyte pad_1<comment="padding, never read by the game">; // x09
+    ubyte pad_2<comment="padding, never read by the game">; // x0a
+    ubyte pad_3<comment="padding, never read by the game">; // x0b
 };
 
 struct JobAlternative {
@@ -241,7 +241,7 @@ typedef struct UnkArtResource {
 
 typedef struct {
 	char name[32];
-    UnkArtResource unk_1;
+    UnkArtResource unk_1<comment="animation slot 0, never loaded by the game">;
 	ArtResource animWalkResource;
 	ArtResource animRunResource;
 	ArtResource animDraggedPoseResource;
@@ -256,14 +256,14 @@ typedef struct {
     ArtResource animSleepResource;
     ArtResource animEatResource;
     ArtResource animResearchResource;
-    ArtResource unk_2<comment="always null">;
+    ArtResource animUnused15Resource<comment="animation slot 15: empty in all creatures, never requested (fallback: melee1)">;
     ArtResource animDejectedPoseResource;
     ArtResource animTortureResource;
-    ArtResource unk_3<comment="always null">;
-    ArtResource animDrinkResource;
+    ArtResource animUnused18Resource<comment="animation slot 18: empty in all creatures, never requested (fallback: angry)">;
+    ArtResource animDrinkResource<comment="workers (Imp, Dwarf): drag animation">;
     ArtResource animIdle1Resource;
     ArtResource animRecoilHfbResource;
-    ArtResource unk_4<comment="Bile_Demon-Building">;
+    ArtResource animBuildingResource<comment="animation slot 22, creature instance 32: Bile_Demon-Building (fallback: melee1)">;
     ArtResource animPrayResource;
     ArtResource animFallbackResource;
     ArtResource animElecResource;
@@ -273,16 +273,16 @@ typedef struct {
     ArtResource animDrunkResource;
     ArtResource animEntranceResource;
     ArtResource animIdle2Resource;
-    ArtResource unk_5<comment="imp-jump (iw), Mis_whip, Vampire-IntoBat, ske-Attention, Dan-aggressive">;
-    ArtResource unk_6<comment="VAM-EatCorpse">;
-    ArtResource animDrunk2Resource;
-    ArtResource animLootResource<comment="imp-jump (iw), VAM-EatCorpse, Knight-Happy, REA3_Roar">; 
-    ArtResource unk_8<comment="always null">;
+    ArtResource animSpecialResource<comment="animation slot 32, instances 54/60/61/63 + worker state 0xD6: imp-jump, Mis_whip, Vampire-IntoBat, ske-Attention, Dan-aggressive (fallback: walk)">;
+    ArtResource animEatCorpseResource<comment="animation slot 33: VAM-EatCorpse, never requested (fallback: walk)">;
+    ArtResource animDrunk2Resource<comment="drunk walk">;
+    ArtResource animLootResource<comment="animation slot 35, instances 46/55: THF_Loot, Rogue_Loot, imp-jump (iw), VAM-EatCorpse, Knight-Happy, REA3_Roar">; 
+    ArtResource animUnused36Resource<comment="animation slot 36: empty in all creatures, never requested (fallback: idle1)">;
     ArtResource icon1Resource;
     ArtResource icon2Resource;
-	ushort unk_9; // 0xcec
-    uint unk_10; // 0xcee
-    uint unk_11; // 0xcf2
+	ushort swipeSpeed<comment="Swipe Speed [ Frames Per Second ], first-person attack swipes">; // 0xcec
+    uint workModifierDefault<comment="Work Modifier Default, never read: the game hard-codes 0.8">; // 0xcee
+    uint workModifierLevelIncrease<comment="Work Modifier Level Increase, added to the work modifier on level-up">; // 0xcf2
     ubyte orderInEditor; // cf6
     ushort angerStringIdGeneral; // cf7
     uint shotDelay; // float32 // cf9
@@ -301,10 +301,10 @@ typedef struct {
     char translationSoundGategory[32]; // d17
     float32 shuffleSpeed; // float32 // d37
     ubyte cloneCreatureId;
-    GammaEffect firstPersonGammaEffect; // d3b
+    GammaEffect firstPersonGammaEffect; // d3c
     ubyte firstPersonWalkCycleScale; // Movement
     ubyte introCameraPathIndex;
-    ubyte unk_12; // 0x2e2
+    ubyte unk_12<comment="never copied by the game">; // 0xd3f
     ArtResource portraitResource; // d40
     Light light; // d94
     Attraction attractions[2];
@@ -318,10 +318,10 @@ typedef struct {
     JobType hateJobs[2];
     JobAlternative alternativeJobs[3];
     Vector3f animationOffset;
-    int unk_14; // 0xea0
+    float32 width<comment="collision width, radius = width / 2">; // 0xea0
     float32 height; // ea4
-    float32 unk_15; // 0xea8 float32?
-    int unk_16; // 0xeac
+    float32 mass<comment="1..5, splits push-apart between colliding creatures">; // 0xea8
+    float32 airFriction; // 0xeac
     float32 eyeHeight; // eb0
     float32 speed; // eb4
     float32 runSpeed; // eb8
@@ -334,12 +334,12 @@ typedef struct {
     float32 guardDuration; // ed4, seconds
     float32 idleDuration; // ed8, seconds
     float32 slapFearlessDuration; // edc
-    int unk_17; // 0xee0
-    int unk_18; // 0xee4
+    int unk_17<comment="StatType UNK_025: loaded, never read by the game">; // 0xee0
+    int abilityCreepPercentage<comment="StatType UNK_026: distance factor while creeping (possession sneak)">; // 0xee4
     short possessionManaCost; // ee8
     short ownLandHealthIncrease; // eea
     float32 meleeRange; // eec
-    int unk_19; // 0xef0
+    int unk_19<comment="StatType UNK_023: loaded, never read by the game">; // 0xef0
     float32 tortureTimeToConvert; // ef4, seconds
     float32 meleeRecharge; // ef8
     CreatureFlag flags; // efc
@@ -357,10 +357,10 @@ typedef struct {
     ushort meleeDamage; // f14
     ushort slapDamage; // f16
     ushort manaGenPrayer; // f18
-    ushort unk_20; // 0xf1a
+    ushort unk_20<comment="copied by the game, never loaded">; // 0xf1a
     ushort pay; // f1c
     ushort maxGoldHeld; // f1e
-    float16 unk_21; // 0xf20 float16?
+    ushort maxAngleChange<comment="max turn rate, 2048 = 360 degrees per second">; // 0xf20
     ushort decomposeValue; // f22
     ushort nameStringId;
     ushort tooltipStringId;
@@ -383,59 +383,59 @@ typedef struct {
     Swipe spellSwipe; // f45
     SpecialAbility firstPersonSpecialAbility1; // f46
     SpecialAbility firstPersonSpecialAbility2;
-    ubyte unk_23[3]; // 0xf48
+    ubyte unk_23[3]<comment="copied by the game, never loaded">; // 0xf48
     ubyte creatureId; // f4b
-    ubyte unk_24_1; // 0xf4c
-    ubyte unk_24_2;
+    ubyte unk_24_1<comment="StatType UNK_012: AI creature value rating (Score / Mana Cost Rating / Pick-Up Priority?)">; // 0xf4c
+    ubyte roomCapacityNeeded;
     ubyte hungerFill;
     ubyte unhappyThreshold; // f4f
     AttackType meleeAttackType; // f50
-    ubyte unk_25; // 0x3eb2
+    ubyte disarmFailurePercentage<comment="StatType UNK_020, level-scaled">; // 0xf51
     ubyte lairObjectId; // f52
-    ubyte unk_26; // 0xf53
+    ubyte unk_26<comment="copied by the game, never loaded">; // 0xf53
     Direction deathFallDirection;
-    ubyte unk_27; // 0x3f2
+    ubyte unk_27<comment="loaded, never read by the game">; // 0xf55
     char soundGategory[32]; // f56
     Material material; // f76, armour type
     ArtResource firstPersonFilterResource; // f77
-    short unk_28; // fcb
-    float32 unk_29; // fcd float32?
+    short satisfyAngerTreat<comment="anger removed when gold or a chicken is dropped on the creature">; // fcb
+    float32 scale<comment="Scale (Percent Of Normal), StatType UNK_029, level-scaled">; // fcd
     ArtResource drunkIdle; // fd1
     Swipe special1Swipe; // 1025
     Swipe special2Swipe;
     ArtResource firstPersonMeleeResource; // 1027
-    uint unk_30; // 107b
+    float32 sniperZoomMultiplier<comment="tiles; > 1 enables sniper mode">; // 107b
     short tortureHpChange; // 107f
     short tortureMoodChange; // 1081
     ArtResource animMelee2Resource; // 1083
-    ArtResource unk_31<comment="Imp-Idle3">;
-    ArtResource unk_32<comment="Imp-Idle4">;
-    ArtResource unk_33<comment="Imp-Idle3">;
-    ArtResource unk_34<comment="Imp-Idle4">;
-    ArtResource unk_35<comment="IMP-Dig2">;
+    ArtResource animExtra43Resource<comment="animation slot 43, never requested: Imp-Idle3">;
+    ArtResource animExtra44Resource<comment="animation slot 44, never requested: Imp-Idle4">;
+    ArtResource animExtra45Resource<comment="animation slot 45, never requested: Imp-Idle3">;
+    ArtResource animExtra46Resource<comment="animation slot 46, never requested: Imp-Idle4">;
+    ArtResource animExtra47Resource<comment="animation slot 47, never requested: IMP-Dig2">;
     Vector3f animationOffsets[7]; // 127b
     ArtResource animWalkbackResource; // 12cf
-    struct X1323 {
-        ushort unk_1;
-        ushort unk_2;
-    } unk_37[48];
+    struct Footstep {
+        ushort left;
+        ushort right;
+    } footstepFrames[48]<comment="Footstep Frame Left/Right per animation slot (0 = walk ... 47)">;
     ArtResource animPoseFrameResource; // 13e3
     ArtResource animWalk2Resource;
     ArtResource animDiePoseResource;
     ushort uniqueNameTextId;
-    struct Unk_38 {
-        ubyte unk_38[4]; // 0x14e1
-    } unk_38[2];
+    struct HateJobsUnused {
+        ubyte value[4]; // 0x14e1
+    } hateJobs34[2]<comment="hate jobs 3-4: never written by the editor, overwritten by the game">;
     int firstPersonSpecialAbility1Count; // 14e9
     int firstPersonSpecialAbility2Count;
     ArtResource uniqueResource; // 14f1
     CreatureFlag2 flags2; // 1545
     if (header.contentSize / header.general.itemCount >= 5537l ) {
         // When the file is embedded in the globals, there is some extra stuff
-        ubyte unk_40[80]<comment="ExtraBytes">; 
-        CreatureFlag2 flags3; // ???
-        ushort unk_41;
-        float16 unk_42;  
+        ubyte unk_40[80]<comment="never written by the editor (stale stack data)">; 
+        CreatureFlag2 flags3<comment="where the editor stores flags2; the game reads 0x1545">;
+        ushort unk_41<comment="never written by the editor">;
+        float16 unk_42<comment="never written by the editor">;
     }
 } CreatureData<read=getCreatureName>;
 
