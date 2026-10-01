@@ -385,7 +385,7 @@ typedef struct {
     SpecialAbility firstPersonSpecialAbility2;
     ubyte unk_23[3]<comment="copied by the game, never loaded">; // 0xf48
     ubyte creatureId; // f4b
-    ubyte unk_24_1<comment="StatType UNK_012: AI creature value rating (Score / Mana Cost Rating / Pick-Up Priority?)">; // 0xf4c
+    ubyte scoreRating<comment="StatType UNK_012: AI creature value rating">; // 0xf4c
     ubyte roomCapacityNeeded;
     ubyte hungerFill;
     ubyte unhappyThreshold; // f4f

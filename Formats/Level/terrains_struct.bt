@@ -57,7 +57,7 @@ typedef struct {
 	TerrainFlag flags;
 	ushort damage;
 	ushort editorTextureId;
-	ushort unk_1; // 504, 508, 0
+	ushort unk_1<comment="copied to MyTerrainDataObj+0x183, never read; editor round-trips it without UI (504/508 on types 1-8, else small ints)">;
 	ushort goldValue;
     ushort manaGain;
 	ushort maxManaGain;
@@ -68,7 +68,7 @@ typedef struct {
 	ushort generalDescriptionStringId;
 	ushort strengthStringId;
 	ushort weaknessStringId;
-	ushort unk_2[16];
+	ushort unk_2[16]<comment="all 0 in shipped data; never leaves the load intermediate, no runtime slot">;
 	ubyte wibbleH;
 	ubyte leanH[3];
 	ubyte wibbleV;
@@ -83,7 +83,7 @@ typedef struct {
 	ushort maxHealth;
 	ColorRGB ambientLight;
 	char soundCategoryFirstPerson[32];
-	uint unk_3; // 4628, 0
+	float32 unk_3<comment="fixed-point /4096 like lightHeight: 1.13 tiles on old non-solid TERRAIN_LIGHT floors, else 0; copied to MyTerrainDataObj+0x1B5, never read">;
 } TerrainData<read=getTerrainName>;
 
 string getTerrainName(TerrainData &item) {
