@@ -8,7 +8,7 @@
 // Purpose:     Resource structure
 //--------------------------------------
 typedef struct {
-    byte UNK_1 : 1; // separate pictures?
+    byte IN_USE : 1; // editor: slot holds a resource (set on OK, clearing it wipes the resource); game ignores the file bit and sets it itself when type != NONE
     byte PLAYER_COLOURED : 1;
     byte ANIMATING_TEXTURE : 1;
     byte HAS_START_ANIMATION : 1;
@@ -18,12 +18,14 @@ typedef struct {
     byte DOESNT_LOOP : 1;
     byte FLAT : 1;
     byte DOESNT_USE_PROGRESSIVE_MESH : 1;
-	byte UNK_2 : 1; // 0x0400
-	byte none_1 : 1;
-	byte none_2 : 1;
-	byte none_3 : 1;
-	byte none_4 : 1;
-	byte UNK_3 : 1; // 0x8000
+	// bits 10-15: one-hot index i of the creature's alternative animation (slot 42+i: animMelee2, animExtra43..47),
+	// editor "Can Use Alternative Animation". The game only implements i = 0: CRenderInfo swaps in slot 42 with 50% chance.
+	byte ALTERNATIVE_ANIMATION_0 : 1; // 0x0400, e.g. Goblin-Melee -> Goblin-Melee2
+	byte ALTERNATIVE_ANIMATION_1 : 1;
+	byte ALTERNATIVE_ANIMATION_2 : 1;
+	byte ALTERNATIVE_ANIMATION_3 : 1;
+	byte ALTERNATIVE_ANIMATION_4 : 1;
+	byte ALTERNATIVE_ANIMATION_5 : 1; // 0x8000, only Imp_Dig -> IMP-Dig2 (no effect in game)
     byte USE_ANIMATING_TEXTURE_FOR_SELECTION : 1;
     byte PRELOAD : 1;
     byte BLOOD : 1;
@@ -40,7 +42,7 @@ enum <ubyte> Type {
     ANIMATING_MESH = 6,
     PROCEDURAL_MESH = 7,
     MESH_COLLECTION = 8,
-    UNK_1 = 12
+    GARBAGE_12 = 12 // not a type: only in CreatureData's never-loaded slot 0 (editor offers 1-8, game loader handles 1-8)
 };
 
 typedef struct {

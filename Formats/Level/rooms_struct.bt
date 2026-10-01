@@ -12,7 +12,7 @@ typedef struct {
     ubyte PLACEABLE_ON_LAVA : 1;
     ubyte PLACEABLE_ON_LAND : 1;
     ubyte HAS_WALLS : 1;
-    ubyte CENTRE : 1; // Placement
+    ubyte CENTER : 1; // Placement
     ubyte SPECIAL_TILES : 1; // Placement
     ubyte NORMAL_TILES : 1; // Placement
     ubyte BUILDABLE : 1;

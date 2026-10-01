@@ -112,9 +112,14 @@ enum <ubyte> ImprisonedCreatureFatePolicy {
     SACRIFICE_CREATURE
 };
 
+// Not used by kwd_struct.bt: this is the tail of Header (general case, from headerEndOffSet on)
 typedef struct PlayerHeader {
-    uint playerCount;
-    ubyte unk_1[32];
+    uint playerCount; // = Header.general.itemCount
+    uint version; // = Header.general.unk_1; always 1, editor writes a literal 1, nobody checks it (only summed into the level checksum)
+    timeStamp created;
+    timeStamp modified;
+    uint checkTwo; // signature + 2
+    uint contentSize;
 };
 
 typedef struct {
@@ -125,7 +130,7 @@ typedef struct {
     ubyte openness; // Misc, byte, percentage
     ubyte removeCallToArmsIfTotalCreaturesLessThan; // Battles, byte
     ubyte buildLostRoomAfterSeconds; // Rooms, byte
-    ubyte unk_1[3]; // 0, 0, 0
+    ubyte gap_1[3]; // unused: editor never writes it (stack garbage), game never reads it
     uint createEmptyAreasWhenIdle; // Rooms, hmm int
     uint buildBiggerLairAfterClaimingPortal; // Rooms, hmm int
     uint sellCapturedRoomsIfLowOnGold; // Rooms, hmm int
@@ -181,7 +186,7 @@ typedef struct {
     SpellUsagePolicy useSpellsInBattle; // Spells, byte, 0-4, 0 being often, 4 being rarely
     SpellPower spellsPowerPreference; // Spells, byte, 0-4, 0 being high power, 4 being low power
     CallToArmsUsagePolicy useCallToArms;
-    ubyte unk_2[2]; // 200, 42
+    ubyte gap_2[2]; // unused: editor never writes it (stack garbage), game never reads it
     ushort mineGoldUntil;
     ushort waitSecondsAfterPreviousAttackBeforeAttackingAgain;
     uint startMana;

@@ -119,11 +119,11 @@ typedef struct {
 	float32 speed;
 	double32 airFriction;
 	Material material;
-	ubyte unk_1[3]; // always 49,145,0
+	ubyte gap_1[3]; // unused padding before flags: editor never writes it (stack garbage, 49,145,0), game never reads it
 	ObjectFlag flags;
 	ushort hp;
 	ushort maxAngle;
-	ushort unk_2; // always 0
+	ushort manaGen; // editor's "Mana Gen:" field; game copies it to MyObjectDataObj+0x106 but never reads it
 	ushort manaValue;
 	ushort toolTipStringId;
 	ushort nameStringId;

@@ -11,14 +11,14 @@ typedef struct TrapFlag {
 	byte DIE_WHEN_TRIGGERED : 1;
 	byte REVEAL_WHEN_FIRED : 1;
 	byte none_2 : 1;
-	byte UNK_1 : 1; // always 1
+	byte UNK_1 : 1; // always 1; never tested by the game, editor keeps it as a hidden bool (no checkbox)
 	byte DISARMABLE : 1;
 	byte INVISIBLE : 1;
 	byte none_3 : 1;
 	byte TRACK_NEAREST_TARGET : 1;
 	byte REQUIRE_MANA : 1;
 	byte LOOP_FIRE_ANIMATION : 1;
-	byte UNK_2 : 1; // always 1
+	byte UNK_2 : 1; // always 1; never tested by the game, editor keeps it as a hidden bool (no checkbox)
 	byte GUARD_POST : 1;
 	byte OBSTACLE : 1;
 	byte DOOR_TRAP : 1;
@@ -65,7 +65,7 @@ typedef struct {
 	ushort strengthStringId;
 	ushort weaknessStringId;
 	ushort manaUsage;
-	ubyte unk_2[2]; // 246,255; 0,0
+	short manaGen; // -10 (trap 1-10), 0; never read by the game, editor's hidden "Mana Gen." field
 	ushort toolTipStringId;
 	ushort nameStringId;
 	ubyte shotsWhenArmed;

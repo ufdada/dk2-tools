@@ -74,7 +74,7 @@ struct Header {
         default:
             struct {
                 uint itemCount;
-                uint unk_1;
+                uint version; // always 1: editor writes a literal 1, game and editor never check it (only summed into the level checksum)
                 timeStamp created;
                 timeStamp modified;
             } general;

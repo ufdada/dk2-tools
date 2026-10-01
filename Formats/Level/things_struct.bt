@@ -57,66 +57,83 @@ enum <uint> ThingType {
 	CAMERA_THING = 205
 };
 
+// The hero's "good job" = JobType (see creatures_struct.bt), passed to CState::setJobId.
+// The editor's objective list only offers 11-14, 17-19, 22, 23 (23 only if the level has action points), 27;
+// the game accepts every job id with a handler (all except 20 and 21).
 enum <ubyte> Objective {
 	NO_OBJECTIVE,
+	SLEEP_OBJECTIVE = 1, // not offered by the editor
+	EAT_OBJECTIVE = 2, // not offered by the editor
+	RESEARCH_OBJECTIVE = 3, // not offered by the editor
+	TRAIN_OBJECTIVE = 4, // not offered by the editor
+	MANUFACTURE_OBJECTIVE = 5, // not offered by the editor
+	GUARD_OBJECTIVE = 6, // not offered by the editor
+	TORTURE_OBJECTIVE = 7, // not offered by the editor
+	PRAY_OBJECTIVE = 8, // not offered by the editor
+	DRINK_OBJECTIVE = 9, // not offered by the editor
+	LEAVE_OBJECTIVE = 10, // not offered by the editor
 	DESTROY_ROOMS_OBJECTIVE = 11,
 	DESTROY_WALLS_OBJECTIVE = 12,
 	STEAL_GOLD_OBJECTIVE = 13,
 	STEAL_SPELLS_OBJECTIVE = 14,
-    // 15
-    // 16
-	STEAL_MAFUFACTURE_CRATES = 17,
+	SULK_OBJECTIVE = 15, // not offered by the editor
+	REBEL_OBJECTIVE = 16, // not offered by the editor
+	STEAL_MANUFACTURE_CRATES_OBJECTIVE = 17,
 	KILL_CREATURES_OBJECTIVE = 18,
 	KILL_PLAYER_OBJECTIVE = 19,
-    // 20
-    // 21
+	TUNNELLING_OBJECTIVE = 20, // marked as objective in the editor's job table but hidden; no handler in the game (ignored)
+	// 21: no job with this id
 	WAIT_OBJECTIVE = 22,
 	SEND_TO_ACTION_POINT_OBJECTIVE = 23,
-    // 24
-    // 25
-    // 26
-	JAIL_BREAK_OBJECTIVE = 27
+	EXPLORE_OBJECTIVE = 24, // not offered by the editor
+	STEAL_ENEMY_GOLD_OBJECTIVE = 25, // not offered by the editor
+	COMBAT_PIT_SPECTATE_OBJECTIVE = 26, // not offered by the editor
+	JAIL_BREAK_OBJECTIVE = 27,
+	TOLLING_OBJECTIVE = 28 // not offered by the editor
 };
 
+// Terrain id (Terrain.kwd) of the room at the thing's position. The game only switches on it:
+// PORTAL / DUNGEON_HEART apply initialHealth, HERO_GATE_3X1 applies dir; the room itself comes from the map tile.
 enum <ubyte> RoomType {
+	TREASURY = 10,
+	LAIR = 11,
 	PORTAL = 12,
-    // 13
+	HATCHERY = 13,
 	DUNGEON_HEART = 14,
-    // 15
-    // 16
-    // 17
-    // 18
-    // 19
-    // 20
-    // 21
-    // 22
-    // 23
-    // 24
-    // 25
-    // 26
-    // 27
-    // 28
-    // 29
-    // 30
-    // 31
-    // 32
+	LIBRARY = 15,
+	TRAINING_ROOM = 16,
+	WOODEN_BRIDGE = 17,
+	GUARD_ROOM = 18,
+	WORK_SHOP = 19,
+	PRISON = 20,
+	TORTURE_CHAMBER = 21,
+	TEMPLE = 22,
+	GRAVEYARD = 23,
+	CASINO = 24,
+	COMBAT_PIT = 25,
+	STONE_BRIDGE = 26,
+	// 27: Fog Of War (not a room)
+	HERO_GATE_FINAL = 28,
+	HERO_GATE_TILE = 29, // not used
+	// 30-32: Edge of Map, Mana Vault, Claimed Vault (not rooms)
 	HERO_GATE_2X2 = 33,
 	HERO_GATE_FRONT_END = 34,
-    // 35
-    // 36
+	// 35: Hero Lair (not a room)
+	HERO_STONE_BRIDGE = 36,
 	HERO_GATE_3X1 = 37,
-    // 38
-    // 39
-	HERO_PORTAL = 40
+	// 38: Claim Scan (not a room)
+	MERCENARY_GATE = 39, // not used
+	HERO_PORTAL = 40,
+	CRYPT = 41
 };
 
 typedef struct CameraFlag {
-	byte DISABLE_YAW : 1; // angleXY ?
-	byte DISABLE_ROLL : 1; // angleYZ ?
-	byte DISABLE_PITCH : 1; // angleXZ ?
-	byte DISABLE_ZOOM : 1;
-	byte UNK_1 : 1; // ViewDistance, Lens
-	byte UNK_2 : 1; // ViewDistance, Lens
+	byte DISABLE_YAW : 1; // Angle XY
+	byte DISABLE_ROLL : 1; // Angle YZ
+	byte DISABLE_PITCH : 1; // Angle XZ
+	byte DISABLE_ZOOM : 1; // Zoom
+	byte DISABLE_VIEW_DISTANCE : 1; // View Distance; never read by the game
+	byte DISABLE_LENS : 1; // Lens; never read by the game
 	byte DISABLE_MOVE : 1; // Position
 	byte DISABLE_CHANGE : 1;
 	ubyte none[3];
