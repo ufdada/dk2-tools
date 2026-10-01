@@ -38,6 +38,14 @@ enum <int> AvailabilityValue{
 	EMPTY_ROOM
 };
 
+// RESEARCH_ORDER entry category (note: numbering differs from AvailabilityType)
+enum <int> ResearchType {
+	RESEARCH_ROOM = 1,
+	RESEARCH_DOOR = 2,
+	RESEARCH_TRAP = 3,
+	RESEARCH_SPELL = 4
+};
+
 enum <int> VariableType {
     CREATURE_POOL = 1,
     AVAILABILITY = 2,
@@ -55,7 +63,7 @@ enum <int> VariableType {
 	CONVERT_ROOM_HEALTH = 14,
 	ATTACK_ROOM_HEALTH = 15,
 	REPAIR_ROOM_HEALTH = 16,
-    // 17
+	RESEARCH_ORDER = 17, // one record per entry, file order = research order
 	CHICKEN_GENERATION_TIME_PER_HATCHERY = 18,
     GAME_TICKS_PER_SECOND = 19,
 	GOLD_MINED_FROM_GEMS = 20,
@@ -271,7 +279,7 @@ enum <int> VariableType {
 	MPD_SCORE_GOLD_SLABS_MINED = 230,
 	MPD_SCORE_ITEM_MANUFACTURED = 231,
 	MPD_SCORE_CREATURE_ENTERED = 232,
-    // 233
+	MPD_SCORE_CREATURE_CONVERTED = 233,
 	TORTURE_CHANCE_OF_DYING_WHEN_CONVERTED = 234,
 	MAXIMUM_MANA_GAIN_PER_SECOND = 235,
 	CLAIM_SCAN_LIGHT_RED = 236,
@@ -341,6 +349,13 @@ struct VariableData {
 			    AvailabilityValue value;
 		    } availability;
             break;
+        case RESEARCH_ORDER:
+            struct {
+			    ResearchType type;
+			    int typeId; // room/door/trap/keeper spell id
+			    int researchPoints; // points needed to complete
+		    } research;
+            break;
         case SACRIFICES_ID:
             struct {
 			    ubyte type1;
@@ -371,8 +386,8 @@ struct VariableData {
             break;
         case LEVEL_RATING:
             struct {
-		        ubyte value[2]; // rating
-                short unused[5];
+		        int scale_20_12; // 20.12 fixed point, 4096 == x1.0
+		        int unused[2];
 	        } rating;
             break;
         case AVERAGE_TIME:
