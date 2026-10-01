@@ -18,16 +18,21 @@ LittleEndian();
 #include "effects_struct.bt";
 #include "effect_elements_struct.bt";
 #include "keeper_spells_struct.bt";
+// *Level.kld
 #include "level_struct.bt";
+// *Map.kld
 #include "map_struct.bt";
 #include "objects_struct.bt";
+// *Players.kld
 #include "player_struct.bt";
 #include "rooms_struct.bt";
 #include "shots_struct.bt";
 #include "terrains_struct.bt";
 #include "things_struct.bt";
 #include "traps_struct.bt";
+// *Triggers.kld
 #include "triggers_struct.bt";
+// *Variables.kld
 #include "variables_struct.bt";
 
 struct Header {
@@ -50,7 +55,7 @@ struct Header {
         case LEVEL:
             struct {
                 ushort itemCount;
-                ushort height;
+                ushort creatureCount;
                 ubyte unk_1; // zero on self made maps
                 ubyte unk_2; // 48 on self made maps
                 ubyte unk_3[2]; // unused

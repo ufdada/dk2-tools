@@ -45,7 +45,7 @@ for (i = from; i < limit; i++) {
     destination = destinationdir + origFilename + subfolder + "/";
     MakeDir( destination );
 
-    Printf("Extracting %s to folder %s\n", filename, destination);
+    Printf("Extracting file no. %i - %s to folder %s\n", i, filename, destination);
 
     destination = destination + filename;
     ClearClipboard();

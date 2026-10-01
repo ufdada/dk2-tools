@@ -46,9 +46,9 @@ typedef enum <ubyte> {
     SET_FIGHT_FLAG = 36,
     SET_PORTAL_STATUS = 37,
     SET_WIDESCREEN_MODE = 38,
-    // 39
-    // 40
-    // 41
+    CREATE_DOOR = 39,
+    CREATE_TRAP = 40,
+    CREATE_EFFECT = 41,
     MAKE_OBJECTIVE = 42,
     ZOOM_TO = 43,
     SET_CREATURE_MOODS = 44,

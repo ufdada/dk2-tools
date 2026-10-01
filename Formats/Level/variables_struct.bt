@@ -57,7 +57,7 @@ enum <int> VariableType {
 	REPAIR_ROOM_HEALTH = 16,
     // 17
 	CHICKEN_GENERATION_TIME_PER_HATCHERY = 18,
-    // 19
+    GAME_TICKS_PER_SECOND = 19,
 	GOLD_MINED_FROM_GEMS = 20,
 	TIME_BETWEEN_REATTEMPTING_HUNGER_SECONDS = 21,
 	TIME_BETWEEN_REATTEMPTING_SLEEP_SECONDS = 22,
@@ -67,7 +67,7 @@ enum <int> VariableType {
 	CREATURE_DYING_STATE_DURATION_SECONDS = 26,
 	SPECIAL_INCREASE_GOLD_AMOUNT = 27,
 	SPECIAL_INCREASE_MANA_AMOUNT = 28,
-    // 29
+    IMP_NEAR_RANGE_DISTANCE = 29,
 	IMP_IDLE_DELAY_BEFORE_REEVALUATION_SECONDS = 30,
 	DELAY_BEFORE_PAY_REEVALUATION_SECONDS = 31,
 	MAX_GOLD_PILE_OUTSIDE_TREASURY = 32,
@@ -104,7 +104,7 @@ enum <int> VariableType {
     // 63
     // 64
 	CREATURE_STATS_ID = 65,
-    // 66
+    MANA_GENERATION_FOR_JOB = 66,
 	DEFAULT_CELLING_HEIGHT_TILES = 67,
 	PAY_DAY_CUT_OFF_TIME_SECONDS = 68,
     // 69
@@ -115,7 +115,7 @@ enum <int> VariableType {
 	GAME_TICKS = 74,
 	MODIFY_HEALTH_OF_CREATURE_IN_LAIR_PER_SECOND = 75,
 	MODIFY_ANGER_OF_CREATURE_IN_LAIR_PER_SECOND = 76,
-    // 77
+    MODIFY_CREATURE_STATS = 77, // LEVEL1
 	MODIFY_ANGER_IN_COMPANY_OF_HATED_CREATURES_PER_SECOND = 78,
 	FORCE_APPLIED_TO_SLAPPED_CREATURE = 79,
     // 80
@@ -224,7 +224,7 @@ enum <int> VariableType {
 	DUNGEON_HEART_REPORTING_DISTANCE_TILES = 183,
 	DWARF_DIGGING_MULTIPLIER = 184,
 	TRIGGER_TRAP_TRIGGER_SPEED_TILES_PER_SECOND = 185,
-    // 186
+    WARLOCK_FIREBALL_SPELL_RECHARGE_TIME = 186,
 	FIRST_PERSON_ACCURACY_ANGLE_DEGREES = 187,
 	SPECIAL_RECEIVE_IMPS_AMOUNT = 188,
 	DUNGEON_HEART_CREATURE_GATHERING_DISTANCE_TILES = 189,
@@ -280,7 +280,12 @@ enum <int> VariableType {
 	PIT_PERCENTAGE_DAMAGE_TAKEN_OF_NORMAL_COMBAT = 239,
 	BOULDER_SLAP_DAMAGE = 240,
 	LEVEL_RATING = 241,
-	AVERAGE_TIME = 242
+	AVERAGE_TIME = 242,
+	PLINTH_CREATURE_GENERATION_DELAY = 243,
+	GEMS_NEEDED_TO_WIN_LEVEL = 244,
+	GEM_POWERUP_RESPAWN_DELAY = 245,
+	ENEMY_PLINTH_DAMAGE_PER_SECOND = 246,
+	OWN_PLINTH_HEALTH_INCREASE_PER_SECOND = 247
 };
 
 enum <int> StatType {
@@ -292,28 +297,28 @@ enum <int> StatType {
 	PAY,
 	MAX_GOLD_HELD,
 	INITIAL_GOLD_HELD,
-	UNK_008,
+	UNK_008, // Likely unused, jumps to no-op
 	HUNGER_FILL_CHICKENS,
 	MANA_GENERATED_BY_PRAYER_PER_SECOND,
-	UNK_011,
-	UNK_012,
+	UNK_011, // Likely unused, jumps to no-op
+	THREAT_RATING, // attack the most valuable/threatening group of defenders
 	EXPERIENCE_POINTS_FOR_NEXT_LEVEL,
-	UNK_014,
+	UNK_014, // Likely unused, jumps to no-op
 	EXPERIENCE_POINTS_PER_SECOND,
 	EXPERIENCE_POINTS_FROM_TRAINING_PER_SECOND,
 	RESEARCH_POINTS_PER_SECOND,
 	MANUFACTURE_POINTS_PER_SECOND,
 	DECOMPOSE_VALUE,
-	UNK_020,
+	UNK_020, // active behavioral stats, scaled by creature state via a shared multiplier table
 	SPEED_TILES_PER_SECOND,
 	RUN_SPEED_TILES_PER_SECOND,
-	UNK_023,
+	UNK_023, // Also speed per second, maybe fly?
 	TORTURE_TIME_TO_CONVERT_SECONDS,
-	UNK_025,
-	UNK_026,
+	UNK_025, // never read
+	UNK_026, // see UNK_020
 	POSSESSION_MANA_COST_PER_SECOND,
 	OWN_LAND_HEALTH_INCREASE_PER_SECOND,
-	UNK_029,
+	UNK_029, // see UNK_020
 	DISTANCE_CAN_HEAR_TILES,
 	MELEE_RECHARGE_TIME_SECONDS
 };
@@ -357,12 +362,38 @@ struct VariableData {
 		        int level;
 	        } creatureStatistics;
             break;
+        case MANA_GENERATION_FOR_JOB:
+            struct {
+		        int value;
+		        int jobId;
+		        int unused; // 0
+	        } manaJob;
+            break;
+        case LEVEL_RATING:
+            struct {
+		        ubyte value[2]; // rating
+                short unused[5];
+	        } rating;
+            break;
+        case AVERAGE_TIME:
+            struct {
+		        int timeInMinutes;
+		        int unused[2];
+	        } time;
+            break;
+        case MODIFY_CREATURE_STATS:
+            struct {
+                int creatureId;
+                int statId;
+                int value;
+            } statChange;
+            break;
         default:
             struct {
 		        int value;
-		        int unk_1;
-		        int unk_2;
-	        } unknown;
+		        int value2;
+		        int value3;
+	        } general;
             break;
     }
 };

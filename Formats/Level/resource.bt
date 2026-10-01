@@ -57,7 +57,8 @@ typedef struct {
 		uint scale;
 		ushort frames;
         ushort none_1;
-        uint none_2;
+        ushort none_2;
+        ushort none_3;
     } mesh;
     struct {
 		uint frames; /* 4 */

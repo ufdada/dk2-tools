@@ -19,12 +19,11 @@ struct Header {
 
 struct FontEntry {
     char chr[2];
-    ushort unk_1;
+    ubyte gap_2[2]; // unused
+    ubyte gap_4[4]; // unused
     uint dataSize;
     ubyte flags;
-    ubyte unk2;
-    ubyte unk3;
-    ubyte unk4;
+    ubyte gap_3[3]; // unused
     ushort width;
     ushort height;
     byte offsetX;
