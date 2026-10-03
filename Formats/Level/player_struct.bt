@@ -129,24 +129,24 @@ typedef struct {
     ubyte speed; // Misc, byte
     ubyte openness; // Misc, byte, percentage
     ubyte removeCallToArmsIfTotalCreaturesLessThan; // Battles, byte
-    ubyte buildLostRoomAfterSeconds; // Rooms, byte
+    ubyte buildLostRoomAfterSeconds; // Rooms, byte // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ubyte gap_1[3]; // unused: editor never writes it (stack garbage), game never reads it
-    uint createEmptyAreasWhenIdle; // Rooms, hmm int
+    uint createEmptyAreasWhenIdle; // Rooms, hmm int // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     uint buildBiggerLairAfterClaimingPortal; // Rooms, hmm int
-    uint sellCapturedRoomsIfLowOnGold; // Rooms, hmm int
-    ubyte minTimeBeforePlacingResearchedRoom; // Rooms
+    uint sellCapturedRoomsIfLowOnGold; // Rooms, hmm int // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
+    ubyte minTimeBeforePlacingResearchedRoom; // Rooms // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ubyte defaultSize; // Rooms, byte, in square tiles
     ubyte tilesLeftBetweenRooms; // Rooms, byte
-    Distance distanceBetweenRoomsThatShouldBeCloseMan; // Rooms, byte
-    CorridorStyle corridorStyle; // Rooms, byte
+    Distance distanceBetweenRoomsThatShouldBeCloseMan; // Rooms, byte // v1.70: CLOSE = start next to the room type's ideal neighbour (table 0x6A3088), RANDOM = from a random own room
+    CorridorStyle corridorStyle; // Rooms, byte // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10); AI corridors are always axis-stepped
     RoomExpandPolicy whenMoreSpaceInRoomRequired; // Rooms, byte
     ubyte digToNeutralRoomsWithinTilesOfHeart;
     ubyte buildOrder[15];
-    ubyte flexibility;
+    ubyte flexibility; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ubyte digToNeutralRoomsWithinTilesOfClaimedArea;
     ushort removeCallToArmsAfterSeconds;
     uint boulderTrapsOnLongCorridors;
-    uint boulderTrapsOnRouteToBreachPoints;
+    uint boulderTrapsOnRouteToBreachPoints; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ubyte trapUseStyle;
     ubyte doorTrapPreference;
     DoorUsagePolicy doorUsage;
@@ -157,13 +157,13 @@ typedef struct {
     uint requireAllKeeperSpellsResearched;
     uint onlyAttackAttackers;
     uint neverAttack;
-    ubyte minLevelForCreatures;
+    ubyte minLevelForCreatures; // v1.70: clamped to COMBAT_PIT_MAX_EXPERIENCE_LEVEL before the Variables load, so always 0 in campaign levels
     ubyte totalThreatGreaterThanTheEnemy;
     BreachRoomPolicy firstAttemptToBreachRoom;
     DigToPolicy firstDigToEnemyPoint;
     byte breachAtPointsSimultaneously;
-    byte usePercentageOfTotalCreaturesInFirstFightAfterBreach;
-    ushort manaValue;
+    byte usePercentageOfTotalCreaturesInFirstFightAfterBreach; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
+    ushort manaValue; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ushort placeCallToArmsWhereThreatValueIsGreaterThan;
     ushort removeCallToArmsIfLessThanEnemyCreatures;
     ushort removeCallToArmsIfLessThanEnemyCreaturesWithinTiles;
@@ -172,16 +172,16 @@ typedef struct {
     SpellStyle spellStyle; // Battles, byte, 0-4, 0 being aggressive, 4 being defensive
     ubyte attemptToImprisonPercentageOfEnemyCreatures;
     ubyte ifCreatureHealthIsPercentageAndNotInOwnRoomMoveToLairOrTemple;
-    ushort goldValue;
+    ushort goldValue; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     uint tryToMakeUnhappyOnesHappy;
     uint tryToMakeAngryOnesHappy;
     uint disposeOfAngryCreatures;
-    uint disposeOfRubbishCreaturesIfBetterOnesComeAlong;
+    uint disposeOfRubbishCreaturesIfBetterOnesComeAlong; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     CreatureDisposalPolicy disposalMethod;
     ubyte maximumNumberOfImps;
-    ubyte willNotSlapCreatures; // Creatures, byte, 0 = true, 32 = false
+    ubyte willNotSlapCreatures; // Creatures, byte, 0 = true, 32 = false // v1.70: copied into the AI's subsystem mask, then overwritten with 0xFFFF; every AI slaps
     ubyte attackWhenNumberOfCreaturesIsAtLeast;
-    uint useLightningIfEnemyIsInWater;
+    uint useLightningIfEnemyIsInWater; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     SightOfEvilUsagePolicy useSightOfEvil;
     SpellUsagePolicy useSpellsInBattle; // Spells, byte, 0-4, 0 being often, 4 being rarely
     SpellPower spellsPowerPreference; // Spells, byte, 0-4, 0 being high power, 4 being low power
@@ -190,15 +190,15 @@ typedef struct {
     ushort mineGoldUntil;
     ushort waitSecondsAfterPreviousAttackBeforeAttackingAgain;
     uint startMana;
-    ushort exploreUpToTilesToFindSpecials;
+    ushort exploreUpToTilesToFindSpecials; // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ushort impTilesRatio;
     ushort buildStartX;
     ushort buildStartY;
     ushort buildEndX;
     ushort buildEndY;
-    MoveToResearchPolicy likelyhoodToMovingCreaturesToLibraryForResearching;
-    ubyte chanceOfExploringToFindSpecials; // Misc, byte, percentage
-    ubyte chanceOfFindingSpecialsWhenExploring; // Misc, byte, percentage
+    MoveToResearchPolicy likelyhoodToMovingCreaturesToLibraryForResearching; // v1.70: chance gate for dismissing the lowest-value non-researcher via the Portal when at the creature cap (computer_player_ai.md §8.2)
+    ubyte chanceOfExploringToFindSpecials; // Misc, byte, percentage // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
+    ubyte chanceOfFindingSpecialsWhenExploring; // Misc, byte, percentage // unused in v1.70: loaded, never read by the AI (research/computer_player_ai.md §10)
     ImprisonedCreatureFatePolicy fateOfImprisonedCreatures;
     ushort triggerId;
     byte playerId;

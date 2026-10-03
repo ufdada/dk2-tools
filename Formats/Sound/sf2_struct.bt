@@ -232,91 +232,91 @@ typedef struct sfSample // <shdr-rec>
 char ckID[4];  //  A chunk ID identifies the type of data within the chunk. 
 uint ckSize;  //  The size of the chunk data in bytes, excluding any pad byte.
 char sfbk[4];
-   char INFO_listID[4];
-   uint INFO_listSize;
-       
-       char INFO_list[4];       
-       
-       char ifil_ckID[4];
-       uint ifil_ckSize;
-       sfVersionTag ifil_ckData[ifil_ckSize / sizeof(sfVersionTag)];
+char INFO_listID[4];
+uint INFO_listSize;
 
-       char INAM_chID[4];
-       uint INAM_chSize;
-       char szName[INAM_chSize];
+char INFO_list[4];       
 
-       char isng_ckID[4];
-       uint isng_ckSize;
-       char szSoundEngine[isng_ckSize];
+char ifil_ckID[4];
+uint ifil_ckSize;
+sfVersionTag ifil_ckData[ifil_ckSize / sizeof(sfVersionTag)];
 
-       char IPRD_ckID[4];
-       uint IPRD_ckSize;
-       char szProduct[IPRD_ckSize];
+char INAM_chID[4];
+uint INAM_chSize;
+char szName[INAM_chSize];
 
-       char IENG_ckID[4];
-       uint IENG_ckSize;
-       char IENGszName[IENG_ckSize];
+char isng_ckID[4];
+uint isng_ckSize;
+char szSoundEngine[isng_ckSize];
 
-       char ISTF_ckID[4];
-       uint ISTF_ckSize;
-       char szTools[ISTF_ckSize];
+char IPRD_ckID[4];
+uint IPRD_ckSize;
+char szProduct[IPRD_ckSize];
 
-       char ICRD_ckID[4];
-       uint ICRD_ckSize;
-       char szDate[ICRD_ckSize];
+char IENG_ckID[4];
+uint IENG_ckSize;
+char IENGszName[IENG_ckSize];
 
-       char ICMT_ckID[4];
-       uint ICMT_ckSize;
-       char szComment[ICMT_ckSize];
+char ISTF_ckID[4];
+uint ISTF_ckSize;
+char szTools[ISTF_ckSize];
 
-       char ICOP_ckID[4];
-       uint ICOP_ckSize;
-       char szCopyright[ICOP_ckSize];
+char ICRD_ckID[4];
+uint ICRD_ckSize;
+char szDate[ICRD_ckSize];
 
-    char sdta_listID[4];
-    uint sdta_listSize;
-    char sdta_list[4];
+char ICMT_ckID[4];
+uint ICMT_ckSize;
+char szComment[ICMT_ckSize];
 
-        char smpl_ckID[4];
-        uint smpl_ckSize;
-        short sample[smpl_ckSize / sizeof(short)];
+char ICOP_ckID[4];
+uint ICOP_ckSize;
+char szCopyright[ICOP_ckSize];
 
-    char pdta_listID[4];
-    uint pdta_listSize;
-    char pdta_list[4];
+char sdta_listID[4];
+uint sdta_listSize;
+char sdta_list[4];
 
-        char phdr_chID[4];
-        uint phdr_chSize;
-        sfPresetHeader phdr_chData[phdr_chSize / sizeof(sfPresetHeader)];
+char smpl_ckID[4];
+uint smpl_ckSize;
+short sample[smpl_ckSize / sizeof(short)];
 
-        char pbag_chID[4];
-        uint pbag_chSize;
-        sfPresetBag pbag_chData[pbag_chSize / sizeof(sfPresetBag)];
+char pdta_listID[4];
+uint pdta_listSize;
+char pdta_list[4];
 
-        char pmod_chID[4];
-        uint pmod_chSize;
-        sfModList pmod_chData[pmod_chSize / sizeof(sfModList)];
+char phdr_chID[4];
+uint phdr_chSize;
+sfPresetHeader phdr_chData[phdr_chSize / sizeof(sfPresetHeader)];
 
-        char pgen_chID[4];
-        uint pgen_chSize;
-        sfGenList pgen_chData[pgen_chSize / sizeof(sfGenList)];
+char pbag_chID[4];
+uint pbag_chSize;
+sfPresetBag pbag_chData[pbag_chSize / sizeof(sfPresetBag)];
 
-        char inst_chID[4];
-        uint inst_chSize;
-        sfInst inst_chData[inst_chSize / sizeof(sfInst)];
+char pmod_chID[4];
+uint pmod_chSize;
+sfModList pmod_chData[pmod_chSize / sizeof(sfModList)];
 
-        char ibag_chID[4];
-        uint ibag_chSize;
-        sfInstBag ibag_chData[ibag_chSize / sizeof(sfInstBag)];
+char pgen_chID[4];
+uint pgen_chSize;
+sfGenList pgen_chData[pgen_chSize / sizeof(sfGenList)];
 
-        char imod_chID[4];
-        uint imod_chSize;
-        sfInstModList imod_chData[imod_chSize / sizeof(sfInstModList)];
+char inst_chID[4];
+uint inst_chSize;
+sfInst inst_chData[inst_chSize / sizeof(sfInst)];
 
-        char igen_chID[4];
-        uint igen_chSize;
-        sfInstGenList igen_chData[igen_chSize / sizeof(sfInstGenList)];
+char ibag_chID[4];
+uint ibag_chSize;
+sfInstBag ibag_chData[ibag_chSize / sizeof(sfInstBag)];
 
-        char shdr_chID[4];
-        uint shdr_chSize;
-        sfSample shdr_chData[shdr_chSize / sizeof(sfSample)];
+char imod_chID[4];
+uint imod_chSize;
+sfInstModList imod_chData[imod_chSize / sizeof(sfInstModList)];
+
+char igen_chID[4];
+uint igen_chSize;
+sfInstGenList igen_chData[igen_chSize / sizeof(sfInstGenList)];
+
+char shdr_chID[4];
+uint shdr_chSize;
+sfSample shdr_chData[shdr_chSize / sizeof(sfSample)];

@@ -67,7 +67,7 @@ enum <ubyte> LevelReward {
     SPIKE_REWARD = 35,
     STEEL_DOOR_REWARD = 36,
     SUMMON_REAPER_REWARD = 37, // Summon Horny spell
-    NOT_USED_38 = 38, // "<Not Used>"
+    NOT_USED_38_REWARD = 38, // "<Not Used>"
     TEMPLE_REWARD = 39,
     THUNDERBOLT_REWARD = 40,
     TORTURE_REWARD = 41,

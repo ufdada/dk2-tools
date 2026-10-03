@@ -4,12 +4,21 @@
 //
 // File:        sdt_struct.bt
 // Author:      ufdada
-// Revision:    1.0
+// Revision:    1.1
 // Purpose:     Sound archive file
 //--------------------------------------
+/*
+Revision 1.1: header fields checked against all 8959 entries of the 142
+.sdt files shipped with v1.70 and the archive reader in Dkii.exe
+(sub_618680, decoders 0x61E8B0/0x61F0C0). The 40-byte header is copied
+as-is (0x6186FB); a sound category's SFX.map refers to entries by their
+1-based position in this file.
+*/
+// Bits tested by the engine: 0x20 = MPEG audio (decoder path, 0x618736),
+// 0x04 = 'samples' holds the decoded length (0x61F0E1).
 enum <char> SoundType {
-	NONE = 0, //  on blanks
-	WAV = 2, // on wav
+	NONE = 0, //  on blanks (empty slot, dataSize 0)
+	WAV = 2, // on wav: raw 16-bit PCM, no RIFF header
 	WAV_OLD = 3, // used before 1.7, like in the german cd version
 	MP2_MONO = 36, // on mp2 (64kbit/s mono)
 	MP2_STEREO = 37 // on mp2 (112kbit/s stereo)
@@ -19,15 +28,15 @@ uint count;
 uint entriesOffsets[count];
 
 struct Entry {
-    uint headerSize;
+    uint headerSize; // always 40
     uint dataSize;
     char filename[16];
     ushort sampleRate; // 22050
     ubyte resolution; // 16
     SoundType type;
-    uint unknown_4; // 0
-    uint samples;
-    uint unknown_5; // 0
+    uint unused_1C;  // 0 in every shipped entry, not read by the decoders
+    uint samples;    // decoded length in samples (MP2); 0 for WAV and NONE
+    uint unused_24;  // 0 in every shipped entry, not read by the decoders
     if (dataSize != 0) {
         uchar data[dataSize]<optimize=false>;
     }

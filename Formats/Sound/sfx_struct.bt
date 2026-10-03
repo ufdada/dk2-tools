@@ -4,126 +4,199 @@
 //
 // File:        sfx_struct.bt
 // Author:      ufdada
-// Revision:    1.0
-// Purpose:     Sound fx
+// Revision:    2.0
+// Purpose:     Sound fx (<category>SFX.map) - the event table of a sound category
 //--------------------------------------
+/*
+Revision 2.0: layout and field names taken from the loader in Dkii.exe v1.70
+(MySoundLoader, sub_610280 -> sub_610470/6104B0/6104F0/610590) and the code
+that reads each field. Parses every shipped SFX.map to EOF (the 1.0 template
+mis-read events with more than one group, e.g. trap_boulderSFX.map).
 
-/* 
-this part correcty parse structure, but data sometimes not correct
-if you expand all tree and appy template again - it`s show all correct,
-but another way - not always correct
+The file is a pointer tree written depth-first; the loader fixes the
+pointer fields up in place:
+
+    header
+    SfxEntry   entry[entryCount]                      24 bytes each
+    for each entry:
+        SfxEvent event[entry.eventCount]              20 bytes each
+        for each event:
+            SfxGroup group[event.groupCount]          42 bytes each
+            for each group:
+                SfxSample sample[group.sampleCount]   16 bytes each
+                SfxLink   link[group.linkCount]       8 bytes each
+
+The game plays a sound as (category, eventId): the event is looked up by id,
+one group is picked by weight, then one sample of that group by weight.
+"Ptr" fields are written by the loader at runtime; their file values are
+leftovers from the tool that wrote the file.
 */
-local int i, j;
-local int k, n, l;
-local int a, b, c;
-local int eCount;
+local int i;
+local uint gEventCount, gGroupCount, gSampleCount, gLinkCount;
 
+// One clip. The archive is the BANK.map archive bankRef points to.
 typedef struct {
-    uint index;
-    ushort unknows_1;
-    ushort unknows_2;
-} Data <read=ReadData, bgcolor=0x8CE6FF>; // , size=16>;
+    uint   clip;              // 1-based entry number in the archive (.sdt)
+    uint   cumulativeWeight;  // 0..0xFFFF; first sample with weight >= random16 wins (sub_60CFF0)
+    uint   durationMs;        // clip length; voice ends after durationMs + 250 ms (0x60CA87)
+    ushort bankRef;           // 1-based index into BANK.map's archive list (remapped at load, 0x6105CC)
+    ushort padding;           // always 0
+} SfxSample <read=ReadSfxSample>;
 
-string ReadData( Data &data ) {
+string ReadSfxSample( SfxSample &s ) {
+    string str;
+    SPrintf(str, "clip %d (archive %d), %d ms", s.clip, s.bankRef, s.durationMs);
+    return str;
+}
+
+// Transition to another group of the same event, used by sequenced events
+// (music, ambience bed): allowed while property 0 is in [propertyMin, propertyMax] (sub_6163C0).
+typedef struct {
+    uint   toGroup;           // 1-based group index within the same event
+    ushort unknown;           // no reader found
+    ubyte  propertyMin;
+    ubyte  propertyMax;
+} SfxLink <read=ReadSfxLink>;
+
+string ReadSfxLink( SfxLink &l ) {
     string s;
-    SPrintf(s, "data index: %d", data.index);
+    SPrintf(s, "-> group %d if %d..%d", l.toGroup, l.propertyMin, l.propertyMax);
+    return s;
+}
+
+// A variant (or, for sequenced events, a segment) of an event.
+typedef struct {
+    uint   sampleCount;
+    uint   linkCount;
+    uint   samplesPtr;        // runtime pointer
+    ubyte  volumeMin;         // 0..127, 100 = unity (sub_60CAA0)
+    ubyte  volumeMax;
+    byte   pitchMin;          // signed (sub_60CB90)
+    byte   pitchMax;
+    ushort delayMin;          // ms, random start / repeat delay (0x60CCF0)
+    ushort delayMax;
+    ubyte  unused_14[2];      // always 0x32 0x32, no reader
+    ubyte  propertyKey1;      // voice property slot 1 key (0x60CA43)
+    ubyte  unused_17;
+    ubyte  property1Flags;    // bit 0: volume from property 1, bit 1: pitch from property 1
+    ubyte  unused_19;
+    ubyte  propertyKey2;      // voice property slot 2 key
+    ubyte  unused_1B;
+    ubyte  property2Flags;    // same bits for property 2
+    ubyte  unused_1D;
+    ushort cumulativeWeight;  // 0..0xFFFF, group pick (sub_60D060)
+    ushort unused_20;         // read together with cumulativeWeight as a dword; always 0
+    float  maxDistance;       // 3D max distance, 2.0 units per tile; <= 0 means 2.1 (0x60CF29)
+    uint   linksPtr;          // runtime pointer
+} SfxGroup <read=ReadSfxGroup>;
+
+string ReadSfxGroup( SfxGroup &g ) {
+    string s;
+    SPrintf(s, "%d samples, %d links, vol %d-%d", g.sampleCount, g.linkCount, g.volumeMin, g.volumeMax);
     return s;
 }
 
 typedef struct {
-    uint index;
-    uint unknown_1;
-    uint unknown_2;
-    uint edi_2; // if (edi_2) { need some magic; }
-} EEEEntry <read=ReadEEEEntry, bgcolor=0xFF8CE6>; // , size=16>;
-
-string ReadEEEEntry( EEEEntry &entry ) {
-    string s;
-    SPrintf(s, "eee index: %d", entry.index);
-    return s;
-}
-
-typedef struct {  
-    uint entryCount; // EEEEntry count
-    uint dataCount; // Data count
-    uint end_pointer_position; // I think not needed
-    ushort unknown[13];
-    uint data_pointer_next; // I think not needed
-    
-    c = FTell(); // save position
-    FSeek(l); // jump to EEEEntry position
-    
-    EEEEntry entry[entryCount] <optimize=false>;
-    if (dataCount != 0) {
-        Data data[dataCount] <optimize=false>;
+    SfxSample sample[gSampleCount] <optimize=false>;
+    if (gLinkCount > 0) {
+        SfxLink link[gLinkCount] <optimize=false>;
     }
-    
-    n = FTell(); // save EEEntry position
-    FSeek(c); // restore position
-
-} EEEntry <size=42, bgcolor=0xFFB7BC>;
+} SfxGroupData;
 
 typedef struct {
-    uint index;
-    uint count; // EEEntry count
-    uint unknown_1;
-    uint unknown_2;
-    uint unknown_3;
-    
-    b = FTell(); // save position
-    FSeek(n); // jump to EEEntry position
-    l = n + count * sizeof(EEEntry); // position of EEEEntry
+    local int g;
+    SfxGroup group[gGroupCount] <optimize=false>;
+    for (g = 0; g < gGroupCount; g++) {
+        gSampleCount = group[g].sampleCount;
+        gLinkCount = group[g].linkCount;
+        SfxGroupData groupData;
+    }
+} SfxEventGroups;
 
-    EEEntry entry[count] <optimize=false>;
+// Bits of SfxEvent.flags as the engine tests them (sub_60DA70, sub_60C960).
+typedef struct {
+    ubyte DEFERRED        : 1; // 0x1: fire-and-forget on the sound thread, no handle
+    ubyte SEGMENTED       : 1; // 0x2: continuous buffer, next segment queued at each boundary
+    ubyte REPEATING       : 1; // 0x4: chain of voices / looping
+    ubyte LOOP_EACH       : 1; // 0x8: voice flags |= 6
+    ubyte LINEAR_SEQUENCE : 1; // 0x10: groups played in file order
+    ubyte BACKEND_EVENT   : 1; // 0x20: voice flag 0x1000
+    ubyte unused_6        : 2;
+    ubyte unused_8        : 1;
+    ubyte HEAD_RELATIVE   : 1; // 0x200: 2D sound, no distance attenuation
+    ubyte PROPERTY_LINKS  : 1; // 0x400: with SEGMENTED, next group chosen through links by property 0
+    ubyte unused_11       : 5;
+    ubyte propertyKey0;        // bits 16-23: key of voice property slot 0 (music and ambience use 2)
+    ubyte unused_24;
+} EventFlags;
 
-    //n = l; // save next EEEntry position
-    FSeek(b); // restore position
+// One event = one thing the game can ask for (e.g. 0x110 chicken walk).
+typedef struct {
+    uint id;                  // event id the game passes to play
+    uint groupCount;          // 0 = event exists but is silent
+    uint groupsPtr;           // runtime pointer
+    uint priority;            // voice priority (score = priority << 16 | closeness)
+    EventFlags flags;
+} SfxEvent <read=ReadSfxEvent>;
 
-} EEntry <size=20, read=ReadEEntry, bgcolor=0xBCFFB7>;
-
-string ReadEEntry( EEntry &entry ) {
+string ReadSfxEvent( SfxEvent &e ) {
     string s;
-    SPrintf(s, "e index: %d", entry.index);
+    SPrintf(s, "event %d (0x%X), %d groups, priority %d", e.id, e.id, e.groupCount, e.priority);
     return s;
 }
 
 typedef struct {
-    uint count; // EEntry count
-    uint unknown_1;
-    ushort unknown_2;
-    ushort unknown_3;
-    float minDistance;
-    float maxDistance;
-    float scale;
-    
-    a = FTell(); // save position
-    FSeek(k); // jump to SfxMapEEntry position
-    
-    EEntry entry[count] <optimize=false>;
-    
-    k = FTell(); // save current SfxMapEEntry position
-    FSeek(a); // restore position
+    local int e;
+    SfxEvent event[gEventCount] <optimize=false>;
+    for (e = 0; e < gEventCount; e++) {
+        gGroupCount = event[e].groupCount;
+        if (gGroupCount > 0) {
+            SfxEventGroups eventGroups;
+        }
+    }
+} SfxEventTable;
 
-} Entry <size=24, bgcolor=0xBCB7FF>;
+// EAX 1.0 environment presets (used by SetView, sub_60BEF0)
+enum <ushort> EaxEnvironment {
+    GENERIC, PADDEDCELL, ROOM, BATHROOM, LIVINGROOM, STONEROOM, AUDITORIUM,
+    CONCERTHALL, CAVE, ARENA, HANGAR, CARPETEDHALLWAY, HALLWAY, STONECORRIDOR,
+    ALLEY, FOREST, CITY, MOUNTAINS, QUARRY, PLAIN, PARKINGLOT, SEWERPIPE,
+    UNDERWATER, DRUGGED, DIZZY, PSYCHOTIC
+};
+
+// Only entry[0] is ever used by the engine.
+typedef struct {
+    uint   eventCount;
+    uint   eventsPtr;          // runtime pointer
+    ubyte  channelMask;        // 1 master, 2 music, 4 speech, 8 sfx: mute switch + volume slider (sub_60ECE0)
+    ubyte  unused_9;
+    EaxEnvironment eaxEnvironment; // reverb preset applied while this category is the "view" (possession)
+    float  eaxVolume;
+    float  eaxDecayTime;       // seconds
+    float  eaxDamping;
+} SfxEntry <read=ReadSfxEntry>;
+
+string ReadSfxEntry( SfxEntry &e ) {
+    string s;
+    SPrintf(s, "%d events, channels 0x%X", e.eventCount, e.channelMask);
+    return s;
+}
 
 uint checkSums[4]<format=hex>;
 
-if (checkSums[0] != 0xE9612C00 || checkSums[1] != 0x11D231D0 
+if (checkSums[0] != 0xE9612C00 || checkSums[1] != 0x11D231D0
     || checkSums[2] != 0xB00009B4 || checkSums[3] != 0x3F293C9) {
     Warning( "Sfx-File is not valid!" );
     Printf( "Sfx-File is not valid!\n" );
     return -1;
 }
 
-uint unknown_1;
-uint unknown_2;
-uint count;
+uint unused_10;   // never read by the loader (0, or 1 in 4 files)
+uint unused_14;   // never read by the loader (0, 0x8001 or a leftover pointer in some files)
+uint count;       // number of SfxEntry records, always 1
 
-eCount = 0;
-k = FTell() + count * sizeof(Entry); // position of first EEntry
-for(i = 0; i < count; i++ ) {
-    eCount += ReadUInt(FTell() + i * sizeof(Entry));
+SfxEntry entry[count] <optimize=false>;
+for (i = 0; i < count; i++) {
+    gEventCount = entry[i].eventCount;
+    SfxEventTable eventTable;
 }
-n = k + eCount * sizeof(EEntry); // position of EEEntry
-
-Entry entry[count] <optimize=false>;

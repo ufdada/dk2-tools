@@ -4,96 +4,125 @@
 //
 // File:        sfx_struct_2.bt
 // Author:      ArchDemon
-// Revision:    1.0
+// Revision:    1.1
 // Purpose:     Sound fx
 //--------------------------------------
 /*
 this part parse file correctly but structure - not
+
+Revision 1.1: the unknown fields are named after the code in Dkii.exe v1.70
+that reads them (see sfx_struct.bt rev 2.0 for the per-field evidence and a
+nested view). Struct mapping to sfx_struct.bt:
+    Entry    = SfxEntry   (24 bytes, category header, only entry[0] is used)
+    EEntry   = SfxEvent   (20 bytes, one playable event id)
+    EEEntry  = SfxGroup   (42 bytes, variant / segment of an event)
+    EEEEntry = SfxSample  (16 bytes, one clip)
+    Data     = SfxLink    (8 bytes, group transition)
+The flat arrays below rely on 010 merging the repeated declarations of
+entryGroups[] into one array (entryGroups[k] indexes across all events).
 */
 local int i, j, k, n;
 local int hSize, eSize, eeSize;
 
 typedef struct
 {
-    uint index;
-    ushort unknows_1;
-    ushort unknows_2;
-} Data <read=ReadData, bgcolor=0x8CE6FF>; // , size=16>;
+    uint toGroup;      // 1-based group index within the same event
+    ushort unknown;    // no reader found
+    ubyte propertyMin; // transition allowed while voice property 0 is in [min, max]
+    ubyte propertyMax;
+} Data <read=ReadData, bgcolor=0x8CE6FF>; // , size=8>;
 
 string ReadData( Data &data ) {
     string s;
-    SPrintf(s, "data index: %d", data.index);
+    SPrintf(s, "-> group %d if %d..%d", data.toGroup, data.propertyMin, data.propertyMax);
     return s;
 }
 
 typedef struct {
-    uint index;
-    uint unknown_1;
-    uint unknown_2;
-    uint archiveId;
+    uint clip;              // 1-based entry number in the .sdt archive
+    uint cumulativeWeight;  // 0..0xFFFF, weighted random pick
+    uint durationMs;        // clip length in ms
+    ushort bankRef;         // 1-based index into BANK.map's archive list
+    ushort padding;         // always 0
 } EEEEntry <read=ReadEEEEntry, bgcolor=0xFF8CE6>; // , size=16>;
 
 string ReadEEEEntry( EEEEntry &entry ) {
     string s;
-    SPrintf(s, "eee index: %d", entry.index);
+    SPrintf(s, "clip %d (archive %d)", entry.clip, entry.bankRef);
     return s;
 }
 
 typedef struct {
-    uint entryCount; // EEEEntry count
-    uint dataCount; // Data count
-    uint end_pointer_position; // I think not needed
-    ushort unknown[13];
-    uint data_pointer_next; // I think not needed
-    // EEEEntry entry[entryCount];
-    // Data data[dataCount];
+    uint sampleCount;       // EEEEntry count
+    uint linkCount;         // Data count
+    uint samplesPtr;        // runtime pointer, written by the loader
+    ubyte volumeMin;        // 0..127, 100 = unity
+    ubyte volumeMax;
+    byte pitchMin;          // signed
+    byte pitchMax;
+    ushort delayMin;        // ms
+    ushort delayMax;
+    ubyte unused_14[2];     // always 0x32 0x32, no reader
+    ubyte propertyKey1;
+    ubyte unused_17;
+    ubyte property1Flags;   // bit 0: volume from property 1, bit 1: pitch from property 1
+    ubyte unused_19;
+    ubyte propertyKey2;
+    ubyte unused_1B;
+    ubyte property2Flags;   // same bits for property 2
+    ubyte unused_1D;
+    ushort cumulativeWeight; // 0..0xFFFF, weighted random group pick
+    ushort unused_20;        // always 0
+    float maxDistance;      // 3D max distance, 2.0 units per tile
+    uint linksPtr;          // runtime pointer, written by the loader
 } EEEntry <bgcolor=0xFFB7BC>; // , size=42>;
 
 typedef struct {
-    uint index;
-    uint count; // EEEntry count
-    uint unknown_1;
-    uint unknown_2;
-    uint unknown_3;
-    // EEEntry entry[count];
-} EEntry <read=ReadEEntry, bgcolor=0xBCFFB7>; // , size=20> 
+    uint id;                // event id the game plays
+    uint groupCount;        // EEEntry count (0 = silent event)
+    uint groupsPtr;         // runtime pointer, written by the loader
+    uint priority;          // voice priority
+    uint flags;             // 0x1 deferred, 0x2 segmented, 0x4 repeating, 0x8 loop each,
+                            // 0x10 linear sequence, 0x20 backend event, 0x200 2D/head-relative,
+                            // 0x400 property links; bits 16-23 = property key 0
+} EEntry <read=ReadEEntry, bgcolor=0xBCFFB7>; // , size=20>
 
 string ReadEEntry( EEntry &entry ) {
     string s;
-    SPrintf(s, "e index: %d", entry.index);
+    SPrintf(s, "event %d (0x%X)", entry.id, entry.id);
     return s;
 }
 
 typedef struct {
-    uint count; // EEntry count
-    uint unknown_1;
-    ushort unknown_2;
-    ushort unknown_3;
-    float minDistance;
-    float maxDistance;
-    float scale;
-    // EEntry entry[count];
+    uint eventCount;        // EEntry count
+    uint eventsPtr;         // runtime pointer, written by the loader
+    ubyte channelMask;      // 1 master, 2 music, 4 speech, 8 sfx
+    ubyte unused_9;
+    ushort eaxEnvironment;  // EAX 1.0 preset (13 = stone corridor, 22 = underwater, ...)
+    float eaxVolume;
+    float eaxDecayTime;     // seconds
+    float eaxDamping;
 } Entry <bgcolor=0xBCB7FF>; // , size=24>;
 
 uint checkSums[4]<format=hex>;
 
-if (checkSums[0] != 0xE9612C00 || checkSums[1] != 0x11D231D0 
+if (checkSums[0] != 0xE9612C00 || checkSums[1] != 0x11D231D0
     || checkSums[2] != 0xB00009B4 || checkSums[3] != 0x3F293C9) {
     Warning( "Sfx-File is not valid!" );
     Printf( "Sfx-File is not valid!\n" );
     return -1;
 }
 
-uint unknown_1;
-uint unknown_2;
-uint count;
+uint unused_10;  // never read by the loader
+uint unused_14;  // never read by the loader
+uint count;      // Entry count, always 1
 
 Entry entry[count] <optimize=false>;
 
 eSize = 0;
 for(i = 0; i < count; i++ )
 {
-    eSize += entry[i].count;
+    eSize += entry[i].eventCount;
 }
 EEntry entryE[eSize] <optimize=false>;
 
@@ -101,16 +130,16 @@ hSize = 0;
 eeSize = 0;
 for (i = 0; i < eSize; i++ )
 {
-    eeSize = entryE[i].count;
+    eeSize = entryE[i].groupCount;
     EEEntry entryEE[eeSize] <optimize=false>;
 
     for (k = hSize; k < hSize + eeSize; k++)
     {
-        EEEEntry entryEEE[entryEE[k].entryCount] <optimize=false>;
-        
-        if (entryEE[k].dataCount > 0)
+        EEEEntry entryEEE[entryEE[k].sampleCount] <optimize=false>;
+
+        if (entryEE[k].linkCount > 0)
         {
-            Data data[entryEE[k].dataCount] <optimize=false>;
+            Data data[entryEE[k].linkCount] <optimize=false>;
         }
     }
     hSize += eeSize;

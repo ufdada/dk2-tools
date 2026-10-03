@@ -114,7 +114,7 @@ enum <ubyte> RoomType {
 	STONE_BRIDGE = 26,
 	// 27: Fog Of War (not a room)
 	HERO_GATE_FINAL = 28,
-	HERO_GATE_TILE = 29, // not used
+	HERO_GATE_TILE_ROOM = 29, // not used
 	// 30-32: Edge of Map, Mana Vault, Claimed Vault (not rooms)
 	HERO_GATE_2X2 = 33,
 	HERO_GATE_FRONT_END = 34,

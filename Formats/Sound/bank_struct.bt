@@ -4,9 +4,27 @@
 //
 // File:        bank_struct.bt
 // Author:      ufdada
-// Revision:    1.0
-// Purpose:     Bank file
+// Revision:    1.1
+// Purpose:     Bank file (<category>BANK.map) - the archives (.sdt) a sound category uses
 //--------------------------------------
+/*
+Revision 1.1: fields named after the loader in Dkii.exe v1.70
+(MySoundLoader fun_60FBC0 and the archive opener sub_60E7D0/60E550).
+
+The 11-byte records are copied straight into the engine's archive table;
+only the kind byte is used from the file, the rest is overwritten:
+  +0  archiveHandle  file: 0xFFFFFFFF, set to 0 at load, later the loaded archive
+  +4  refCount       runtime, number of categories using the archive
+  +5  namePtr        runtime pointer to the archive name read below
+  +9  kind           how the archive is loaded (bits below)
+  +10 unused         copied, never read
+The file values of +4..+8 and +10 are pointer bytes left over from the tool
+that wrote the file.
+
+Archive names are relative to Data\Sound\Sfx\ (e.g. "Global\MiscCreatures");
+the engine opens <name><L|M|H><D|W>.sdt (only the H files ship; D = dry, used
+when EAX is on, W = wet, reverb baked in).
+*/
 local uint a, b;
 
 typedef struct {
@@ -21,11 +39,22 @@ string ReadArchive( Archive &archive ) {
     return archive.name;
 }
 
+// tested by sub_60E7D0 in this order: RESIDENT, STREAMED, SOUNDFONT
 typedef struct {
-    uint nulled<format=hex>;
-    uint unknown_1; // 6746904
-    ushort unknown_2; // 8539
-    ubyte unknown_3; // 115
+    ubyte RESIDENT  : 1; // 0x01: <name>xx.sdt loaded whole into memory
+    ubyte STREAMED  : 1; // 0x02: <name>xx.sdt streamed from disk (music tracks, Track_Zero, SetPieces)
+    ubyte SOUNDFONT : 1; // 0x04: <name>.sf2 SoundFont (one_shot_atmos); falls back to RESIDENT
+    ubyte unused_3  : 2;
+    ubyte unused_5  : 1; // 0x20: set on every archive except JackinBox and Maiden; never tested
+    ubyte unused_6  : 2;
+} ArchiveKind;
+
+typedef struct {
+    uint  archiveHandle<format=hex>; // 0xFFFFFFFF in the file; runtime handle
+    ubyte refCount;                  // runtime, file value is garbage
+    uint  namePtr<format=hex>;       // runtime, file value is garbage
+    ArchiveKind kind;
+    ubyte unused_10;                 // never read
 
     a = FTell(); // save current position
     FSeek(b); // jump to first Archive entry
@@ -39,15 +68,15 @@ typedef struct {
 // parse file
 uint checkSums[4]<format=hex>;
 
-if (checkSums[0] != 0xE9612C01 || checkSums[1] != 0x11D231D0 
+if (checkSums[0] != 0xE9612C01 || checkSums[1] != 0x11D231D0
     || checkSums[2] != 0xA00009B4 || checkSums[3] != 0x3F293C9) {
     Warning( "Bank-File is not valid!" );
     Printf( "Bank-File is not valid!" );
     return -1;
 }
 
-uint not_used1;
-uint not_used2;
+uint not_used1; // never read by the loader (0 or 1)
+uint not_used2; // never read by the loader (0, 0x8001 or 0xFFFFFFFF)
 uint count;
 
 b = FTell() + count * sizeof(Entry);

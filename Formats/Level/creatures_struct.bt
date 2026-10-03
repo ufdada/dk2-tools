@@ -298,7 +298,7 @@ typedef struct {
     ushort angerStringIdLonely;
     ushort angerStringIdHatred;
     ushort angerStringIdTorture;
-    char translationSoundGategory[32]; // d17
+    char translationSoundGategory[32]<comment="loaded as a sound category (type +0x6E7), never played; empty for every shipped creature">; // d17
     float32 shuffleSpeed; // float32 // d37
     ubyte cloneCreatureId;
     GammaEffect firstPersonGammaEffect; // d3c

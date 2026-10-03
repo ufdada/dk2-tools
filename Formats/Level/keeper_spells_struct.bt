@@ -7,13 +7,20 @@
 // Revision:    1.0
 // Purpose:     Keeper Spells structure
 //--------------------------------------
+// Bits live in byte 0 starting at bit 1 (an earlier version put them one byte too
+// high, so every spell decoded as 0). Copied verbatim to the runtime spell object
+// (+0x54); the keeper AI's battle code picks "attacking" spells by 0x04 and
+// "defensive" ones by 0x08, both excluding 0x10 (research/computer_player_ai.md §6.1).
+// Shipped: Create Imp 0x12, Heal 0x08, Thunderbolt/Inferno/Chicken 0x04,
+// Tremor 0x14, Sight of Evil/Possession/CTA/Horny/Create Gold 0x10, Turncoat 0.
 typedef struct {
-	ubyte none_1;
-    ubyte CREATE_WORKER : 1;
-    ubyte ATTACKING : 1;
-    ubyte DEFENSIVE : 1;
-    ubyte DONT_CAST_ON_CREATURES : 1;
-    ubyte none[2];
+    ubyte none_0 : 1;
+    ubyte CREATE_WORKER : 1;            // 0x02
+    ubyte ATTACKING : 1;                // 0x04
+    ubyte DEFENSIVE : 1;                // 0x08
+    ubyte DONT_CAST_ON_CREATURES : 1;   // 0x10
+    ubyte none_5 : 3;
+    ubyte none[3];
 } KeeperSpellFlag;
 
 enum <ubyte> HandAnimId {

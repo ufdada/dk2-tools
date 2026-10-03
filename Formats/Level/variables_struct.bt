@@ -30,12 +30,14 @@ enum <ushort> AvailabilityType {
 	SPELL_AVAILABLE
 };
 
+// Stored verbatim as the per-player state (Dkii.exe v1.70, see dk2-research
+// research/player_availability_state.md). Default for every type is EMPTY.
 enum <int> AvailabilityValue{
-    NONE_VALUE,
-	EMPTY,
-	DISABLE,
-	ENABLE,
-	EMPTY_ROOM
+    NONE_VALUE,  // 0: never written
+	EMPTY,       // 1: unavailable / hidden from the panel
+	DISABLE,     // 2: researchable (greyed button, Library research picks it)
+	ENABLE,      // 3: available (the only state gameplay accepts)
+	EMPTY_ROOM   // 4: shown but locked (not researched, not clickable, room not sellable)
 };
 
 // RESEARCH_ORDER entry category (note: numbering differs from AvailabilityType)
